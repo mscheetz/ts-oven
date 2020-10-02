@@ -1,0 +1,37 @@
+import express from 'express';
+import AuthService from '../services/auth.service';
+
+class LoginController {
+    constructor() { }
+
+    static guestLogin = async(req: express.Request, res: express.Response) => {
+        console.log(`incoming from ${req.ip}`);
+        const authSvc = new AuthService();
+
+        const jwt = await authSvc.getToken('guest');
+
+        res.set('Authorization', `Bearer ${jwt}`);
+        res.status(200).send(jwt);
+    }
+
+    static login = async(req: express.Request, res: express.Response) => {
+        const username = req.body.username;
+        const password = req.body.password;
+
+        if(typeof username === 'undefined' || typeof password === 'undefined') {
+            const message = "Credentials not formatted correctly";
+            
+            res.status(400).send(message);
+            res.end();
+        }
+
+        const authSvc = new AuthService();
+
+        const jwt = await authSvc.getToken(username);
+
+        res.set('Authorization', `Bearer ${jwt}`);
+        res.status(200).send(jwt);
+    }
+}
+
+export default LoginController;

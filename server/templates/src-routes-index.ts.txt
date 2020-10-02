@@ -1,0 +1,8 @@
+import { Router, Request, Response } from 'express';
+import login from './login.route';ROUTE-DECLARATIONS
+
+const routes = Router();
+
+routes.use('/login', login);ROUTE-USES
+
+export default routes;

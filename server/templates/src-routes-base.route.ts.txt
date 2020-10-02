@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.middleware';
+import {BASE}Controller from '../controllers/{BASE}.controller';
+
+const router = Router();
+
+router.delete('/', [ logUrl, logType, logHeaders, logBody ], {BASE}Controller.response);
+router.get('/', [ logUrl, logType, logHeaders, logBody ], {BASE}Controller.response);
+router.post('/', [ logUrl, logType, logHeaders, logBody ], {BASE}Controller.response);
+router.put('/', [ logUrl, logType, logHeaders, logBody ], {BASE}Controller.response);
+
+export default router;

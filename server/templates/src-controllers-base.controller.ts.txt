@@ -1,0 +1,21 @@
+import express from 'express';
+import CoreService from '../services/core.service';
+
+class {BASE}Controller {
+    
+    static get = async(res: express.Response) => {
+        res.json(true);
+    }
+    static put = async(res: express.Response) => {
+        res.json(true);
+    }
+    static post = async(res: express.Response) => {
+        res.json(true);
+    }
+    static delete = async(res: express.Response) => {
+        res.json(true);
+    }
+
+}
+
+export default {BASE}Controller;

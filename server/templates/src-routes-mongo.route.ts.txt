@@ -1,0 +1,13 @@
+import { Router } from 'express';
+import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.middleware';
+import MongoController from '../controllers/mongo.controller';
+
+const router = Router();
+
+router.get('/', [ logUrl, logType, logHeaders, logBody ], MongoController.get);
+router.get('/:id', [ logUrl, logType, logHeaders, logBody ], MongoController.getAll);
+router.post('/', [ logUrl, logType, logHeaders, logBody ], MongoController.add);
+router.put('/', [ logUrl, logType, logHeaders, logBody ], MongoController.update);
+router.delete('/:id', [ logUrl, logType, logHeaders, logBody ], MongoController.delete);
+
+export default router;
