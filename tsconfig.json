@@ -1,21 +1,48 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-    "compilerOptions": {
-      "target": "es5",
-      "module": "commonjs",
-      "outDir": "./dist",
-  
-      "sourceMap": true,
-  
-      "strict": true,
-      "strictPropertyInitialization": false,
-      
-      "noUnusedLocals": false,
-      "noUnusedParameters": true,
-      "noImplicitReturns": true,
-      "noFallthroughCasesInSwitch": true,
-  
-      "esModuleInterop": true
-    },
-    "include": ["server/**/*"],
-    "exclude": ["node_modules", "**/*.test.ts"]
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "es2018",
+      "dom"
+    ]
   }
+}
+
+// {
+//   "compilerOptions": {
+//     "target": "es5",
+//     "module": "commonjs",
+//     "lib": [
+//       "es2018",
+//       "dom"
+//     ],
+//     "outDir": "./dist",
+
+//     "sourceMap": true,
+
+//     "strict": true,
+//     "strictPropertyInitialization": false,
+    
+//     "noUnusedLocals": false,
+//     "noUnusedParameters": true,
+//     "noImplicitReturns": true,
+//     "noFallthroughCasesInSwitch": true,
+//     "experimentalDecorators": true,
+
+//     "esModuleInterop": true
+//   },
+//   "include": ["server/**/*"],
+//   "exclude": ["node_modules", "**/*.test.ts"]
+// }

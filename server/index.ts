@@ -11,7 +11,9 @@ const app = express();
 dotenv.config();
 
 const port = process.env.PORT || 3000;
+console.log(`Port: ${process.env.PORT}`);
 const distDir = `dist/ts-oven`;
+
 const forceSSL = function() {
   return function (req: express.Request, res: express.Response, next: express.NextFunction) {
     if (req.headers['x-forwarded-proto'] !== 'https') {
@@ -35,9 +37,10 @@ app.use(bodyParser.json());
 app.use("/api", routes);
 
 app.get(`/`, function(req: express.Request, res: express.Response) {
-    console.log(`new request from ${req.ip}`);
+  console.log(`new request from ${req.ip}`);
+  res.status(200).send('Hello World!');
     
-    res.status(200).sendFile(`/`, { root: distDir });
+    // res.status(200).sendFile(`/`, { root: distDir });
 })
 
 app.listen(port, () => {

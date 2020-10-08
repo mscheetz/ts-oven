@@ -1,0 +1,38 @@
+<label>Project Name: </label>
+<input type="text" pInputText [(ngModel)]="appName"/>
+<h3>Select Options:</h3>
+<div class="optionGroup">
+    <div class="optionClass">
+        <label>Logging <i class="pi pi-info-circle" pTooltip="Include logging with logging levels"></i>: </label>
+        <p-inputSwitch [(ngModel)]="LOGGING"></p-inputSwitch>
+    </div>
+    <div class="optionClass">
+        <label>Web Authentication <i class="pi pi-info-circle" pTooltip="Includes user login endpoint(s) with JWT response"></i>: </label>
+        <p-inputSwitch [(ngModel)]="WEBAUTH"></p-inputSwitch> 
+    </div>
+</div>
+<h4>Data</h4>
+<div class="optionGroup">
+    <div class="optionClass">
+        <label>MongoDB <i class="pi pi-info-circle" pTooltip="MongoDB is a No-SQL database solution"></i>: </label>
+        <p-inputSwitch [(ngModel)]="MONGO"></p-inputSwitch>
+    </div>
+    <div class="optionClass">
+        <label>MySQL <i class="pi pi-info-circle" pTooltip="MySQL is a relational database solution"></i>: </label>
+        <p-inputSwitch [(ngModel)]="MYSQL"></p-inputSwitch>
+    </div>
+    <div class="optionClass">
+        <label>PostGreSQL <i class="pi pi-info-circle" pTooltip="PostGreSQL is a relational database solution"></i>: </label>
+        <p-inputSwitch [(ngModel)]="PG"></p-inputSwitch>
+    </div>
+    <div class="optionClass">
+        <label>REDIS <i class="pi pi-info-circle" pTooltip="REDIS is a key/value pair data storage solution"></i>: </label>
+        <p-inputSwitch [(ngModel)]="REDIS"></p-inputSwitch>
+    </div>
+    <div class="optionClass">
+        <label>SQL Server <i class="pi pi-info-circle" pTooltip="Sql Server is a relational database storage solution"></i>: </label>
+        <p-inputSwitch [(ngModel)]="SQLSERVER"></p-inputSwitch>
+    </div>
+</div>
+<br>
+<button pButton type="button" label="Bake Project" class="p-button-info"></button>

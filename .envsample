@@ -1,0 +1,5 @@
+ENVIRONMENT=DEV
+APIHOST=http://localhost:4201
+LOGIN=/api/login
+BAKE=/api/oven
+COOKIE=COOKIE_NAME_HERE
