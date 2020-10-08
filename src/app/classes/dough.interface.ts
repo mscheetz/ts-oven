@@ -1,8 +1,6 @@
 import { Datastore } from './enums';
 
-export class Dough {
-    constructor() {}
-
+export interface IDough {
     name: string;
     options: Datastore;
 }
