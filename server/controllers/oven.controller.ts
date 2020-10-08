@@ -5,6 +5,8 @@ import express from 'express';
 import Archiver from 'archiver';
 import path from 'path';
 import CoreService from '../services/core.service';
+import { Datastore } from '../interfaces/enums';
+import { IDough } from '../interfaces/dough.interface';
 
 class OvenController {
     private dir: string;
@@ -36,7 +38,7 @@ class OvenController {
             body: body,
             status: 200
         };
-        const filename = body.name;
+        const filename = body.name.replace(/ /g, '-');
         this.setOptions(body);
 
         let zip = Archiver('zip');
@@ -104,11 +106,14 @@ class OvenController {
 
         let env = await this.createEnv();
         
+        let gitignore = await this.createGitignore();
+
         let packageJson = await this.createPackageJson(body.name);
 
         let indexTS = await CoreService.readFile(this.dir + `/templates/src-index.ts.txt`);
 
         zip.append(env, { name: `.env` })
+           .append(gitignore, { name: `.gitignore` })
            .append(packageJson, { name: `package.json`})
            .append(indexTS, { name: `src/index.ts`})
            .append(environment, { name: `src/environments/environment.ts`})
@@ -235,6 +240,12 @@ SQLSVRPORT=`;
                         .replace(/REDIS-DEP/g, redisDep);
 
         return packageJson;
+    }
+
+    private createGitignore = async(): Promise<string> => {        
+        let gitignore = await CoreService.readFile(this.dir + `/templates/.gitignore.txt`);
+
+        return gitignore;
     }
 
     private createEnvironments = async(): Promise<string> => {        

@@ -13,7 +13,7 @@ routes.use('/', base);
 routes.use('/login', login);
 //routes.use('/mongo', mongo);
 // routes.use('/mysql', mysql);
-// routes.use('/oven', oven);
+routes.use('/oven', oven);
 // routes.use('/pg', pg);
 routes.use('/redis', redis);
 

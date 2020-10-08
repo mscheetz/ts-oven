@@ -1,4 +1,3 @@
-
 export enum Datastore {
     None = 0,
     AMQ = 1,
