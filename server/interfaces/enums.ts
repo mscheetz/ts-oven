@@ -12,5 +12,7 @@ export enum Datastore {
     S3 = 512,
     SQLSERVER = 1024,
     WEBAUTH = 2048,
-    LOGGING = 4096
+    LOGGING = 4096,
+    OAUTH = 8192,
+    BTC = 16384
 }
