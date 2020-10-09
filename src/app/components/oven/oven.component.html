@@ -1,17 +1,18 @@
 
 <!-- <h3>Select Options:</h3> -->
-<p-card header="Mix some dough" styleClass="card">
+<p-card header="Select your ingredients" styleClass="card">
     <div class="optionGroup">
         <label>Project Name: </label><input type="text" pInputText [(ngModel)]="appName"/>
     </div>
+    <div class="h4-like">Authentication</div>
     <div class="optionGroup">
         <div class="optionClass">
-            <label>Logging <i class="pi pi-info-circle" pTooltip="Include logging with logging levels"></i>: </label>
-            <p-inputSwitch [(ngModel)]="LOGGING"></p-inputSwitch>
+            <label>JWT Authentication <i class="pi pi-info-circle" pTooltip="Includes user login endpoint(s) with JWT response"></i>: </label>
+            <p-inputSwitch [(ngModel)]="WEBAUTH"></p-inputSwitch> 
         </div>
         <div class="optionClass">
-            <label>Web Authentication <i class="pi pi-info-circle" pTooltip="Includes user login endpoint(s) with JWT response"></i>: </label>
-            <p-inputSwitch [(ngModel)]="WEBAUTH"></p-inputSwitch> 
+            <label><i>OAUTH </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="OAUTH"></p-inputSwitch> 
         </div>
     </div>
     <div class="h4-like">Data Sources</div>
@@ -25,11 +26,15 @@
             <p-inputSwitch [(ngModel)]="MYSQL"></p-inputSwitch>
         </div>
         <div class="optionClass">
+            <label><i>Neo4j </i> <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="NEO4J"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
             <label>PostGreSQL <i class="pi pi-info-circle" pTooltip="PostGreSQL is a relational database solution"></i>: </label>
             <p-inputSwitch [(ngModel)]="PG"></p-inputSwitch>
         </div>
         <div class="optionClass">
-            <label>REDIS <i class="pi pi-info-circle" pTooltip="REDIS is a key/value pair data storage solution"></i>: </label>
+            <label>Redis <i class="pi pi-info-circle" pTooltip="Redis is a key/value pair data storage solution"></i>: </label>
             <p-inputSwitch [(ngModel)]="REDIS"></p-inputSwitch>
         </div>
         <div class="optionClass">
@@ -37,12 +42,56 @@
             <p-inputSwitch [(ngModel)]="SQLSERVER"></p-inputSwitch>
         </div>
     </div>
+    <div class="h4-like">Messaging</div>
+    <div class="optionGroup">
+        <div class="optionClass">
+            <label><i>ActiveMQ </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="AMQ"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label><i>Kafka </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="KAFKA"></p-inputSwitch>
+        </div>
+    </div>
+    <div class="h4-like">Storage</div>
+    <div class="optionGroup">
+        <div class="optionClass">
+            <label><i>S3 </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="S3"></p-inputSwitch>
+        </div>
+    </div>
+    <div class="h4-like">Blockchain</div>
+    <div class="optionGroup">
+        <div class="optionClass">
+            <label><i>Bitcoin </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="BTC"></p-inputSwitch> 
+        </div>
+        <div class="optionClass">
+            <label><i>Ethereum </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="ETH"></p-inputSwitch> 
+        </div>
+    </div>
+    <div class="h4-like">Other</div>
+    <div class="optionGroup">
+        <div class="optionClass">
+            <label><i>GraphQL </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="GRAPHQL"></p-inputSwitch> 
+        </div>
+        <div class="optionClass">
+            <label>Logging <i class="pi pi-info-circle" pTooltip="Include logging with logging levels"></i>: </label>
+            <p-inputSwitch [(ngModel)]="LOGGING"></p-inputSwitch>
+        </div>
+    </div>
 </p-card>
 <br>
-<button pButton type="button" label="Bake Project" class="p-button-bake" (click)="onBake()"></button>
+<button *ngIf="showBake" pButton type="button" label="Bake Project" class="p-button-bake" (click)="onBake()"></button>
+<p *ngIf="projectReady">Your project is ready.</p>
+<button *ngIf="showReset" pButton type="button" label="Reset" class="p-button-bake" icon="pi pi-refresh" (click)="onReset()"></button>
 <div>
     <p>Your Typescript project will be zipped and ready to go.</p>
-    <p>Simply unzip then run:</p>
-    npm i
-    npm run dev
+    <p>Simply download, unzip, then run:</p>
+    <div class="terminal-box">
+        $ npm i<br>
+        $ npm run dev
+    </div>
 </div>

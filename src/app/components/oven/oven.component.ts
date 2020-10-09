@@ -11,12 +11,14 @@ import { RestService } from 'src/app/core/rest.service';
 export class OvenComponent implements OnInit {
   appName: string = "";
   AMQ: boolean = false;
+  BTC: boolean = false;
   ETH: boolean = false;
   GRAPHQL: boolean = false;
   KAFKA: boolean = false;
   MONGO: boolean = false;
   MYSQL: boolean = false;
   NEO4J: boolean = false;
+  OAUTH: boolean = false;
   PG: boolean = false;
   REDIS: boolean = false;
   S3: boolean = false;
@@ -24,6 +26,9 @@ export class OvenComponent implements OnInit {
   WEBAUTH: boolean = false;
   LOGGING: boolean = false;
   inTheOven: boolean = false;
+  showBake: boolean = true;
+  showReset: boolean = false;
+  projectReady: boolean = false;
 
   constructor(private restSvc: RestService) { }
 
@@ -31,6 +36,7 @@ export class OvenComponent implements OnInit {
   }
 
   onBake() {
+    this.showBake = false;
     const dough = this.mixDough();
 
     this.restSvc.bake(dough)
@@ -41,6 +47,8 @@ export class OvenComponent implements OnInit {
       //a.href = URL.createObjectURL(res.blob());
       a.href = URL.createObjectURL(res);
       a.download = `${dough.name}.zip`;
+      this.showReset = true;
+      this.projectReady = true;
       // start download
       a.click();
     }, err => {
@@ -48,6 +56,13 @@ export class OvenComponent implements OnInit {
     })
   }
 
+  onReset() {
+    this.showReset = false;
+    this.projectReady = false;
+    this.appName = "";
+    this.AMQ = this.BTC = this.ETH = this.GRAPHQL = this.KAFKA = this.LOGGING = this.MONGO = this.MYSQL = this.NEO4J = this.OAUTH = this.PG = this.REDIS = this.S3 = this.SQLSERVER = this.WEBAUTH = false;
+    this.showBake = true;
+  }
   // downloadFile(data: Response) {
   //   const blob = new Blob([data], { type: 'text/zip' });
   //   const url= window.URL.createObjectURL(blob);
@@ -59,6 +74,9 @@ export class OvenComponent implements OnInit {
     
     if(this.AMQ) {
       dough.options = dough.options | Datastore.AMQ;
+    }
+    if(this.BTC) {
+      dough.options = dough.options | Datastore.BTC;
     }
     if(this.ETH) {
       dough.options = dough.options | Datastore.ETH;
@@ -80,6 +98,9 @@ export class OvenComponent implements OnInit {
     }
     if(this.NEO4J) {
       dough.options = dough.options | Datastore.NEO4J;
+    }
+    if(this.OAUTH) {
+      dough.options = dough.options | Datastore.OAUTH;
     }
     if(this.PG) {
       dough.options = dough.options | Datastore.PG;

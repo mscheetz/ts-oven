@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ts-oven';
+  year = new Date().getFullYear().toString();
 }
