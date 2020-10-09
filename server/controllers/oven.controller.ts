@@ -259,7 +259,7 @@ SQLSVRPORT=`;
         }
         if(this.postGres) {
             options += `
-            * PostGreSQL  `;
+            * PostgreSQL  `;
         }
         if(this.redis) {
             options += `

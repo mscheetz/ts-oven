@@ -1,9 +1,9 @@
 
+<div class="optionGroup name-box">
+    <label>Name your project: </label><input type="text" pInputText [(ngModel)]="appName"/>
+</div>
 <!-- <h3>Select Options:</h3> -->
 <p-card header="Select your ingredients" styleClass="card">
-    <div class="optionGroup">
-        <label>Project Name: </label><input type="text" pInputText [(ngModel)]="appName"/>
-    </div>
     <div class="h4-like">Authentication</div>
     <div class="optionGroup">
         <div class="optionClass">
@@ -30,7 +30,7 @@
             <p-inputSwitch [disabled]=true [(ngModel)]="NEO4J"></p-inputSwitch>
         </div>
         <div class="optionClass">
-            <label>PostGreSQL <i class="pi pi-info-circle" pTooltip="PostGreSQL is a relational database solution"></i>: </label>
+            <label>PostgreSQL <i class="pi pi-info-circle" pTooltip="PostgreSQL is a relational database solution"></i>: </label>
             <p-inputSwitch [(ngModel)]="PG"></p-inputSwitch>
         </div>
         <div class="optionClass">
