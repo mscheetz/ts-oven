@@ -10,7 +10,9 @@ import { IDough } from '../interfaces/dough.interface';
 
 class OvenController {
     private dir: string;
+    private appName: string;
     private amq: boolean;
+    private btc: boolean;
     private eth: boolean;
     private graphql: boolean;
     private kafka: boolean;
@@ -18,6 +20,7 @@ class OvenController {
     private mongo: boolean;
     private mysql: boolean;
     private neo4j: boolean;
+    private oauth: boolean;
     private postGres: boolean;
     private redis: boolean;
     private s3: boolean;
@@ -38,7 +41,7 @@ class OvenController {
             body: body,
             status: 200
         };
-        const filename = body.name.replace(/ /g, '-');
+        this.appName = body.name.replace(/ /g, '-');
         this.setOptions(body);
 
         let zip = Archiver('zip');
@@ -50,7 +53,7 @@ class OvenController {
             console.log(`Archive wrote ${zip.pointer} bytes`);
         });
 
-        res.attachment(`${filename}.zip`);
+        res.attachment(`${this.appName}.zip`);
 
         zip.pipe(res);
         console.log('dir', __dirname);
@@ -110,11 +113,14 @@ class OvenController {
 
         let packageJson = await this.createPackageJson(body.name);
 
+        let readme = await this.createReadme();
+
         let indexTS = await CoreService.readFile(this.dir + `/templates/src-index.ts.txt`);
 
         zip.append(env, { name: `.env` })
            .append(gitignore, { name: `.gitignore` })
            .append(packageJson, { name: `package.json`})
+           .append(readme, { name: `readme.md` })
            .append(indexTS, { name: `src/index.ts`})
            .append(environment, { name: `src/environments/environment.ts`})
            .finalize();
@@ -123,12 +129,14 @@ class OvenController {
     private setOptions(body: IDough) {        
         this.amq = ((body.options & Datastore.AMQ) === Datastore.AMQ) ? true : false;
         this.eth = ((body.options & Datastore.ETH) === Datastore.ETH) ? true : false;
+        this.btc = ((body.options & Datastore.BTC) === Datastore.BTC) ? true : false;
         this.graphql = ((body.options & Datastore.GRAPHQL) === Datastore.GRAPHQL) ? true : false;
         this.kafka = ((body.options & Datastore.KAFKA) === Datastore.KAFKA) ? true : false;
         this.logging = ((body.options & Datastore.LOGGING) === Datastore.LOGGING) ? true : false;
         this.mongo = ((body.options & Datastore.MONGO) === Datastore.MONGO) ? true : false;
         this.mysql = ((body.options & Datastore.MYSQL) === Datastore.MYSQL) ? true : false;
         this.neo4j = ((body.options & Datastore.NEO4J) === Datastore.NEO4J) ? true : false;
+        this.oauth = ((body.options & Datastore.OAUTH) === Datastore.OAUTH) ? true : false;
         this.postGres = ((body.options & Datastore.PG) === Datastore.PG) ? true : false;
         this.redis = ((body.options & Datastore.REDIS) === Datastore.REDIS) ? true : false;
         this.s3 = ((body.options & Datastore.S3) === Datastore.S3) ? true : false;
@@ -199,6 +207,82 @@ SQLSVRPORT=`;
         }
 
         return files;
+    }
+
+    private createReadme = async(): Promise<string> => {         
+        let readme = await CoreService.readFile(this.dir + `/templates/readme.md.txt`);
+        
+        let options = "";
+        if(this.amq) {
+            options += `
+            * Active MQ  `;
+        }
+        if(this.btc) {
+            options += `
+            * Bitcoin Core  `;
+        }
+        if(this.eth) {
+            options += `
+            * Ethereum  `;
+        }
+        if(this.graphql) {
+            options += `
+            * GraphQL  `;
+        }
+        if(this.webAuth) {
+            options += `
+            * JWT Authentication  `;
+        }
+        if(this.kafka) {
+            options += `
+            * Kafka  `;
+        }
+        if(this.logging) {
+            options += `
+            * Logging  `;
+        }
+        if(this.mongo) {
+            options += `
+            * MongoDB  `;
+        }
+        if(this.mysql) {
+            options += `
+            * MySql  `;
+        }
+        if(this.neo4j) {
+            options += `
+            * Neo4j  `;
+        }
+        if(this.oauth) {
+            options += `
+            * OAUTH  `;
+        }
+        if(this.postGres) {
+            options += `
+            * PostGreSQL  `;
+        }
+        if(this.redis) {
+            options += `
+            * Redis  `;
+        }
+        if(this.s3) {
+            options += `
+            * S3  `;
+        }
+        if(this.sqlServer) {
+            options += `
+            * SQL Server  `;
+        }
+        if(options.length > 0){
+            options = `Included options:
+            ` + options;
+        }
+
+        readme = readme
+                .replace(/NAME-HERE/g, this.appName)
+                .replace(/OPTIONS-HERE/g, options)
+        
+        return readme;
     }
 
     private createPackageJson = async(projectName: string): Promise<string> => {        
