@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
@@ -29,6 +30,7 @@ import { TooltipModule } from 'primeng/tooltip';
     HttpClientModule,
     InputSwitchModule,
     InputTextModule,
+    ToastModule,
     TooltipModule
   ],
   providers: [],

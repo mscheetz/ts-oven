@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { IDough } from 'src/app/classes/dough.interface';
 import { Datastore } from 'src/app/classes/enums';
 import { RestService } from 'src/app/core/rest.service';
@@ -6,7 +7,8 @@ import { RestService } from 'src/app/core/rest.service';
 @Component({
   selector: 'app-oven',
   templateUrl: './oven.component.html',
-  styleUrls: ['./oven.component.sass']
+  styleUrls: ['./oven.component.sass'],
+  providers: [MessageService]
 })
 export class OvenComponent implements OnInit {
   appName: string = "";
@@ -29,13 +31,23 @@ export class OvenComponent implements OnInit {
   showBake: boolean = true;
   showReset: boolean = false;
   projectReady: boolean = false;
+  validName: boolean = true;
 
-  constructor(private restSvc: RestService) { }
+  constructor(private restSvc: RestService, private msgSvc: MessageService) { }
 
   ngOnInit(): void {
   }
 
   onBake() {
+    if(this.appName === "") {
+      this.msgSvc.add({
+          severity: 'warn', 
+          summary: 'Project Name Missing', 
+          detail: 'Please enter a project name.'
+        });
+        document.getElementById("app-name").focus();
+        return;
+    }
     this.showBake = false;
     const dough = this.mixDough();
 
