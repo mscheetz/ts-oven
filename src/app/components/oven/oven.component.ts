@@ -39,12 +39,13 @@ export class OvenComponent implements OnInit {
   }
 
   onBake() {
-    if(this.appName === "") {
+    if(this.appName === null || this.appName === "" || this.appName.match(/^ *$/) !== null) {
       this.msgSvc.add({
           severity: 'warn', 
           summary: 'Project Name Missing', 
           detail: 'Please enter a project name.'
         });
+        this.appName = "";
         document.getElementById("app-name").focus();
         return;
     }
