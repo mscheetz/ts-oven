@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Encrytion Service manages encryption for application
+ * 
+ * @summary Encryption Service
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 import bcrypt from 'bcrypt';
 
 class EncryptionService {
