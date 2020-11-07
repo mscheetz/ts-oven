@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Entry point for NodeJS/Typecript application
+ * 
+ * @summary Index
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 import express from "express";
 import * as bodyParser from "body-parser";
 import helmet from "helmet";
@@ -5,6 +16,8 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import compression from 'compression';
 import routes from "./routes";
+import LogService from "./services/log.service";
+import { LogLevel } from "./interfaces/enums";
 
 const app = express();
 
@@ -37,12 +50,15 @@ app.use(bodyParser.json());
 app.use("/api", routes);
 
 app.get(`/`, function(req: express.Request, res: express.Response) {
-  console.log(`new request from ${req.ip}`);
+  LogService.writeLog(LogLevel.INFO, `new request from ${req.ip}`);
   res.status(200).send('Hello World!');
-    
-    // res.status(200).sendFile(`/`, { root: distDir });
 })
 
 app.listen(port, () => {
-    console.log(`Server started on port ${port}!`);
+  var opt = {
+    foo: "bar",
+    bar: "foo"
+  };
+  LogService.writeLog(LogLevel.INFO, `data:`, opt);
+  LogService.writeLog(LogLevel.INFO, `Server started on port ${port}!`);
 });
