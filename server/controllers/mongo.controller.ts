@@ -12,14 +12,15 @@
 /// <reference path="../interfaces/account.interface.ts" />
 import express from 'express';
 import MongoAccount from '../data/mongo-account.repo';
-import { LogLevel } from '../interfaces/enums';
-import LogService from '../services/log.service';
+import { Logger} from 'tslog';
 
 class MongoController {
     private repo: MongoAccount;
+    private log: Logger;
 
     constructor() { 
         this.repo = new MongoAccount();
+        this.log = new Logger();
     }
 
     public add = async(req: express.Request, res: express.Response) => {
@@ -30,7 +31,7 @@ class MongoController {
             const result = await this.repo.add(account);
             insertStatus = true
         } catch(err) {
-            LogService.writeLog(LogLevel.ERROR, err);
+            this.log.error(err);
             insertStatus = false;
         }
 
@@ -51,7 +52,7 @@ class MongoController {
     }
 
     public getAll = async(req: express.Request, res: express.Response) => {
-        LogService.writeLog(LogLevel.INFO, `request from: ${req.ip}`);
+        this.log.info(`request from: ${req.ip}`);
         const datas = await this.repo.getAll();
 
         if(datas.length > 0) {
@@ -71,7 +72,7 @@ class MongoController {
             const result = await this.repo.update(account);
             updateStatus = true
         } catch(err) {
-            LogService.writeLog(LogLevel.ERROR, err);
+            this.log.error(err);
             updateStatus = false;
         }
 
@@ -88,7 +89,7 @@ class MongoController {
             const result = await this.repo.delete(+id);
             deleteStatus = true
         } catch(err) {
-            LogService.writeLog(LogLevel.ERROR, err);
+            this.log.error(err);
             deleteStatus = false;
         }
 

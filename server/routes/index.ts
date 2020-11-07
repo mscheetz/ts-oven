@@ -10,11 +10,11 @@ import redis from './redis.route';
 const routes = Router();
 
 routes.use('/', base);
-routes.use('/login', login);
-//routes.use('/mongo', mongo);
+routes.use('/v0/login', login);
+routes.use('/v0/mongo', mongo);
 // routes.use('/mysql', mysql);
-routes.use('/oven', oven);
+routes.use('/v0/oven', oven);
 // routes.use('/pg', pg);
-routes.use('/redis', redis);
+routes.use('/v0/redis', redis);
 
 export default routes;

@@ -12,14 +12,15 @@
 /// <reference path="../interfaces/account.interface.ts" />
 import express from 'express';
 import RedisBaseRepo from '../data/redis-base.repo';
-import { LogLevel } from '../interfaces/enums';
-import LogService from '../services/log.service';
+import { Logger} from 'tslog';
 
 class RedisController {
     private repo: RedisBaseRepo;
+    private log: Logger;
 
     constructor() { 
         this.repo = new RedisBaseRepo();
+        this.log = new Logger();
     }
 
     public add = async(req: express.Request, res: express.Response) => {
@@ -31,7 +32,7 @@ class RedisController {
             const result = await this.repo.addString(key, value);
             insertStatus = true
         } catch(err) {
-            LogService.writeLog(LogLevel.ERROR, err);
+            this.log.error(err);
             insertStatus = false;
         }
 
@@ -49,7 +50,7 @@ class RedisController {
             const result = await this.repo.addObject(key, account);
             insertStatus = true
         } catch(err) {
-            LogService.writeLog(LogLevel.ERROR, err);
+            this.log.error(err);
             insertStatus = false;
         }
 
@@ -92,7 +93,7 @@ class RedisController {
             const result = await this.repo.update(key, value);
             updateStatus = true
         } catch(err) {
-            LogService.writeLog(LogLevel.ERROR, err);
+            this.log.error(err);
             updateStatus = false;
         }
 
@@ -109,7 +110,7 @@ class RedisController {
             const result = await this.repo.delete(key);
             deleteStatus = true
         } catch(err) {
-            LogService.writeLog(LogLevel.ERROR, err);
+            this.log.error(err);
             deleteStatus = false;
         }
 

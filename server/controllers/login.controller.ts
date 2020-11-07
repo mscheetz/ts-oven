@@ -11,16 +11,16 @@
  */
 /// <reference path="../interfaces/user.interface.ts" />
 import express from 'express';
-import { LogLevel } from '../interfaces/enums';
 import AuthService from '../services/auth.service';
-import LogService from '../services/log.service';
 import EncryptionService from '../services/encryption.service';
+import { Logger} from 'tslog';
 
 class LoginController {
     constructor() { }
 
     static guestLogin = async(req: express.Request, res: express.Response) => {
-        LogService.writeLog(LogLevel.INFO, `incoming from ${req.ip}`);
+        const log: Logger = new Logger();
+        log.info(`incoming from ${req.ip}`);
         const authSvc = new AuthService();
 
         const userToken = {

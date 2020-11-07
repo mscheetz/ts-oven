@@ -16,8 +16,7 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import compression from 'compression';
 import routes from "./routes";
-import LogService from "./services/log.service";
-import { LogLevel } from "./interfaces/enums";
+import { Logger } from "tslog";
 
 const app = express();
 
@@ -26,6 +25,7 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 console.log(`Port: ${process.env.PORT}`);
 const distDir = `dist/ts-oven`;
+const log: Logger = new Logger();
 
 const forceSSL = function() {
   return function (req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -50,15 +50,10 @@ app.use(bodyParser.json());
 app.use("/api", routes);
 
 app.get(`/`, function(req: express.Request, res: express.Response) {
-  LogService.writeLog(LogLevel.INFO, `new request from ${req.ip}`);
+  log.info(`new request from ${req.ip}`);
   res.status(200).send('Hello World!');
 })
 
 app.listen(port, () => {
-  var opt = {
-    foo: "bar",
-    bar: "foo"
-  };
-  LogService.writeLog(LogLevel.INFO, `data:`, opt);
-  LogService.writeLog(LogLevel.INFO, `Server started on port ${port}!`);
+  log.info(`Server started on port ${port}!`);
 });

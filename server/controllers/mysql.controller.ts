@@ -11,13 +11,15 @@
  */
 import express from 'express';
 import MySqlBaseRepo from '../data/mysql-base.repo';
-import { LogLevel } from '../interfaces/enums';
-import LogService from '../services/log.service';
+import { Logger} from 'tslog';
 
 class MySqlController {
     private repo: MySqlBaseRepo = new MySqlBaseRepo();
+    private log: Logger;
 
-    constructor() {}
+    constructor() {
+        this.log = new Logger();
+    }
 
     public add = async(req: express.Request, res: express.Response) => {
         const rows = await this.repo.add(req.body);
@@ -40,7 +42,7 @@ class MySqlController {
     }
 
     public getAll = async(req: express.Request, res: express.Response) => {
-        LogService.writeLog(LogLevel.INFO, `request from: ${req.ip}`);
+        this.log.info(`request from: ${req.ip}`);
         const datas = await this.repo.getAll();
         const status = datas !== null ? 200 : 500;
         

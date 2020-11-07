@@ -10,29 +10,32 @@
  * Last modified    : 2020-11-07
  */
 import { Request, Response } from 'express';
-import LogService from "../services/log.service"
-import { LogLevel } from "../interfaces/enums";
+import { Logger} from 'tslog';
 
 export const logUrl = async(req: Request, _res: Response, next: Function) => {
-    LogService.writeLog(LogLevel.INFO, `New request to: '${req.url}'`);
+    const log: Logger = new Logger();
+    log.info(`New request to: '${req.originalUrl}'`);
     
     next();
 }
 
 export const logType = async(req: Request, _res: Response, next: Function) => {
-    LogService.writeLog(LogLevel.INFO, `Request type:`, req.method);
+    const log: Logger = new Logger();
+    log.info(`Request type:`, req.method);
     
     next();
 }
 
 export const logHeaders = async(req: Request, _res: Response, next: Function) => {
-    LogService.writeLog(LogLevel.INFO, `Request headers:`, req.headers); 
+    const log: Logger = new Logger();
+    log.info(`Request headers:`, req.headers); 
     
     next();
 }
 
 export const logBody = async(req: Request, _res: Response, next: Function) => {
-    LogService.writeLog(LogLevel.INFO, `Request body:`, req.body);
+    const log: Logger = new Logger();
+    log.info(`Request body:`, req.body);
     
     next();
 }
