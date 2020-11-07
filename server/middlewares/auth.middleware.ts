@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Auth Middleware intercepts validates requests have valid credentials
+ * 
+ * @summary AuthMiddleware
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 import { Request, Response } from 'express';
 import AuthService from '../services/auth.service';
 
