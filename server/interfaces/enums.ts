@@ -27,13 +27,3 @@ export enum Datastore {
     OAUTH = 8192,
     BTC = 16384
 }
-
-export enum LogLevel {
-    SILLY,
-    TRACE,
-    DEBUG,
-    INFO,
-    WARN,
-    ERROR,
-    FATAL
-}
