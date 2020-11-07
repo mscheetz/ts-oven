@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Authentication Service manages authentication for application
+ * 
+ * @summary Auth Service
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 import * as jwt from 'jsonwebtoken';
 import uuid from 'uuid';
 
