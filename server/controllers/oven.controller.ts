@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Oven Controller create new ts oven project
+ * 
+ * @summary Oven controller
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 /// <reference path="../interfaces/file-content.interface.ts" />
 /// <reference path="../interfaces/dough.interface.ts" />
 /// <reference path="../interfaces/enums.ts" />
@@ -5,7 +16,8 @@ import express from 'express';
 import Archiver from 'archiver';
 import path from 'path';
 import CoreService from '../services/core.service';
-import { Datastore } from '../interfaces/enums';
+import LogService from '../services/log.service';
+import { Datastore, LogLevel } from '../interfaces/enums';
 import { IDough } from '../interfaces/dough.interface';
 
 class OvenController {
@@ -50,14 +62,14 @@ class OvenController {
         });
 
         zip.on('end', () => {
-            console.log(`Archive wrote ${zip.pointer} bytes`);
+            LogService.writeLog(LogLevel.INFO, `Archive wrote ${zip.pointer} bytes`);
         });
 
         res.attachment(`${this.appName}.zip`);
 
         zip.pipe(res);
-        console.log('dir', __dirname);
-        console.log('dir II', this.dir);
+        LogService.writeLog(LogLevel.INFO, `dir`, __dirname);
+        LogService.writeLog(LogLevel.INFO, `dir II`, this.dir);
 
         const auths = await this.createAuth();
 
@@ -76,9 +88,15 @@ class OvenController {
         }
 
         if(this.mongo || this.mysql || this.postGres || this.redis || this.sqlServer) {
-            const baseInterface = await CoreService.readFile(this.dir + `/templates/src-interfaces-base.interface.ts.txt`);
+            let content = await CoreService.readFile(this.dir + `/templates/src-interfaces-base.interface.ts.txt`);
+            let baseInterface: IFileContent = {
+                content: content,
+                path: `src/interfaces/base.interface.ts`
+            };
+
+            baseInterface = this.updateFileHeader(baseInterface);
         
-            zip.append(baseInterface, { name: `src/interfaces/base.interface.ts`});
+            zip.append(baseInterface.content, { name: baseInterface.path});
         }
 
         const environment = await this.createEnvironments();
@@ -116,7 +134,9 @@ class OvenController {
         let readme = await this.createReadme();
 
         let indexTS = await CoreService.readFile(this.dir + `/templates/src-index.ts.txt`);
-
+        indexTS = this.setFileHeaderValues(indexTS);
+        
+        LogService.writeLog(LogLevel.INFO, `Creating zip file`);
         zip.append(env, { name: `.env` })
            .append(gitignore, { name: `.gitignore` })
            .append(packageJson, { name: `package.json`})
@@ -126,7 +146,8 @@ class OvenController {
            .finalize();
     }
 
-    private setOptions(body: IDough) {        
+    private setOptions(body: IDough) {
+        LogService.writeLog(LogLevel.INFO, `Setting options`);
         this.amq = ((body.options & Datastore.AMQ) === Datastore.AMQ) ? true : false;
         this.eth = ((body.options & Datastore.ETH) === Datastore.ETH) ? true : false;
         this.btc = ((body.options & Datastore.BTC) === Datastore.BTC) ? true : false;
@@ -145,7 +166,8 @@ class OvenController {
     }
 
     private createAuth = async(): Promise<IFileContent[]> => { 
-        const files: IFileContent[] = [];
+        LogService.writeLog(LogLevel.INFO, `Creating authentication`);
+        let files: IFileContent[] = [];
         
         if(this.webAuth) {
             let authMdl = await CoreService.readFile(this.dir + `/templates/src-middlewares-auth.middleware.ts.txt`);
@@ -154,10 +176,13 @@ class OvenController {
             files.push({ path: `src/services/auth.service.ts`, content: authSvc });
         }
 
+        files = this.updateFileHeaders(files);
+
         return files;
     }
 
     private createEnv = async(): Promise<string> => {
+        LogService.writeLog(LogLevel.INFO, `Creating .ENV file`);
         let env = await CoreService.readFile(this.dir + `/templates/.env.txt`);
         let mongoConfigs = !this.mongo ? '' : `
 MONGOUSER=
@@ -199,17 +224,22 @@ SQLSVRPORT=`;
     }
 
     private createLogging = async(): Promise<IFileContent[]> => { 
+        LogService.writeLog(LogLevel.INFO, `Creating logging`);
         const files: IFileContent[] = [];
         
         if(this.logging) {
             let loggingMdl = await CoreService.readFile(this.dir + `/templates/src-middlewares-logging.middleware.ts.txt`);
+            
+            loggingMdl = this.setFileHeaderValues(loggingMdl);
+
             files.push({ path: `src/middlewares/logging.middleware.ts`, content: loggingMdl });
         }
 
         return files;
     }
 
-    private createReadme = async(): Promise<string> => {         
+    private createReadme = async(): Promise<string> => {     
+        LogService.writeLog(LogLevel.INFO, `Creating README.md`);    
         let readme = await CoreService.readFile(this.dir + `/templates/readme.md.txt`);
         
         let options = "";
@@ -285,7 +315,8 @@ SQLSVRPORT=`;
         return readme;
     }
 
-    private createPackageJson = async(projectName: string): Promise<string> => {        
+    private createPackageJson = async(projectName: string): Promise<string> => { 
+        LogService.writeLog(LogLevel.INFO, `Creating package.json`);       
         let packageJson = await CoreService.readFile(this.dir + `/templates/package.json.txt`);
 
         let mongoType = !this.mongo ? '' : `
@@ -326,13 +357,15 @@ SQLSVRPORT=`;
         return packageJson;
     }
 
-    private createGitignore = async(): Promise<string> => {        
+    private createGitignore = async(): Promise<string> => {     
+        LogService.writeLog(LogLevel.INFO, `Creating .gitignore`);   
         let gitignore = await CoreService.readFile(this.dir + `/templates/.gitignore.txt`);
 
         return gitignore;
     }
 
-    private createEnvironments = async(): Promise<string> => {        
+    private createEnvironments = async(): Promise<string> => {  
+        LogService.writeLog(LogLevel.INFO, `creating environment files`);      
         let environment = await CoreService.readFile(this.dir + `/templates/src-environments-environment.ts.txt`);
 
         const mongoConfigs = !this.mongo ? '' : `
@@ -375,11 +408,14 @@ SQLSVRPORT=`;
                     .replace(/REDIS-CONFIG/g, redisConfigs)
                     .replace(/SQLSVR-CONFIG/g, sqlServerConfigs);
 
+        environment = this.setFileHeaderValues(environment);
+
         return environment;
     }
 
     private createRoutes = async(): Promise<IFileContent[]> => {
-        const routes: IFileContent[] = [];
+        LogService.writeLog(LogLevel.INFO, `Creating routes`);
+        let routes: IFileContent[] = [];
         let indexRte = await CoreService.readFile(this.dir + `/templates/src-routes-index.ts.txt`);
         let routeDeclarations: string = '';
         let routeUses: string = '';
@@ -443,11 +479,14 @@ routes.use('/redis', redis);`
             routes.push({ path: `src/routes/redis.route.ts`, content: redisRte });
         }
 
+        routes = this.updateFileHeaders(routes);
+
         return routes;
     }
 
     private createControllers = async(): Promise<IFileContent[]> => {
-        const controllers: IFileContent[] = [];
+        LogService.writeLog(LogLevel.INFO, `Creating controllers`);
+        let controllers: IFileContent[] = [];
 
         let loginCtrl = this.webAuth ? await CoreService.readFile(this.dir + `/templates/src-controllers-login.controller.ts.txt`) : null;
         if(loginCtrl !== null) {
@@ -474,11 +513,14 @@ routes.use('/redis', redis);`
             controllers.push({ path: `src/controllers/redis.controller.ts`, content: redisCtrl });
         }
 
+        controllers = this.updateFileHeaders(controllers);
+
         return controllers;
     }
 
     private createRepositories = async(): Promise<IFileContent[]> => {
-        const repos: IFileContent[] = [];
+        LogService.writeLog(LogLevel.INFO, `Creating repositories`);
+        let repos: IFileContent[] = [];
 
         let mongoRepo = this.mongo ? await CoreService.readFile(this.dir + `/templates/src-data-mongo.repo.ts.txt`) : null;
         let mssqlRepo = this.sqlServer ? await CoreService.readFile(this.dir + `/templates/src-data-mssql.repo.ts.txt`) : null;
@@ -502,7 +544,54 @@ routes.use('/redis', redis);`
             repos.push({ path: `src/data/redis.repo.ts`, content: redisRepo });
         }
 
+        repos = this.updateFileHeaders(repos);
+
         return repos;
+    }
+
+    private setFileHeaderValues(content: string, now?: string) {
+        if(typeof(now) === 'undefined') {
+            now = this.getFormattedDateTime();
+        }
+        content = content
+                    .replace(/{YEAR}/g, new Date().getFullYear().toString())
+                    .replace(/{AUTHOR}/g, "TS-Oven: https://ts-oven.com")
+                    .replace(/{CREATED}/g, now)
+                    .replace(/{MODIFIED}/g, now);
+
+        return content;
+    }
+
+    private updateFileHeader(file: IFileContent, now?: string): IFileContent {      
+        if(typeof(now) === 'undefined') {
+            now = this.getFormattedDateTime();
+        }      
+        file.content = this.setFileHeaderValues(file.content, now);
+
+        return file;
+    }
+
+    private updateFileHeaders(files: IFileContent[]): IFileContent[] {
+        if(files.length === 0) {
+            return files;
+        }
+        const now = this.getFormattedDateTime();
+        files.forEach(file => {            
+            file = this.updateFileHeader(file, now);            
+        });
+        return files;
+    }
+
+    private getFormattedDateTime(): string {
+        const now = new Date();
+        const day = now.getUTCDate();
+        const month = now.getUTCMonth() + 1;
+        const year = now.getUTCFullYear();
+        const hour = now.getUTCHours();
+        const minutes = now.getUTCMinutes();
+        const seconds = now.getUTCSeconds();
+
+        return `${year}-${month}-${day} ${hour}:${minutes}:${seconds}`;
     }
 }
 
