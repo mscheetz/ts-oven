@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Mongo Account Repository interact with Accounts collection in Mongo db
+ * 
+ * @summary Mongo Account Repository
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 /// <reference path="../interfaces/account.interface.ts" />
 import mongodb from 'mongodb';
 import dotenv from 'dotenv';

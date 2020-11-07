@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * MySql Base Repository interact with MySql baseTable
+ * 
+ * @summary MySql Base Repository
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 /// <reference path="../interfaces/base.interface.ts"/>
 import mysql from 'mysql';
 import dotenv from 'dotenv';

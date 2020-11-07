@@ -1,13 +1,26 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Login Controller handles login to retrieve a jwt
+ * 
+ * @summary Login Controller
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 /// <reference path="../interfaces/user.interface.ts" />
 import express from 'express';
+import { LogLevel } from '../interfaces/enums';
 import AuthService from '../services/auth.service';
+import LogService from '../services/log.service';
 import EncryptionService from '../services/encryption.service';
 
 class LoginController {
     constructor() { }
 
     static guestLogin = async(req: express.Request, res: express.Response) => {
-        console.log(`incoming from ${req.ip}`);
+        LogService.writeLog(LogLevel.INFO, `incoming from ${req.ip}`);
         const authSvc = new AuthService();
 
         const userToken = {

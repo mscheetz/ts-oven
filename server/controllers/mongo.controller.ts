@@ -1,6 +1,19 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Mongo Controller handle mongo db requests
+ * 
+ * @summary Mongo controller
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 /// <reference path="../interfaces/account.interface.ts" />
 import express from 'express';
 import MongoAccount from '../data/mongo-account.repo';
+import { LogLevel } from '../interfaces/enums';
+import LogService from '../services/log.service';
 
 class MongoController {
     private repo: MongoAccount;
@@ -17,7 +30,7 @@ class MongoController {
             const result = await this.repo.add(account);
             insertStatus = true
         } catch(err) {
-            console.log(err);
+            LogService.writeLog(LogLevel.ERROR, err);
             insertStatus = false;
         }
 
@@ -38,7 +51,7 @@ class MongoController {
     }
 
     public getAll = async(req: express.Request, res: express.Response) => {
-        console.log(`request from: ${req.ip}`);
+        LogService.writeLog(LogLevel.INFO, `request from: ${req.ip}`);
         const datas = await this.repo.getAll();
 
         if(datas.length > 0) {
@@ -58,7 +71,7 @@ class MongoController {
             const result = await this.repo.update(account);
             updateStatus = true
         } catch(err) {
-            console.log(err);
+            LogService.writeLog(LogLevel.ERROR, err);
             updateStatus = false;
         }
 
@@ -75,7 +88,7 @@ class MongoController {
             const result = await this.repo.delete(+id);
             deleteStatus = true
         } catch(err) {
-            console.log(err);
+            LogService.writeLog(LogLevel.ERROR, err);
             deleteStatus = false;
         }
 

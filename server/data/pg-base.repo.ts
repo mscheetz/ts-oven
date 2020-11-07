@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * PG Base Repository interact with PostGreSql baseTable
+ * 
+ * @summary PG Base Repository
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 /// <reference path="../interfaces/base.interface.ts"/>
 import { Pool } from 'pg';
 

@@ -1,5 +1,18 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * MySql Controller handle mysql db requests
+ * 
+ * @summary MySql controller
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 import express from 'express';
 import MySqlBaseRepo from '../data/mysql-base.repo';
+import { LogLevel } from '../interfaces/enums';
+import LogService from '../services/log.service';
 
 class MySqlController {
     private repo: MySqlBaseRepo = new MySqlBaseRepo();
@@ -27,7 +40,7 @@ class MySqlController {
     }
 
     public getAll = async(req: express.Request, res: express.Response) => {
-        console.log(`request from: ${req.ip}`);
+        LogService.writeLog(LogLevel.INFO, `request from: ${req.ip}`);
         const datas = await this.repo.getAll();
         const status = datas !== null ? 200 : 500;
         

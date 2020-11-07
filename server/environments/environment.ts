@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Environment interface for .env variables
+ * 
+ * @summary Environment
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 declare global {
     namespace NodeJS {
         interface ProcessEnv {

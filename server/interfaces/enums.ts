@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Maintains application enums
+ * 
+ * @summary Enums
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 export enum Datastore {
     None = 0,
     AMQ = 1,
@@ -15,4 +26,14 @@ export enum Datastore {
     LOGGING = 4096,
     OAUTH = 8192,
     BTC = 16384
+}
+
+export enum LogLevel {
+    SILLY,
+    TRACE,
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR,
+    FATAL
 }

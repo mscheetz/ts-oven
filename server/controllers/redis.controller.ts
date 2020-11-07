@@ -1,6 +1,19 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Redis Controller handle requests for Redis db
+ * 
+ * @summary Redis controller
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 /// <reference path="../interfaces/account.interface.ts" />
 import express from 'express';
 import RedisBaseRepo from '../data/redis-base.repo';
+import { LogLevel } from '../interfaces/enums';
+import LogService from '../services/log.service';
 
 class RedisController {
     private repo: RedisBaseRepo;
@@ -18,7 +31,7 @@ class RedisController {
             const result = await this.repo.addString(key, value);
             insertStatus = true
         } catch(err) {
-            console.log(err);
+            LogService.writeLog(LogLevel.ERROR, err);
             insertStatus = false;
         }
 
@@ -36,7 +49,7 @@ class RedisController {
             const result = await this.repo.addObject(key, account);
             insertStatus = true
         } catch(err) {
-            console.log(err);
+            LogService.writeLog(LogLevel.ERROR, err);
             insertStatus = false;
         }
 
@@ -79,7 +92,7 @@ class RedisController {
             const result = await this.repo.update(key, value);
             updateStatus = true
         } catch(err) {
-            console.log(err);
+            LogService.writeLog(LogLevel.ERROR, err);
             updateStatus = false;
         }
 
@@ -96,7 +109,7 @@ class RedisController {
             const result = await this.repo.delete(key);
             deleteStatus = true
         } catch(err) {
-            console.log(err);
+            LogService.writeLog(LogLevel.ERROR, err);
             deleteStatus = false;
         }
 

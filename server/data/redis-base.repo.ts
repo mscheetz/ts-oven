@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Redis Base Repository interact redis database
+ * 
+ * @summary Redis Base Repository
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 import redis from 'redis';
 import dotenv from 'dotenv';
 
