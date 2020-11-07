@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Auth Middleware intercepts validates requests have valid credentials
+ * 
+ * @summary AuthMiddleware
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import { Request, Response } from 'express';
 import AuthService from '../services/auth.service';
 

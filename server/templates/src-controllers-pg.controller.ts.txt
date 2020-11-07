@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a PG Controller to handle requests interacting with a PostGreSQL Db
+ * 
+ * @summary PGController
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import express from 'express';
 import PGBaseRepo from '../data/pg-base.repo';
 

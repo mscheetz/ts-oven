@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a Base interface for a Base object
+ * 
+ * @summary IBase
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 interface Base {
     id: string;
     name: string;

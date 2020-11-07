@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a Login Controller
+ * 
+ * @summary LoginController
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import express from 'express';
 import AuthService from '../services/auth.service';
 

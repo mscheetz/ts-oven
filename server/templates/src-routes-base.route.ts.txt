@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Declare Routes for {BASE} Endpoints
+ * 
+ * @summary {BASE}Router
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import { Router } from 'express';
 import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.middleware';
 import {BASE}Controller from '../controllers/{BASE}.controller';

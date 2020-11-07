@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Environment interface for .env variables
+ * 
+ * @summary Environment
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 declare global {
     namespace NodeJS {
         interface ProcessEnv {

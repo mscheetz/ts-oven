@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Entry point for NodeJS/Typecript application
+ * 
+ * @summary Index
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import express from "express";
 import * as bodyParser from "body-parser";
 import helmet from "helmet";

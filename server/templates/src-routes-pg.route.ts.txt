@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Declare Routes for PostGreSql Endpoints
+ * 
+ * @summary PGRouter
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import { Router } from 'express';
 import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.middleware';
 import PGController from '../controllers/pg.controller';

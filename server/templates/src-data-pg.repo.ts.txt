@@ -1,6 +1,17 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a PostGres Repository for interacting with a PostGresSql Db
+ * 
+ * @summary PGRepository
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import { Pool } from 'pg';
 
-class PGBaseRepo {
+class PGRepo {
     private pool: Pool;
 
     constructor() {

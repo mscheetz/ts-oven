@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Manage all endpoints
+ * 
+ * @summary Router index
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import { Router, Request, Response } from 'express';
 import login from './login.route';ROUTE-DECLARATIONS
 

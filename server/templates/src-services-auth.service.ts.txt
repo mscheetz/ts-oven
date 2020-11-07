@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Service for handling Authentication related functions
+ * 
+ * @summary AuthService
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import * as jwt from 'jsonwebtoken';
 
 class AuthService {

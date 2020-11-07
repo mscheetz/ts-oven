@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a Mongo Controller to handle requests interacting with a MongoDb
+ * 
+ * @summary MongoController
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import express from 'express';
 import { Base } from '../data/mongo-base.repo';
 
