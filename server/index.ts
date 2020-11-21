@@ -7,7 +7,7 @@
  * @author Matt Scheetz
  * 
  * Created at       : 2020-10-02
- * Last modified    : 2020-11-07
+ * Last modified    : 2020-11-21
  */
 import express from "express";
 import * as bodyParser from "body-parser";
@@ -16,16 +16,16 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import compression from 'compression';
 import routes from "./routes";
-import { Logger } from "tslog";
+import { logger } from "./services/logger.service";
 
 const app = express();
 
 dotenv.config();
 
 const port = process.env.PORT || 3000;
-console.log(`Port: ${process.env.PORT}`);
+logger.info(`Log level: ${process.env.LOGLEVEL}`);
+logger.info(`Port: ${process.env.PORT}`);
 const distDir = `dist/ts-oven`;
-const log: Logger = new Logger();
 
 const forceSSL = function() {
   return function (req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -50,10 +50,10 @@ app.use(bodyParser.json());
 app.use("/api", routes);
 
 app.get(`/`, function(req: express.Request, res: express.Response) {
-  log.info(`new request from ${req.ip}`);
+  logger.verbose(`new request from ${req.ip}`);
   res.status(200).send('Hello World!');
 })
 
 app.listen(port, () => {
-  log.info(`Server started on port ${port}!`);
+  logger.info(`TS Oven server started on port ${port}!`);
 });

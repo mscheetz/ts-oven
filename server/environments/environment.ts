@@ -13,6 +13,7 @@ declare global {
     namespace NodeJS {
         interface ProcessEnv {
             PORT: number;
+            LOGLEVEL: string;
             ENVIRONMENT: string;
             TOKEN_SECRET: string;
             MONGOHOST: string;

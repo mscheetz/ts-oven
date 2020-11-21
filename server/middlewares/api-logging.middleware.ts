@@ -1,41 +1,38 @@
 /**
  * Copyright (c) 2020
  * 
- * Logging Middleware intercepts requests and logs values
+ * Api Logging Middleware intercepts requests and logs values
  * 
- * @summary LoggingMiddleware
+ * @summary ApiLoggingMiddleware
  * @author Matt Scheetz
  * 
  * Created at       : 2020-10-02
- * Last modified    : 2020-11-07
+ * Last modified    : 2020-11-21
  */
 import { Request, Response } from 'express';
-import { Logger} from 'tslog';
+import { logger } from '../services/logger.service';
 
 export const logUrl = async(req: Request, _res: Response, next: Function) => {
-    const log: Logger = new Logger();
-    log.info(`New request to: '${req.originalUrl}'`);
+    const minLevel = process.env.LOGLEVEL;
+    logger.info(`New request to: '${req.originalUrl}'`);
     
     next();
 }
 
 export const logType = async(req: Request, _res: Response, next: Function) => {
-    const log: Logger = new Logger();
-    log.info(`Request type:`, req.method);
+    logger.info(`Request type:`, req.method);
     
     next();
 }
 
 export const logHeaders = async(req: Request, _res: Response, next: Function) => {
-    const log: Logger = new Logger();
-    log.info(`Request headers:`, req.headers); 
+    logger.info(`Request headers:`, req.headers); 
     
     next();
 }
 
 export const logBody = async(req: Request, _res: Response, next: Function) => {
-    const log: Logger = new Logger();
-    log.info(`Request body:`, req.body);
+    logger.info(`Request body:`, req.body);
     
     next();
 }

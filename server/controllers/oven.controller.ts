@@ -7,7 +7,7 @@
  * @author Matt Scheetz
  * 
  * Created at       : 2020-10-02
- * Last modified    : 2020-11-07
+ * Last modified    : 2020-11-21
  */
 /// <reference path="../interfaces/file-content.interface.ts" />
 /// <reference path="../interfaces/dough.interface.ts" />
@@ -16,7 +16,7 @@ import express from 'express';
 import Archiver from 'archiver';
 import path from 'path';
 import CoreService from '../services/core.service';
-import { Logger} from 'tslog';
+import { logger} from '../services/logger.service';
 import { Datastore } from '../interfaces/enums';
 import { IDough } from '../interfaces/dough.interface';
 
@@ -38,11 +38,9 @@ class OvenController {
     private s3: boolean;
     private sqlServer: boolean;
     private webAuth: boolean;
-    private log: Logger;
 
     constructor() {
         this.dir = path.join(__dirname, '../');
-        this.log = new Logger();
     }
 
     public get = async(res: express.Response) => {
@@ -64,14 +62,14 @@ class OvenController {
         });
 
         zip.on('end', () => {
-            this.log.info(`Archive wrote ${zip.pointer} bytes`);
+            logger.info(`Archive wrote ${zip.pointer} bytes`);
         });
 
         res.attachment(`${this.appName}.zip`);
 
         zip.pipe(res);
-        this.log.info(`dir`, __dirname);
-        this.log.info(`dir II`, this.dir);
+        logger.info(`dir`, __dirname);
+        logger.info(`dir II`, this.dir);
 
         const auths = await this.createAuth();
 
@@ -138,7 +136,7 @@ class OvenController {
         let indexTS = await CoreService.readFile(this.dir + `/templates/src-index.ts.txt`);
         indexTS = this.setFileHeaderValues(indexTS);
         
-        this.log.info(`Creating zip file`);
+        logger.info(`Creating zip file`);
         zip.append(env, { name: `.env` })
            .append(gitignore, { name: `.gitignore` })
            .append(packageJson, { name: `package.json`})
@@ -149,7 +147,7 @@ class OvenController {
     }
 
     private setOptions(body: IDough) {
-        this.log.info(`Setting options`);
+        logger.info(`Setting options`);
         this.amq = ((body.options & Datastore.AMQ) === Datastore.AMQ) ? true : false;
         this.eth = ((body.options & Datastore.ETH) === Datastore.ETH) ? true : false;
         this.btc = ((body.options & Datastore.BTC) === Datastore.BTC) ? true : false;
@@ -168,7 +166,7 @@ class OvenController {
     }
 
     private createAuth = async(): Promise<IFileContent[]> => { 
-        this.log.info(`Creating authentication`);
+        logger.info(`Creating authentication`);
         let files: IFileContent[] = [];
         
         if(this.webAuth) {
@@ -184,7 +182,7 @@ class OvenController {
     }
 
     private createEnv = async(): Promise<string> => {
-        this.log.info(`Creating .ENV file`);
+        logger.info(`Creating .ENV file`);
         let env = await CoreService.readFile(this.dir + `/templates/.env.txt`);
         let mongoConfigs = !this.mongo ? '' : `
 MONGOUSER=
@@ -226,7 +224,7 @@ SQLSVRPORT=`;
     }
 
     private createLogging = async(): Promise<IFileContent[]> => { 
-        this.log.info(`Creating logging`);
+        logger.info(`Creating logging`);
         const files: IFileContent[] = [];
         
         if(this.logging) {
@@ -241,7 +239,7 @@ SQLSVRPORT=`;
     }
 
     private createReadme = async(): Promise<string> => {     
-        this.log.info(`Creating README.md`);    
+        logger.info(`Creating README.md`);    
         let readme = await CoreService.readFile(this.dir + `/templates/readme.md.txt`);
         
         let options = "";
@@ -318,7 +316,7 @@ SQLSVRPORT=`;
     }
 
     private createPackageJson = async(projectName: string): Promise<string> => { 
-        this.log.info(`Creating package.json`);       
+        logger.info(`Creating package.json`);       
         let packageJson = await CoreService.readFile(this.dir + `/templates/package.json.txt`);
 
         let mongoType = !this.mongo ? '' : `
@@ -360,14 +358,14 @@ SQLSVRPORT=`;
     }
 
     private createGitignore = async(): Promise<string> => {     
-        this.log.info(`Creating .gitignore`);   
+        logger.info(`Creating .gitignore`);   
         let gitignore = await CoreService.readFile(this.dir + `/templates/.gitignore.txt`);
 
         return gitignore;
     }
 
     private createEnvironments = async(): Promise<string> => {  
-        this.log.info(`creating environment files`);      
+        logger.info(`creating environment files`);      
         let environment = await CoreService.readFile(this.dir + `/templates/src-environments-environment.ts.txt`);
 
         const mongoConfigs = !this.mongo ? '' : `
@@ -416,7 +414,7 @@ SQLSVRPORT=`;
     }
 
     private createRoutes = async(): Promise<IFileContent[]> => {
-        this.log.info(`Creating routes`);
+        logger.info(`Creating routes`);
         let routes: IFileContent[] = [];
         let indexRte = await CoreService.readFile(this.dir + `/templates/src-routes-index.ts.txt`);
         let routeDeclarations: string = '';
@@ -487,7 +485,7 @@ routes.use('/redis', redis);`
     }
 
     private createControllers = async(): Promise<IFileContent[]> => {
-        this.log.info(`Creating controllers`);
+        logger.info(`Creating controllers`);
         let controllers: IFileContent[] = [];
 
         let loginCtrl = this.webAuth ? await CoreService.readFile(this.dir + `/templates/src-controllers-login.controller.ts.txt`) : null;
@@ -521,7 +519,7 @@ routes.use('/redis', redis);`
     }
 
     private createRepositories = async(): Promise<IFileContent[]> => {
-        this.log.info(`Creating repositories`);
+        logger.info(`Creating repositories`);
         let repos: IFileContent[] = [];
 
         let mongoRepo = this.mongo ? await CoreService.readFile(this.dir + `/templates/src-data-mongo.repo.ts.txt`) : null;

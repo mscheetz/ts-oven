@@ -7,19 +7,16 @@
  * @author Matt Scheetz
  * 
  * Created at       : 2020-10-02
- * Last modified    : 2020-11-07
+ * Last modified    : 2020-11-21
  */
 import express from 'express';
 import PGBaseRepo from '../data/pg-base.repo';
-import { Logger} from 'tslog';
+import { logger } from '../services/logger.service';
 
 class PGController {
     private pg: PGBaseRepo = new PGBaseRepo();
-    private log: Logger;
 
-    constructor() {
-        this.log = new Logger();
-    }
+    constructor() {}
 
     public add = async(req: express.Request, res: express.Response) => {
         const rows = await this.pg.add(req.body);
@@ -38,7 +35,7 @@ class PGController {
     }
 
     public getAll = async(req: express.Request, res: express.Response) => {
-        this.log.info(`request from: ${req.ip}`);
+        logger.info(`request from: ${req.ip}`);
         const datas = await this.pg.getAll();
         const status = datas !== null ? 200 : 500;
         

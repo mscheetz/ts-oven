@@ -7,10 +7,11 @@
  * @author Matt Scheetz
  * 
  * Created at       : 2020-10-02
- * Last modified    : 2020-11-07
+ * Last modified    : 2020-11-21
  */
 // from https://medium.com/swlh/using-typescript-with-mongodb-393caf7adfef
 import * as Mongoose from 'mongoose';
+import { logger } from '../services/logger.service';
 
 let db: Mongoose.Connection;
 
@@ -31,11 +32,11 @@ const mongoConnect = () => {
     db = Mongoose.connection;
 
     db.once("open", async() => {
-        console.log("Connected to MongoDB");
+        logger.info("Connected to MongoDB");
     });
 
     db.on("error", () => {
-        console.error("Error connecting to MongoDB");
+        logger.error("Error connecting to MongoDB");
     });
 }
 

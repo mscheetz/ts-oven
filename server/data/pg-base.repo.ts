@@ -7,10 +7,11 @@
  * @author Matt Scheetz
  * 
  * Created at       : 2020-10-02
- * Last modified    : 2020-11-07
+ * Last modified    : 2020-11-21
  */
 /// <reference path="../interfaces/base.interface.ts"/>
 import { Pool } from 'pg';
+import { logger } from '../services/logger.service';
 
 class PGBaseRepo {
     private pool: Pool;
@@ -37,7 +38,7 @@ class PGBaseRepo {
 
             return res.rows;
         } catch(err) {
-            console.log(err);
+            logger.info(err);
 
             return null;
         }
@@ -52,7 +53,7 @@ class PGBaseRepo {
 
             return res.rows;
         } catch(err) {
-            console.log(err);
+            logger.info(err);
             
             return null;
         }
@@ -72,7 +73,7 @@ class PGBaseRepo {
 
             return res.rowCount;
         } catch(err) {
-            console.log(err);
+            logger.info(err);
             
             return null;
         }
@@ -92,7 +93,7 @@ class PGBaseRepo {
 
             return res.rowCount;
         } catch(err) {
-            console.log(err);
+            logger.info(err);
             
             return null;
         }
@@ -107,7 +108,7 @@ class PGBaseRepo {
 
             return res.rowCount;
         } catch(err) {
-            console.log(err);
+            logger.info(err);
             
             return null;
         }
