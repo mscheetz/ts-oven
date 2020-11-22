@@ -75,8 +75,8 @@
     <div class="h4-like">Other</div>
     <div class="optionGroup">
         <div class="optionClass">
-            <label>Docker <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
-            <p-inputSwitch [disabled]=true [(ngModel)]="DOCKER"></p-inputSwitch>
+            <label>Docker <i class="pi pi-info-circle" pTooltip="Dockerize this application"></i>: </label>
+            <p-inputSwitch [(ngModel)]="DOCKER"></p-inputSwitch>
         </div>
         <div class="optionClass">
             <label><i>GraphQL </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
@@ -97,7 +97,7 @@
     <p>Simply download, unzip, then run:</p>
     <div class="terminal-box">
         $ npm i<br>
-        $ npm run dev
+        $ npm start
     </div>
 </div>
 <p-toast></p-toast>
