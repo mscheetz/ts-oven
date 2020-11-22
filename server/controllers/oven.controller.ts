@@ -115,7 +115,7 @@ class OvenController {
         if(controllers.length > 0) {
             controllers.forEach(controller => {
                 zip.append(controller.content, { name: controller.path });
-            })
+            });
         }
 
         const repos = await this.createRepositories();
@@ -123,7 +123,15 @@ class OvenController {
         if(repos.length > 0) {
             repos.forEach(repo => {
                 zip.append(repo.content, { name: repo.path });
-            })
+            });
+        }
+
+        if(this.docker) {
+            const files = await this.dockerize();
+
+            files.forEach(file => {
+                zip.append(file.content, { name: file.path });
+            });
         }
 
         let env = await this.createEnv();
@@ -358,8 +366,8 @@ SQLSVRPORT=`;
         packageJson = packageJson
                         .replace(/Project-Name/g, projectName)
                         .replace(/Project-Description/g, 'Description goes here')
-                        .replace(/LOGGING-TYPE/g, loggingType)
-                        .replace(/LOGGING-DEP/g, loggingDep)
+                        .replace(/WINSTON-TYPE/g, loggingType)
+                        .replace(/WINSTON-DEP/g, loggingDep)
                         .replace(/MONGO-TYPE/g, mongoType)
                         .replace(/MONGO-DEP/g, mongoDep)
                         .replace(/MSSQL-TYPE/g, sqlServerType)
@@ -576,6 +584,26 @@ routes.use('/redis', redis);`
         repos = this.updateFileHeaders(repos);
 
         return repos;
+    }
+
+    private dockerize = async(): Promise<IFileContent[]> => {
+        logger.info(`Creating docker items`);
+        let files: IFileContent[] = [];
+
+        let dockerIgnore = await CoreService.readFile(this.dir + `/templates/.dockerignore.txt`);
+        files.push({ path: `.dockerignore`, content: dockerIgnore });
+
+        let dockerfile = await CoreService.readFile(this.dir + `/templates/DkrFl.txt`);
+        files.push({ path: `Dockerfile`, content: dockerfile });
+
+        let dockerCompose = await CoreService.readFile(this.dir + `/templates/dkr-cmps.yml.txt`);
+        dockerCompose = dockerCompose.replace(/{APP-NAME}/g, this.appName);
+
+        files.push({ path: `docker-compose.yml`, content: dockerCompose });
+
+        files = this.updateFileHeaders(files);
+
+        return files;
     }
 
     private setFileHeaderValues(content: string, now?: string) {
