@@ -32,6 +32,7 @@ export class OvenComponent implements OnInit {
   showReset: boolean = false;
   projectReady: boolean = false;
   validName: boolean = true;
+  DOCKER: boolean = false;
 
   constructor(private restSvc: RestService, private msgSvc: MessageService) { }
 
@@ -73,7 +74,7 @@ export class OvenComponent implements OnInit {
     this.showReset = false;
     this.projectReady = false;
     this.appName = "";
-    this.AMQ = this.BTC = this.ETH = this.GRAPHQL = this.KAFKA = this.LOGGING = this.MONGO = this.MYSQL = this.NEO4J = this.OAUTH = this.PG = this.REDIS = this.S3 = this.SQLSERVER = this.WEBAUTH = false;
+    this.AMQ = this.BTC = this.ETH = this.GRAPHQL = this.KAFKA = this.LOGGING = this.MONGO = this.MYSQL = this.NEO4J = this.OAUTH = this.PG = this.REDIS = this.S3 = this.SQLSERVER = this.WEBAUTH = this.DOCKER = false;
     this.showBake = true;
   }
   // downloadFile(data: Response) {
@@ -129,6 +130,9 @@ export class OvenComponent implements OnInit {
     }
     if(this.WEBAUTH) {
       dough.options = dough.options | Datastore.WEBAUTH;
+    }
+    if(this.DOCKER) {
+      dough.options = dough.options | Datastore.DOCKER;
     }
 
     return dough;

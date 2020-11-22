@@ -75,11 +75,15 @@
     <div class="h4-like">Other</div>
     <div class="optionGroup">
         <div class="optionClass">
+            <label>Docker <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="DOCKER"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
             <label><i>GraphQL </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
             <p-inputSwitch [disabled]=true [(ngModel)]="GRAPHQL"></p-inputSwitch> 
         </div>
         <div class="optionClass">
-            <label>Logging <i class="pi pi-info-circle" pTooltip="Include logging with logging levels"></i>: </label>
+            <label>Logging <i class="pi pi-info-circle" pTooltip="Detailed application logging. Using 'winston'"></i>: </label>
             <p-inputSwitch [(ngModel)]="LOGGING"></p-inputSwitch>
         </div>
     </div>

@@ -14,5 +14,6 @@ export enum Datastore {
     WEBAUTH = 2048,
     LOGGING = 4096,
     OAUTH = 8192,
-    BTC = 16384
+    BTC = 16384,
+    DOCKER = 32768
 }
