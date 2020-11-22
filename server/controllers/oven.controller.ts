@@ -38,6 +38,7 @@ class OvenController {
     private s3: boolean;
     private sqlServer: boolean;
     private webAuth: boolean;
+    private docker: boolean;
 
     constructor() {
         this.dir = path.join(__dirname, '../');
@@ -163,6 +164,7 @@ class OvenController {
         this.s3 = ((body.options & Datastore.S3) === Datastore.S3) ? true : false;
         this.sqlServer = ((body.options & Datastore.SQLSERVER) === Datastore.SQLSERVER) ? true : false;
         this.webAuth = ((body.options & Datastore.WEBAUTH) === Datastore.WEBAUTH) ? true : false;
+        this.docker = ((body.options & Datastore.DOCKER) === Datastore.DOCKER) ? true : false;
     }
 
     private createAuth = async(): Promise<IFileContent[]> => { 
@@ -184,6 +186,11 @@ class OvenController {
     private createEnv = async(): Promise<string> => {
         logger.info(`Creating .ENV file`);
         let env = await CoreService.readFile(this.dir + `/templates/.env.txt`);
+        const tokenConfig = !this.webAuth && !this.oauth ? '' : `
+TOKEN_SECRET=`;
+        let loggingConfigs = !this.logging ? '' : `
+LOGLEVEL=silly
+        `;
         let mongoConfigs = !this.mongo ? '' : `
 MONGOUSER=
 MONGOHOST=
@@ -215,6 +222,8 @@ SQLSVRDATABASE=
 SQLSVRPASS=
 SQLSVRPORT=`;
         env = env
+                .replace(/TOKEN-OPTIONS/g, tokenConfig)
+                .replace(/LOGGING-OPTIONS/g, loggingConfigs)
                 .replace(/MONGO-OPTIONS/g, mongoConfigs)
                 .replace(/MYSQL-OPTIONS/g, mysqlConfigs)
                 .replace(/PG-OPTIONS/g, pgConfigs)
@@ -228,10 +237,12 @@ SQLSVRPORT=`;
         const files: IFileContent[] = [];
         
         if(this.logging) {
-            let loggingMdl = await CoreService.readFile(this.dir + `/templates/src-middlewares-logging.middleware.ts.txt`);
-            
-            loggingMdl = this.setFileHeaderValues(loggingMdl);
+            let loggingSvc = await CoreService.readFile(this.dir + `/templates/src-services-logger.service.ts.txt`);
+            loggingSvc = this.setFileHeaderValues(loggingSvc);
+            files.push({ path: `src/services/logging.service.ts`, content: loggingSvc });
 
+            let loggingMdl = await CoreService.readFile(this.dir + `/templates/src-middlewares-logging.middleware.ts.txt`);            
+            loggingMdl = this.setFileHeaderValues(loggingMdl);
             files.push({ path: `src/middlewares/logging.middleware.ts`, content: loggingMdl });
         }
 
@@ -319,6 +330,10 @@ SQLSVRPORT=`;
         logger.info(`Creating package.json`);       
         let packageJson = await CoreService.readFile(this.dir + `/templates/package.json.txt`);
 
+        let loggingType = !this.logging ? '' : `
+    "@types/winston": "^2.4.4",`;
+        let loggingDep = !this.logging ? '' : `
+    "winston": "^3.3.3",`;
         let mongoType = !this.mongo ? '' : `
     "@types/mongodb": "^3.5.27",`;
         let mongoDep = !this.mongo ? '' : `
@@ -343,6 +358,8 @@ SQLSVRPORT=`;
         packageJson = packageJson
                         .replace(/Project-Name/g, projectName)
                         .replace(/Project-Description/g, 'Description goes here')
+                        .replace(/LOGGING-TYPE/g, loggingType)
+                        .replace(/LOGGING-DEP/g, loggingDep)
                         .replace(/MONGO-TYPE/g, mongoType)
                         .replace(/MONGO-DEP/g, mongoDep)
                         .replace(/MSSQL-TYPE/g, sqlServerType)
@@ -368,6 +385,10 @@ SQLSVRPORT=`;
         logger.info(`creating environment files`);      
         let environment = await CoreService.readFile(this.dir + `/templates/src-environments-environment.ts.txt`);
 
+        const loggingConfig = !this.logging ? '' : `
+            LOGLEVEL: string;`;
+        const tokenConfig = !this.webAuth && !this.oauth ? '' : `
+            TOKEN_SECRET: string;`
         const mongoConfigs = !this.mongo ? '' : `
             MONGODB: string;
             MONGOUSER: string;
@@ -402,6 +423,8 @@ SQLSVRPORT=`;
             SQLSVRPORT: number;`;
 
         environment = environment
+                    .replace(/TOKEN-CONFIG/g, tokenConfig)
+                    .replace(/LOGGING-CONFIG/g, loggingConfig)
                     .replace(/MONGO-CONFIG/g, mongoConfigs)
                     .replace(/MYSQL-CONFIG/g, mysqlConfigs)
                     .replace(/PG-CONFIG/g, pgConfigs)
@@ -454,6 +477,9 @@ routes.use('/redis', redis);`
                     .replace(/ROUTE-USES/g, routeUses);
 
         routes.push({ path: `src/routes/index.ts`, content: indexRte});
+        let helloWorldRoute = await CoreService.readFile(this.dir + `/templates/src-routes-hello-world.route.ts.txt`);
+        routes.push({ path: `src/routes/hello-world.route.ts`, content: helloWorldRoute });
+
         let loginRte = this.webAuth ? await CoreService.readFile(this.dir + `/templates/src-routes-login.route.ts.txt`) : null;
         if(loginRte !== null) {
             routes.push({ path: `src/routes/login.route.ts`, content: loginRte });
@@ -487,6 +513,9 @@ routes.use('/redis', redis);`
     private createControllers = async(): Promise<IFileContent[]> => {
         logger.info(`Creating controllers`);
         let controllers: IFileContent[] = [];
+
+        let helloWorldCtrl = await CoreService.readFile(this.dir + `/templates/src-controllers-hello-world.controller.ts.txt`);
+        controllers.push({ path: `src/controllers/hello-world.controller.ts`, content: helloWorldCtrl });
 
         let loginCtrl = this.webAuth ? await CoreService.readFile(this.dir + `/templates/src-controllers-login.controller.ts.txt`) : null;
         if(loginCtrl !== null) {
@@ -553,11 +582,19 @@ routes.use('/redis', redis);`
         if(typeof(now) === 'undefined') {
             now = this.getFormattedDateTime();
         }
+        const loggerImpl = !this.logging ? '' : `
+        import { logger } from '../services/logger.service';`
+        const logger = !this.logging ? 'console.log' : 'logger.info';
+        const loggerError = ~this.logging ? 'console.error' : 'logger.error';
+
         content = content
                     .replace(/{YEAR}/g, new Date().getFullYear().toString())
                     .replace(/{AUTHOR}/g, "TS-Oven: https://ts-oven.com")
                     .replace(/{CREATED}/g, now)
-                    .replace(/{MODIFIED}/g, now);
+                    .replace(/{MODIFIED}/g, now)
+                    .replace(/{logger-impl}/g, loggerImpl)
+                    .replace(/{logger}/g, logger)
+                    .replace(/{logger-error}/g, loggerError);
 
         return content;
     }

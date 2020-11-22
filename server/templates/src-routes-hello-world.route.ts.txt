@@ -1,0 +1,23 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Declare Routes for Hello World Endpoints
+ * 
+ * @summary HelloWorldRouter
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+import { Router } from 'express';
+import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.middleware';
+import HelloWorldController from '../controllers/hello-world.controller';
+
+const router = Router();
+
+router.delete('/', [ logUrl, logType, logHeaders, logBody ], HelloWorldController.delete);
+router.get('/', [ logUrl, logType, logHeaders, logBody ], HelloWorldController.get);
+router.post('/', [ logUrl, logType, logHeaders, logBody ], HelloWorldController.post);
+router.put('/', [ logUrl, logType, logHeaders, logBody ], HelloWorldController.put);
+
+export default router;

@@ -9,7 +9,7 @@
  * Created at       : {CREATED}
  * Last modified    : {MODIFIED}
  */
-import { Pool } from 'pg';
+import { Pool } from 'pg';{logger-impl}
 
 class PGRepo {
     private pool: Pool;
@@ -35,7 +35,7 @@ class PGRepo {
 
             return res.rows;
         } catch(err) {
-            console.log(err);
+            {logger-error}(err);
 
             return null;
         }
@@ -50,7 +50,7 @@ class PGRepo {
 
             return res.rows;
         } catch(err) {
-            console.log(err);
+            {logger-error}(err);
             
             return null;
         }
@@ -70,7 +70,7 @@ class PGRepo {
 
             return res.rowCount;
         } catch(err) {
-            console.log(err);
+            {logger-error}(err);
             
             return null;
         }
@@ -90,7 +90,7 @@ class PGRepo {
 
             return res.rowCount;
         } catch(err) {
-            console.log(err);
+            {logger-error}(err);
             
             return null;
         }
@@ -105,7 +105,7 @@ class PGRepo {
 
             return res.rowCount;
         } catch(err) {
-            console.log(err);
+            {logger-error}(err);
             
             return null;
         }

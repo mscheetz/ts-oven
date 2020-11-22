@@ -9,28 +9,28 @@
  * Created at       : {CREATED}
  * Last modified    : {MODIFIED}
  */
-import { Request, Response } from 'express';
+import { Request, Response } from 'express';{logger-impl}
 
 export const logUrl = async(req: Request, _res: Response, next: Function) => {
-    console.log(`New request to: '${req.url}'`);
+    {logger}(`New request to: '${req.url}'`);
     
     next();
 }
 
 export const logType = async(req: Request, _res: Response, next: Function) => {    
-    console.log(`Request type:`, req.method);
+    {logger}(`Request type:`, req.method);
     
     next();
 }
 
 export const logHeaders = async(req: Request, _res: Response, next: Function) => {    
-    console.log(`Request headers:`, req.headers);
+    {logger}(`Request headers:`, req.headers);
     
     next();
 }
 
 export const logBody = async(req: Request, _res: Response, next: Function) => {    
-    console.log(`Request body:`, req.body);
+    {logger}(`Request body:`, req.body);
     
     next();
 }

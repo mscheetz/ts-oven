@@ -12,8 +12,7 @@
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            PORT: number;
-            TOKEN_SECRET: string;MONGO-CONFIGMYSQL-CONFIGPG-CONFIGREDIS-CONFIGSQLSVR-CONFIG
+            PORT: number;LOGGING-CONFIGTOKEN-CONFIGMONGO-CONFIGMYSQL-CONFIGPG-CONFIGREDIS-CONFIGSQLSVR-CONFIG
         }
     }
 }

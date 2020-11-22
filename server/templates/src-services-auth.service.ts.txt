@@ -9,7 +9,7 @@
  * Created at       : {CREATED}
  * Last modified    : {MODIFIED}
  */
-import * as jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';{logger-impl}
 
 class AuthService {
     private tokenSecret: string;
@@ -25,7 +25,7 @@ class AuthService {
 
             return token;
         } catch(err) {
-            console.error(err);
+            {logger-error}(err);
             return 'error';
         }
     }
