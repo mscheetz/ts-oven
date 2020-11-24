@@ -1,16 +1,11 @@
 version: "3"
-networks:
-    api_server_default:
-        external: true
 
 services:
-    {APP-NAME}:
-        networks:
-            - api_server_default
-        build:
-            context: .
-            dockerfile: dockerfile
-        environment:
-            ENV_NAME: dev
+    app:
+        build: .
+        volumes: 
+            - '.:/app'
         ports:
-            - 3000:3000
+            - '3000:3000'
+        environment:
+            - NODE_ENV=development

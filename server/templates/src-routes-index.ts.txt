@@ -10,12 +10,10 @@
  * Last modified    : {MODIFIED}
  */
 import { Router, Request, Response } from 'express';
-import hello from './hello-world.route';
-import login from './login.route';ROUTE-DECLARATIONS
+import hello from './hello-world.route';ROUTE-DECLARATIONS
 
 const routes = Router();
 
-routes.use('/hello', hello);
-routes.use('/login', login);ROUTE-USES
+routes.use('/hello', hello);ROUTE-USES
 
 export default routes;
