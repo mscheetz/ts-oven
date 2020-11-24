@@ -142,6 +142,8 @@ class OvenController {
 
         let readme = await this.createReadme();
 
+        let tsconfig = await this.createTsConfig();
+
         let indexTS = await CoreService.readFile(this.dir + `/templates/src-index.ts.txt`);
         indexTS = this.setFileHeaderValues(indexTS);
         
@@ -150,8 +152,9 @@ class OvenController {
            .append(gitignore, { name: `.gitignore` })
            .append(packageJson, { name: `package.json`})
            .append(readme, { name: `readme.md` })
-           .append(indexTS, { name: `src/index.ts`})
-           .append(environment, { name: `src/environments/environment.ts`})
+           .append(tsconfig, { name: `tsconfig.json` })
+           .append(indexTS, { name: `src/index.ts` })
+           .append(environment, { name: `src/environments/environment.ts` })
            .finalize();
     }
 
@@ -248,11 +251,11 @@ SQLSVRPORT=`;
             let loggingSvc = await CoreService.readFile(this.dir + `/templates/src-services-logger.service.ts.txt`);
             loggingSvc = this.setFileHeaderValues(loggingSvc);
             files.push({ path: `src/services/logging.service.ts`, content: loggingSvc });
-
-            let loggingMdl = await CoreService.readFile(this.dir + `/templates/src-middlewares-logging.middleware.ts.txt`);            
-            loggingMdl = this.setFileHeaderValues(loggingMdl);
-            files.push({ path: `src/middlewares/logging.middleware.ts`, content: loggingMdl });
         }
+
+        let loggingMdl = await CoreService.readFile(this.dir + `/templates/src-middlewares-logging.middleware.ts.txt`);            
+        loggingMdl = this.setFileHeaderValues(loggingMdl);        
+        files.push({ path: `src/middlewares/logging.middleware.ts`, content: loggingMdl });
 
         return files;
     }
@@ -389,6 +392,13 @@ SQLSVRPORT=`;
         return gitignore;
     }
 
+    private createTsConfig = async(): Promise<string> => {     
+        logger.info(`Creating tsconfig.json`);   
+        let gitignore = await CoreService.readFile(this.dir + `/templates/tsconfig.json.txt`);
+
+        return gitignore;
+    }
+
     private createEnvironments = async(): Promise<string> => {  
         logger.info(`creating environment files`);      
         let environment = await CoreService.readFile(this.dir + `/templates/src-environments-environment.ts.txt`);
@@ -450,6 +460,12 @@ SQLSVRPORT=`;
         let indexRte = await CoreService.readFile(this.dir + `/templates/src-routes-index.ts.txt`);
         let routeDeclarations: string = '';
         let routeUses: string = '';
+        if(this.oauth || this.webAuth) {
+            routeDeclarations += `
+import login from './login.route.ts';`
+            routeUses += `
+routes.use('/login', login);`
+        }
         if(this.mongo) {
             routeDeclarations += `
 import mongo from './mongo.route.ts';`

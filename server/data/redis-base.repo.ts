@@ -17,10 +17,14 @@ class RedisBaseRepo {
     private client: redis.RedisClient;
 
     constructor() {
-        dotenv.config();
-        const port: number = +process.env.REDISPORT!;
-        this.client = redis.createClient(port, process.env.REDISHOST);
-        this.client.auth(process.env.REDISSECRET+"");
+        try{
+            dotenv.config();
+            const port: number = +process.env.REDISPORT!;
+            this.client = redis.createClient(port, process.env.REDISHOST);
+            this.client.auth(process.env.REDISSECRET+"");
+        } catch(err) {
+            logger.error(err);
+        }
     }
     
     public getMany = async(keys: string[]): Promise<any> => {       

@@ -16,6 +16,9 @@ declare global {
             LOGLEVEL: string;
             ENVIRONMENT: string;
             TOKEN_SECRET: string;
+            BTC_XPUB: string;
+            ETH: string;
+            XMR: string;
             MONGOHOST: string;
             MONGODB: string;
             MONGOUSER: string;

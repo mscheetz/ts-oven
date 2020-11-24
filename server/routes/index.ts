@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import address from './address.route';
 import base from './base.route';
 import login from './login.route';
 import mongo from './mongo.route';
@@ -10,11 +11,12 @@ import redis from './redis.route';
 const routes = Router();
 
 routes.use('/', base);
+routes.use('/v0/address', address);
 routes.use('/v0/login', login);
 routes.use('/v0/mongo', mongo);
-// routes.use('/mysql', mysql);
+// routes.use('/v0/mysql', mysql);
 routes.use('/v0/oven', oven);
-// routes.use('/pg', pg);
+// routes.use('/v0/pg', pg);
 routes.use('/v0/redis', redis);
 
 export default routes;
