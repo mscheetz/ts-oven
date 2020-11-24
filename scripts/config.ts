@@ -14,9 +14,10 @@ const environmentFileContent = `
 export const environment = {
    production: ${isProduction},
    APIHOST: "${process.env.APIHOST}",
+   ADDRESS: "${process.env.ADDRESS}",
    LOGIN: "${process.env.LOGIN}",
    BAKE: "${process.env.BAKE}",
-   COOKIE: "${process.env.COOKIE}"
+   COOKIE: "${process.env.COOKIE}",
 };
 `;
 

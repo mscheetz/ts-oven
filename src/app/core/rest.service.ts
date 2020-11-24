@@ -9,16 +9,23 @@ export class RestService {
     constructor(private http: HttpClient) {}
     
     getToken(): Observable<string> {
-        var endpoint = environment.LOGIN;
-        var url = `${environment.APIHOST}${endpoint}`;
+        const endpoint = environment.LOGIN;
+        const url = `${environment.APIHOST}${endpoint}`;
 
         return this.http.get<string>(url);
     }
 
     bake(dough: IDough): Observable<Blob> {
-        var endpoint = environment.BAKE;
-        var url = `${environment.APIHOST}${endpoint}`;
+        const endpoint = environment.BAKE;
+        const url = `${environment.APIHOST}${endpoint}`;
 
         return this.http.post(url, dough, { responseType: 'blob' });
+    }
+
+    address(symbol: string): Observable<string> {
+        const endpoint = `${environment.ADDRESS}/${symbol}`;
+        const url = `${environment.APIHOST}${endpoint}`;
+
+        return this.http.get(url, {responseType: 'text'});
     }
 }

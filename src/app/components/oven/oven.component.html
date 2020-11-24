@@ -95,9 +95,15 @@
 <div>
     <p>Your Typescript project will be zipped and ready to go.</p>
     <p>Simply download, unzip, then run:</p>
-    <div class="terminal-box">
+    <div class="terminal-box" *ngIf="!DOCKER">
+        $ npm i -g typescript<br>
         $ npm i<br>
-        $ npm start
+        $ npm run start:dev
+    </div>
+    <div class="terminal-box" *ngIf="DOCKER">
+        $ npm i -g typescript<br>
+        $ npm i<br>
+        $ docker-compose up --build
     </div>
 </div>
 <p-toast></p-toast>
