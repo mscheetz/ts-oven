@@ -19,12 +19,24 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { FooterComponent } from './components/footer/footer.component';
 import { MessageService } from 'primeng/api';
+import { NameComponent } from './components/name/name.component';
+import { IngredientsComponent } from './components/ingredients/ingredients.component';
+import { BakeComponent } from './components/bake/bake.component';
+import { RunComponent } from './components/run/run.component';
+import { OldOvenComponent } from './components/old-oven/old-oven.component';
+import { StartComponent } from './components/start/start.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OvenComponent,
-    FooterComponent
+    FooterComponent,
+    NameComponent,
+    IngredientsComponent,
+    BakeComponent,
+    RunComponent,
+    OldOvenComponent,
+    StartComponent
   ],
   imports: [
     BrowserAnimationsModule,

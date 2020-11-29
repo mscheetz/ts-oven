@@ -1,0 +1,95 @@
+<div class="h3-like">Step 2 - Select Your Ingredients</div>
+<p-card styleClass="card">
+    <div class="h4-like">Authentication</div>
+    <div class="optionGroup">
+        <div class="optionClass">
+            <label>JWT Authentication <i class="pi pi-info-circle" pTooltip="Includes user login endpoint(s) with JWT response"></i>: </label>
+            <p-inputSwitch [(ngModel)]="WEBAUTH"></p-inputSwitch> 
+        </div>
+        <div class="optionClass">
+            <label><i>OAUTH </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="OAUTH"></p-inputSwitch> 
+        </div>
+    </div>
+    <div class="h4-like">Data Sources</div>
+    <div class="optionGroup">
+        <div class="optionClass">
+            <label>MongoDB <i class="pi pi-info-circle" pTooltip="MongoDB is a No-SQL database solution. Using 'mongodb'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="MONGO"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label>MySQL <i class="pi pi-info-circle" pTooltip="MySQL is a relational database solution. Using 'mysql'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="MYSQL"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label><i>Neo4j </i> <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="NEO4J"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label>PostgreSQL <i class="pi pi-info-circle" pTooltip="PostgreSQL is a relational database solution. Using 'pg'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="PG"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label>Redis <i class="pi pi-info-circle" pTooltip="Redis is a key/value pair data storage solution. Using 'redis'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="REDIS"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label>SQL Server <i class="pi pi-info-circle" pTooltip="Sql Server is a relational database storage solution. Using 'mssql'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="SQLSERVER"></p-inputSwitch>
+        </div>
+    </div>
+    <div class="h4-like">Messaging</div>
+    <div class="optionGroup">
+        <div class="optionClass">
+            <label><i>ActiveMQ </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="AMQ"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label><i>Kafka </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="KAFKA"></p-inputSwitch>
+        </div>
+    </div>
+    <div class="h4-like">Storage</div>
+    <div class="optionGroup">
+        <div class="optionClass">
+            <label><i>S3 </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="S3"></p-inputSwitch>
+        </div>
+    </div>
+    <div class="h4-like">Blockchain</div>
+    <div class="optionGroup">
+        <div class="optionClass">
+            <label><i>Bitcoin </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="BTC"></p-inputSwitch> 
+        </div>
+        <div class="optionClass">
+            <label><i>Ethereum </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="ETH"></p-inputSwitch> 
+        </div>
+    </div>
+    <div class="h4-like">Other</div>
+    <div class="optionGroup">
+        <div class="optionClass">
+            <label>Docker <i class="pi pi-info-circle" pTooltip="Dockerize this application"></i>: </label>
+            <p-inputSwitch [(ngModel)]="DOCKER"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label><i>GraphQL </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="GRAPHQL"></p-inputSwitch> 
+        </div>
+        <div class="optionClass">
+            <label>Logging <i class="pi pi-info-circle" pTooltip="Detailed application logging. Using 'winston'"></i>: </label>
+            <p-inputSwitch [(ngModel)]="LOGGING"></p-inputSwitch>
+        </div>
+    </div>
+</p-card>
+<div class="p-grid button-pad">
+    <div class="p-col-2">
+        <button pButton type="button" label="Previous" class="p-button-bake" icon="pi pi-angle-left" (click)="previousStep()"></button>
+    </div>
+    <div class="p-col-1"></div>
+    <div class="p-col-2">
+        <button pButton type="button" label="Next" class="p-button-bake" iconPos="right" icon="pi pi-angle-right" (click)="nextStep()"></button>
+    </div>
+    <div class="p-col-7"></div>
+</div>

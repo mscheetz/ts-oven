@@ -1,0 +1,30 @@
+
+<div class="h3-like">Step 3 Bake Your Project</div>
+<div>
+    <p>Your Typescript project will be zipped and ready to go.</p>
+    <button pButton type="button" label="Bake!" class="p-button-bake p-button-lg" (click)="onBake()"></button>
+    <button *ngIf="showReset" pButton type="button" label="Reset Form" class="p-button-bake margin-left-20" icon="pi pi-refresh" (click)="onReset()"></button>
+</div>
+<p *ngIf="baked">Your project is ready.</p>
+<div *ngIf="baked">
+    <div class="h3-like" >Step 4 Download, Unzip, & Run</div>
+    <div>
+        <p>Simply download, unzip, then run:</p>
+        <p *ngIf="credsRequired">Set appropriate credentials in `.env` file.</p>
+        <div class="terminal-box">
+            $ npm i -g typescript<br>
+            $ npm i<br>
+            <span *ngIf="!DOCKER">$ npm run start:dev</span>
+            <span *ngIf="DOCKER">$ docker-compose up --build</span>
+        </div>
+        <p>Make sure you have NodeJS or download the latest LTS version <a href="https://nodejs.org/en/" target="_blank">here</a>.</p>
+    </div>
+</div>
+ <div class="p-grid button-pad">
+     <div class="p-col-2">
+        <button pButton type="button" label="Previous" class="p-button-bake" icon="pi pi-angle-left" (click)="previousStep()"></button>
+    </div>
+     <div class="p-col-1"></div>
+     <div class="p-col-2"></div>
+     <div class="p-col-7"></div>
+ </div>

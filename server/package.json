@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Typescript Oven",
   "scripts": {
+    "build": "tsc",
+    "run:prod": "node /dist/index.js",
     "dev": "ts-node ./index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -28,7 +28,8 @@ export class FooterComponent implements OnInit {
     this.restSvc.address(symbol)
       .subscribe(res => {
         this.symbol = symbol.toLocaleUpperCase();
-        this.donateType = `Donate with ${this.symbol}!`;
+        const name = this.symbol === 'BTC' ? 'Bitcoin' : this.symbol === 'XMR' ? 'Monero' : 'Ethereum';
+        this.donateType = `Donate with ${name}!`;
         this.showQRCode = true;
         this.address = res;
       });
