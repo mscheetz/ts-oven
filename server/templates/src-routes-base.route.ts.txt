@@ -9,15 +9,14 @@
  * Created at       : {CREATED}
  * Last modified    : {MODIFIED}
  */
-import { Router } from 'express';
-import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.middleware';
+import { Router } from 'express';{logger-mddlwr-impl}
 import {BASE}Controller from '../controllers/{BASE}.controller';
 
 const router = Router();
 
-router.delete('/', [ logUrl, logType, logHeaders, logBody ], {BASE}Controller.response);
-router.get('/', [ logUrl, logType, logHeaders, logBody ], {BASE}Controller.response);
-router.post('/', [ logUrl, logType, logHeaders, logBody ], {BASE}Controller.response);
-router.put('/', [ logUrl, logType, logHeaders, logBody ], {BASE}Controller.response);
+router.delete('/', {route-logging}{BASE}Controller.response);
+router.get('/', {route-logging}{BASE}Controller.response);
+router.post('/', {route-logging}{BASE}Controller.response);
+router.put('/', {route-logging}{BASE}Controller.response);
 
 export default router;

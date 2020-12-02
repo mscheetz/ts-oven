@@ -251,11 +251,11 @@ SQLSVRPORT=`;
             let loggingSvc = await CoreService.readFile(this.dir + `/templates/src-services-logger.service.ts.txt`);
             loggingSvc = this.setFileHeaderValues(loggingSvc);
             files.push({ path: `src/services/logging.service.ts`, content: loggingSvc });
-        }
 
-        let loggingMdl = await CoreService.readFile(this.dir + `/templates/src-middlewares-logging.middleware.ts.txt`);            
-        loggingMdl = this.setFileHeaderValues(loggingMdl);        
-        files.push({ path: `src/middlewares/logging.middleware.ts`, content: loggingMdl });
+            let loggingMdl = await CoreService.readFile(this.dir + `/templates/src-middlewares-logging.middleware.ts.txt`);            
+            loggingMdl = this.setFileHeaderValues(loggingMdl);        
+            files.push({ path: `src/middlewares/logging.middleware.ts`, content: loggingMdl });
+        }
 
         return files;
     }
@@ -627,9 +627,12 @@ routes.use('/redis', redis);`
             now = this.getFormattedDateTime();
         }
         const loggerImpl = !this.logging ? '' : `
-        import { logger } from '../services/logger.service';`
+import { logger } from '../services/logger.service';`;
         const logger = !this.logging ? 'console.log' : 'logger.info';
         const loggerError = ~this.logging ? 'console.error' : 'logger.error';
+        const loggerMdlwrImpl = !this.logging ? '' : `
+import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.middleware';`;
+        const routeLogging = !this.logging ? '' : '[ logUrl, logType, logHeaders, logBody ], ';
 
         content = content
                     .replace(/{YEAR}/g, new Date().getFullYear().toString())
@@ -638,7 +641,9 @@ routes.use('/redis', redis);`
                     .replace(/{MODIFIED}/g, now)
                     .replace(/{logger-impl}/g, loggerImpl)
                     .replace(/{logger}/g, logger)
-                    .replace(/{logger-error}/g, loggerError);
+                    .replace(/{logger-error}/g, loggerError)
+                    .replace(/{logger-mddlwr-impl}/g, loggerMdlwrImpl)
+                    .replace(/{route-logging}/g, routeLogging);
 
         return content;
     }

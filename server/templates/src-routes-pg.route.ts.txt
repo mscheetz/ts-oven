@@ -9,17 +9,16 @@
  * Created at       : {CREATED}
  * Last modified    : {MODIFIED}
  */
-import { Router } from 'express';
-import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.middleware';
+import { Router } from 'express';{logger-mddlwr-impl}
 import PGController from '../controllers/pg.controller';
 
 const router = Router();
 const controller: PGController = new PGController();
 
-router.get('/', [ logUrl, logType, logHeaders, logBody ], controller.get);
-router.get('/:id', [ logUrl, logType, logHeaders, logBody ], controller.getAll);
-router.post('/', [ logUrl, logType, logHeaders, logBody ], controller.add);
-router.put('/', [ logUrl, logType, logHeaders, logBody ], controller.update);
-router.delete('/', [ logUrl, logType, logHeaders, logBody ], controller.delete);
+router.get('/', {route-logging}controller.get);
+router.get('/:id', {route-logging}controller.getAll);
+router.post('/', {route-logging}controller.add);
+router.put('/', {route-logging}controller.update);
+router.delete('/', {route-logging}controller.delete);
 
 export default router;

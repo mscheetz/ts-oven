@@ -9,15 +9,14 @@
  * Created at       : {CREATED}
  * Last modified    : {MODIFIED}
  */
-import { Router } from 'express';
-import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.middleware';
+import { Router } from 'express';{logger-mddlwr-impl}
 import HelloWorldController from '../controllers/hello-world.controller';
 
 const router = Router();
 
-router.delete('/', [ logUrl, logType, logHeaders, logBody ], HelloWorldController.delete);
-router.get('/', [ logUrl, logType, logHeaders, logBody ], HelloWorldController.get);
-router.post('/', [ logUrl, logType, logHeaders, logBody ], HelloWorldController.post);
-router.put('/', [ logUrl, logType, logHeaders, logBody ], HelloWorldController.put);
+router.delete('/', {route-logging}HelloWorldController.delete);
+router.get('/', {route-logging}HelloWorldController.get);
+router.post('/', {route-logging}HelloWorldController.post);
+router.put('/', {route-logging}HelloWorldController.put);
 
 export default router;
