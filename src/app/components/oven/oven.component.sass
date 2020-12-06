@@ -1,3 +1,11 @@
+$primary-background-color: #E6F4F1
+$primary-foreground-color: #2F58C1
+$secondary-foreground-color: #609A97
+
+// $primary-background-color: #DCB799;
+// $primary-foreground-color: ##4D0A01;
+// $secondary-foreground-color: #330601;
+
 .h3-like
     display: block
     font-size: 1.17em
@@ -22,21 +30,21 @@
     margin-bottom: 10px
 
 :host ::ng-deep .p-card
-    background-color: #DCB799
-    color: #4D0A01
-    border: 1px solid #4D0A01
+    background-color: $primary-background-color
+    color: $primary-foreground-color
+    border: 1px solid $primary-foreground-color
 
 .p-button-bake
-    background-color: #4D0A01
-    border: 1px solid #4D0A01
+    background-color: $primary-foreground-color
+    border: 1px solid $primary-foreground-color
 
 .p-button-bake:hover
-    background-color: #330601
-    border: 1px solid #330601
+    background-color: $secondary-foreground-color
+    border: 1px solid $secondary-foreground-color
 
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider
-    background-color: #4D0A01
-    border: 1px solid #4D0A01
+    background-color: $primary-foreground-color
+    border: 1px solid $primary-foreground-color
 
 .terminal-box
     font-family: "Lucida Console", Monaco, monospace
