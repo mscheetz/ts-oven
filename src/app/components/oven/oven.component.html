@@ -1,11 +1,6 @@
-<div class="p-grid">
-    <div class="p-col-1"></div>
-    <div class="p-col-10">
-        <app-start *ngIf="step === 0" (startEvent)="nextStep()"></app-start>
-        <app-name *ngIf="step === 1" [name]="dough.name" (nameEvent)="setName($event)"></app-name>
-        <app-ingredients *ngIf="step === 2" [options]="dough.options" (ingredientsEvent)="addIngredients($event)" (previousStepEvent)="prevStep()"></app-ingredients>
-        <app-bake *ngIf="step === 3" [dough]="dough" (previousStepEvent)="prevStep()" (resetEvent)="resetProject()"></app-bake>
-    </div>
-    <div class="p-col-1"></div>
-</div>
+
+<app-start *ngIf="step === 0" (startEvent)="nextStep()"></app-start>
+<app-name *ngIf="step === 1" [name]="dough.name" (nameEvent)="setName($event)"></app-name>
+<app-ingredients *ngIf="step === 2" [options]="dough.options" (ingredientsEvent)="addIngredients($event)" (previousStepEvent)="prevStep()"></app-ingredients>
+<app-bake *ngIf="step === 3" [dough]="dough" (previousStepEvent)="prevStep()" (resetEvent)="resetProject()"></app-bake>
 <p-toast></p-toast>

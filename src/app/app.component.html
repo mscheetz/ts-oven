@@ -1,4 +1,12 @@
-<h1><a (click)="onGoHome()" routerLink="/" routerLinkActive="active">TS Oven</a></h1>
-<p class="margin-top-up-20">Baking TypeScript web api since 2020!</p>
-<app-oven></app-oven>
+<div class="p-grid">
+    <div class="p-col-1"></div>
+    <div class="p-col-10">
+        <a (click)="onGoHome()" routerLink="/" routerLinkActive="active">
+            <img src="../assets/tsovenlogo_web.png" style="max-width: 300px;" />
+        </a>
+        <p class="margin-top-up-20">Baking TypeScript web api since 2020!</p>
+        <app-oven></app-oven>
+    </div>
+    <div class="p-col-1"></div>
+</div>
 <app-footer class="footer"></app-footer>
