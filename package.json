@@ -4,11 +4,11 @@
   "scripts": {
     "gogo": "concurrently \"npm run start\" \"npm run server:start\"",
     "build": "npm run config -- --environment=prod && ng build --aot --prod --output-hashing=all --build-optimizer=false",
-    "devbuild": "npm run config -- --environment=dev && ng build --output-hashing=all && npm run dev",
+    "devbuild": "npm run config -- --environment=dev && ng build --output-hashing=all",
     "server:start": "cd ./server && ts-node index.ts",
     "config": "ts-node ./scripts/config.ts",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run devbuild && ng serve",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -27,6 +27,7 @@
     "@types/winston": "^2.4.4",
     "@types/yargs": "^15.0.7",
     "angular2-qrcode": "^2.0.3",
+    "axios": "^0.21.0",
     "btc-xpub-address": "^0.1.5",
     "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",

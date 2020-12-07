@@ -16,9 +16,10 @@ import express from 'express';
 import Archiver from 'archiver';
 import path from 'path';
 import CoreService from '../services/core.service';
-import { logger} from '../services/logger.service';
-import { Datastore } from '../interfaces/enums';
+import { logger } from '../services/logger.service';
+import { Ingredient } from '../interfaces/enums';
 import { IDough } from '../interfaces/dough.interface';
+import NPMRepo from '../data/npm.repo';
 
 class OvenController {
     private dir: string;
@@ -39,9 +40,11 @@ class OvenController {
     private sqlServer: boolean;
     private webAuth: boolean;
     private docker: boolean;
+    private npmRepo: NPMRepo;
 
     constructor() {
         this.dir = path.join(__dirname, '../');
+        this.npmRepo = new NPMRepo();
     }
 
     public get = async(res: express.Response) => {
@@ -160,22 +163,22 @@ class OvenController {
 
     private setOptions(body: IDough) {
         logger.info(`Setting options`);
-        this.amq = ((body.options & Datastore.AMQ) === Datastore.AMQ) ? true : false;
-        this.eth = ((body.options & Datastore.ETH) === Datastore.ETH) ? true : false;
-        this.btc = ((body.options & Datastore.BTC) === Datastore.BTC) ? true : false;
-        this.graphql = ((body.options & Datastore.GRAPHQL) === Datastore.GRAPHQL) ? true : false;
-        this.kafka = ((body.options & Datastore.KAFKA) === Datastore.KAFKA) ? true : false;
-        this.logging = ((body.options & Datastore.LOGGING) === Datastore.LOGGING) ? true : false;
-        this.mongo = ((body.options & Datastore.MONGO) === Datastore.MONGO) ? true : false;
-        this.mysql = ((body.options & Datastore.MYSQL) === Datastore.MYSQL) ? true : false;
-        this.neo4j = ((body.options & Datastore.NEO4J) === Datastore.NEO4J) ? true : false;
-        this.oauth = ((body.options & Datastore.OAUTH) === Datastore.OAUTH) ? true : false;
-        this.postGres = ((body.options & Datastore.PG) === Datastore.PG) ? true : false;
-        this.redis = ((body.options & Datastore.REDIS) === Datastore.REDIS) ? true : false;
-        this.s3 = ((body.options & Datastore.S3) === Datastore.S3) ? true : false;
-        this.sqlServer = ((body.options & Datastore.SQLSERVER) === Datastore.SQLSERVER) ? true : false;
-        this.webAuth = ((body.options & Datastore.WEBAUTH) === Datastore.WEBAUTH) ? true : false;
-        this.docker = ((body.options & Datastore.DOCKER) === Datastore.DOCKER) ? true : false;
+        this.amq = ((body.options & Ingredient.AMQ) === Ingredient.AMQ) ? true : false;
+        this.eth = ((body.options & Ingredient.ETH) === Ingredient.ETH) ? true : false;
+        this.btc = ((body.options & Ingredient.BTC) === Ingredient.BTC) ? true : false;
+        this.graphql = ((body.options & Ingredient.GRAPHQL) === Ingredient.GRAPHQL) ? true : false;
+        this.kafka = ((body.options & Ingredient.KAFKA) === Ingredient.KAFKA) ? true : false;
+        this.logging = ((body.options & Ingredient.LOGGING) === Ingredient.LOGGING) ? true : false;
+        this.mongo = ((body.options & Ingredient.MONGO) === Ingredient.MONGO) ? true : false;
+        this.mysql = ((body.options & Ingredient.MYSQL) === Ingredient.MYSQL) ? true : false;
+        this.neo4j = ((body.options & Ingredient.NEO4J) === Ingredient.NEO4J) ? true : false;
+        this.oauth = ((body.options & Ingredient.OAUTH) === Ingredient.OAUTH) ? true : false;
+        this.postGres = ((body.options & Ingredient.PG) === Ingredient.PG) ? true : false;
+        this.redis = ((body.options & Ingredient.REDIS) === Ingredient.REDIS) ? true : false;
+        this.s3 = ((body.options & Ingredient.S3) === Ingredient.S3) ? true : false;
+        this.sqlServer = ((body.options & Ingredient.SQLSERVER) === Ingredient.SQLSERVER) ? true : false;
+        this.webAuth = ((body.options & Ingredient.WEBAUTH) === Ingredient.WEBAUTH) ? true : false;
+        this.docker = ((body.options & Ingredient.DOCKER) === Ingredient.DOCKER) ? true : false;
     }
 
     private createAuth = async(): Promise<IFileContent[]> => { 

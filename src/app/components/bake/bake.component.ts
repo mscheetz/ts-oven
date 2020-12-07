@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { Datastore } from 'src/app/classes/enums';
+import { Ingredient } from 'src/app/classes/enums';
 import { RestService } from 'src/app/core/rest.service';
 
 @Component({
@@ -22,25 +22,25 @@ export class BakeComponent implements OnInit {
   }
 
   checkOptions() {
-    if((this.dough.options & Datastore.AMQ) === Datastore.AMQ) {
+    if((this.dough.options & Ingredient.AMQ) === Ingredient.AMQ) {
       this.credsRequired = true;
-    } else if((this.dough.options & Datastore.KAFKA) === Datastore.KAFKA) {
+    } else if((this.dough.options & Ingredient.KAFKA) === Ingredient.KAFKA) {
       this.credsRequired = true;
-    } else if((this.dough.options & Datastore.MONGO) === Datastore.MONGO) {
+    } else if((this.dough.options & Ingredient.MONGO) === Ingredient.MONGO) {
       this.credsRequired = true;
-    } else if((this.dough.options & Datastore.MYSQL) === Datastore.MYSQL) {
+    } else if((this.dough.options & Ingredient.MYSQL) === Ingredient.MYSQL) {
       this.credsRequired = true;
-    } else if((this.dough.options & Datastore.NEO4J) === Datastore.NEO4J) {
+    } else if((this.dough.options & Ingredient.NEO4J) === Ingredient.NEO4J) {
       this.credsRequired = true;
-    } else if((this.dough.options & Datastore.OAUTH) === Datastore.OAUTH) {
+    } else if((this.dough.options & Ingredient.OAUTH) === Ingredient.OAUTH) {
       this.credsRequired = true;
-    } else if((this.dough.options & Datastore.PG) === Datastore.PG) {
+    } else if((this.dough.options & Ingredient.PG) === Ingredient.PG) {
       this.credsRequired = true;
-    } else if((this.dough.options & Datastore.REDIS) === Datastore.REDIS) {
+    } else if((this.dough.options & Ingredient.REDIS) === Ingredient.REDIS) {
       this.credsRequired = true;
-    } else if((this.dough.options & Datastore.S3) === Datastore.S3) {
+    } else if((this.dough.options & Ingredient.S3) === Ingredient.S3) {
       this.credsRequired = true;
-    } else if((this.dough.options & Datastore.SQLSERVER) === Datastore.SQLSERVER) {
+    } else if((this.dough.options & Ingredient.SQLSERVER) === Ingredient.SQLSERVER) {
       this.credsRequired = true;
     }
   }

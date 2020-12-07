@@ -9,7 +9,7 @@
  * Created at       : 2020-10-02
  * Last modified    : 2020-11-07
  */
-export enum Datastore {
+export enum Ingredient {
     None = 0,
     AMQ = 1,
     ETH = 2,

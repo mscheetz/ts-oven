@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { IDough } from 'src/app/classes/dough.interface';
-import { Datastore } from 'src/app/classes/enums';
+import { Ingredient } from 'src/app/classes/enums';
 import { RestService } from 'src/app/core/rest.service';
 import { NameComponent } from '../name/name.component';
 
@@ -21,14 +21,14 @@ export class OvenComponent implements OnInit {
   ngOnInit(): void {
     this.step = 0;
     if(typeof this.dough === 'undefined'){
-      this.dough = { name: "", options: Datastore.None };
+      this.dough = { name: "", options: Ingredient.None, packages: [] };
     }
   }
 
   setName($event) {
     const name = $event.replace(/ /g, '-');
     if(typeof this.dough === 'undefined') {
-      this.dough = { name: name, options: Datastore.None };
+      this.dough = { name: name, options: Ingredient.None, packages: [] };
     } else {
       this.dough.name = name;
     }
@@ -52,6 +52,6 @@ export class OvenComponent implements OnInit {
 
   resetProject() {
     this.step = 1;
-    this.dough = { name: "", options: Datastore.None };
+    this.dough = { name: "", options: Ingredient.None, packages: [] };
   }
 }

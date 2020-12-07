@@ -9,9 +9,11 @@
  * Created at       : 2020-10-02
  * Last modified    : 2020-11-07
  */
-import { Datastore } from "./enums";
+/// <reference path="npm-package.interface.ts" />
+import { Ingredient } from "./enums";
 
 export interface IDough {
     name: string;
-    options: Datastore;
+    options: Ingredient;
+    packages: INpmPackage[];
 }

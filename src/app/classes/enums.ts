@@ -1,4 +1,4 @@
-export enum Datastore {
+export enum Ingredient {
     None = 0,
     AMQ = 1,
     ETH = 2,

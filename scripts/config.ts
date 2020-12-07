@@ -18,6 +18,7 @@ export const environment = {
    LOGIN: "${process.env.LOGIN}",
    BAKE: "${process.env.BAKE}",
    COOKIE: "${process.env.COOKIE}",
+   VERSIONS: "${process.env.VERSIONS}",
 };
 `;
 

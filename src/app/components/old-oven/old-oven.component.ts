@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { IDough } from 'src/app/classes/dough.interface';
-import { Datastore } from 'src/app/classes/enums';
+import { Ingredient } from 'src/app/classes/enums';
 import { RestService } from 'src/app/core/rest.service';
 
 @Component({
@@ -84,55 +84,55 @@ export class OldOvenComponent implements OnInit {
   // }
 
   mixDough(): IDough {
-    var dough: IDough = { name: this.appName.replace(/ /g, '-'), options: Datastore.None };
+    var dough: IDough = { name: this.appName.replace(/ /g, '-'), options: Ingredient.None, packages: [] };
     
     if(this.AMQ) {
-      dough.options = dough.options | Datastore.AMQ;
+      dough.options = dough.options | Ingredient.AMQ;
     }
     if(this.BTC) {
-      dough.options = dough.options | Datastore.BTC;
+      dough.options = dough.options | Ingredient.BTC;
     }
     if(this.ETH) {
-      dough.options = dough.options | Datastore.ETH;
+      dough.options = dough.options | Ingredient.ETH;
     }
     if(this.GRAPHQL) {
-      dough.options = dough.options | Datastore.GRAPHQL;
+      dough.options = dough.options | Ingredient.GRAPHQL;
     }
     if(this.KAFKA) {
-      dough.options = dough.options | Datastore.KAFKA;
+      dough.options = dough.options | Ingredient.KAFKA;
     }
     if(this.LOGGING) {
-      dough.options = dough.options | Datastore.LOGGING;
+      dough.options = dough.options | Ingredient.LOGGING;
     }
     if(this.MONGO) {
-      dough.options = dough.options | Datastore.MONGO;
+      dough.options = dough.options | Ingredient.MONGO;
     }
     if(this.MYSQL) {
-      dough.options = dough.options | Datastore.MYSQL;
+      dough.options = dough.options | Ingredient.MYSQL;
     }
     if(this.NEO4J) {
-      dough.options = dough.options | Datastore.NEO4J;
+      dough.options = dough.options | Ingredient.NEO4J;
     }
     if(this.OAUTH) {
-      dough.options = dough.options | Datastore.OAUTH;
+      dough.options = dough.options | Ingredient.OAUTH;
     }
     if(this.PG) {
-      dough.options = dough.options | Datastore.PG;
+      dough.options = dough.options | Ingredient.PG;
     }
     if(this.REDIS) {
-      dough.options = dough.options | Datastore.REDIS;
+      dough.options = dough.options | Ingredient.REDIS;
     }
     if(this.S3) {
-      dough.options = dough.options | Datastore.S3;
+      dough.options = dough.options | Ingredient.S3;
     }
     if(this.SQLSERVER) {
-      dough.options = dough.options | Datastore.SQLSERVER;
+      dough.options = dough.options | Ingredient.SQLSERVER;
     }
     if(this.WEBAUTH) {
-      dough.options = dough.options | Datastore.WEBAUTH;
+      dough.options = dough.options | Ingredient.WEBAUTH;
     }
     if(this.DOCKER) {
-      dough.options = dough.options | Datastore.DOCKER;
+      dough.options = dough.options | Ingredient.DOCKER;
     }
 
     return dough;

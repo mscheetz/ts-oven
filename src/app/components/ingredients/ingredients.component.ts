@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Datastore } from 'server/interfaces/enums';
+import { Ingredient } from '../../classes/enums';
 
 @Component({
   selector: 'app-ingredients',
@@ -23,115 +23,143 @@ export class IngredientsComponent implements OnInit {
   WEBAUTH: boolean = false;
   LOGGING: boolean = false;
   DOCKER: boolean = false;
-  ingredients: Datastore;
-  @Input() options: Datastore;
-  @Output() ingredientsEvent = new EventEmitter<Datastore>();
+  showAuth: boolean = false;
+  showData: boolean = false;
+  showMessage: boolean = false;
+  showStorage: boolean = false;
+  showBlockchain: boolean = false;
+  showOther: boolean = false;
+  enableVersions: boolean = false;
+  ingredients: Ingredient;
+  @Input() options: Ingredient;
+  @Output() ingredientsEvent = new EventEmitter<Ingredient>();
   @Output() previousStepEvent = new EventEmitter<any>();
 
   constructor() { }
 
   ngOnInit(): void {
-    if((this.options & Datastore.AMQ) === Datastore.AMQ) {
+    if((this.options & Ingredient.AMQ) === Ingredient.AMQ) {
       this.AMQ = true;
     }
-    if((this.options & Datastore.BTC) === Datastore.BTC) {
+    if((this.options & Ingredient.BTC) === Ingredient.BTC) {
       this.BTC = true;
     }
-    if((this.options & Datastore.ETH) === Datastore.ETH) {
+    if((this.options & Ingredient.ETH) === Ingredient.ETH) {
       this.ETH = true;
     }
-    if((this.options & Datastore.GRAPHQL) === Datastore.GRAPHQL) {
+    if((this.options & Ingredient.GRAPHQL) === Ingredient.GRAPHQL) {
       this.GRAPHQL = true;
     }
-    if((this.options & Datastore.KAFKA) === Datastore.KAFKA) {
+    if((this.options & Ingredient.KAFKA) === Ingredient.KAFKA) {
       this.KAFKA = true;
     }
-    if((this.options & Datastore.MONGO) === Datastore.MONGO) {
+    if((this.options & Ingredient.MONGO) === Ingredient.MONGO) {
       this.MONGO = true;
     }
-    if((this.options & Datastore.MYSQL) === Datastore.MYSQL) {
+    if((this.options & Ingredient.MYSQL) === Ingredient.MYSQL) {
       this.MYSQL = true;
     }
-    if((this.options & Datastore.NEO4J) === Datastore.NEO4J) {
+    if((this.options & Ingredient.NEO4J) === Ingredient.NEO4J) {
       this.NEO4J = true;
     }
-    if((this.options & Datastore.OAUTH) === Datastore.OAUTH) {
+    if((this.options & Ingredient.OAUTH) === Ingredient.OAUTH) {
       this.OAUTH = true;
     }
-    if((this.options & Datastore.PG) === Datastore.PG) {
+    if((this.options & Ingredient.PG) === Ingredient.PG) {
       this.PG = true;
     }
-    if((this.options & Datastore.REDIS) === Datastore.REDIS) {
+    if((this.options & Ingredient.REDIS) === Ingredient.REDIS) {
       this.REDIS = true;
     }
-    if((this.options & Datastore.S3) === Datastore.S3) {
+    if((this.options & Ingredient.S3) === Ingredient.S3) {
       this.S3 = true;
     }
-    if((this.options & Datastore.SQLSERVER) === Datastore.SQLSERVER) {
+    if((this.options & Ingredient.SQLSERVER) === Ingredient.SQLSERVER) {
       this.SQLSERVER = true;
     }
-    if((this.options & Datastore.WEBAUTH) === Datastore.WEBAUTH) {
+    if((this.options & Ingredient.WEBAUTH) === Ingredient.WEBAUTH) {
       this.WEBAUTH = true;
     }
-    if((this.options & Datastore.LOGGING) === Datastore.LOGGING) {
+    if((this.options & Ingredient.LOGGING) === Ingredient.LOGGING) {
       this.LOGGING = true;
     }
-    if((this.options & Datastore.DOCKER) === Datastore.DOCKER) {
+    if((this.options & Ingredient.DOCKER) === Ingredient.DOCKER) {
       this.DOCKER = true;
     }
   }
 
+  toggleOptions(section: string) {
+    if (section === "Auth") {
+      this.showAuth = !this.showAuth;
+    } else if (section === "Data") {
+      this.showData = !this.showData;
+    } else if (section === "Message") {
+      this.showMessage = !this.showMessage;
+    } else if (section === "Storage") {
+      this.showStorage = !this.showStorage;
+    } else if (section === "Blockchain") {
+      this.showBlockchain = !this.showBlockchain;
+    } else if (section === "Other") {
+      this.showOther = !this.showOther;
+    } 
+  }
+
+  editVersions(option: number) {
+    const ingredient: Ingredient = option;
+    console.log(`getting versions for ${ingredient}`);
+  }
+
   nextStep() {    
     if(this.AMQ) {
-      this.ingredients = this.ingredients | Datastore.AMQ;
+      this.ingredients = this.ingredients | Ingredient.AMQ;
     }
     if(this.BTC) {
-      this.ingredients = this.ingredients | Datastore.BTC;
+      this.ingredients = this.ingredients | Ingredient.BTC;
     }
     if(this.ETH) {
-      this.ingredients = this.ingredients | Datastore.ETH;
+      this.ingredients = this.ingredients | Ingredient.ETH;
     }
     if(this.GRAPHQL) {
-      this.ingredients = this.ingredients | Datastore.GRAPHQL;
+      this.ingredients = this.ingredients | Ingredient.GRAPHQL;
     }
     if(this.KAFKA) {
-      this.ingredients = this.ingredients | Datastore.KAFKA;
+      this.ingredients = this.ingredients | Ingredient.KAFKA;
     }
     if(this.LOGGING) {
-      this.ingredients = this.ingredients | Datastore.LOGGING;
+      this.ingredients = this.ingredients | Ingredient.LOGGING;
     }
     if(this.MONGO) {
-      this.ingredients = this.ingredients | Datastore.MONGO;
+      this.ingredients = this.ingredients | Ingredient.MONGO;
     }
     if(this.MYSQL) {
-      this.ingredients = this.ingredients | Datastore.MYSQL;
+      this.ingredients = this.ingredients | Ingredient.MYSQL;
     }
     if(this.NEO4J) {
-      this.ingredients = this.ingredients | Datastore.NEO4J;
+      this.ingredients = this.ingredients | Ingredient.NEO4J;
     }
     if(this.OAUTH) {
-      this.ingredients = this.ingredients | Datastore.OAUTH;
+      this.ingredients = this.ingredients | Ingredient.OAUTH;
     }
     if(this.PG) {
-      this.ingredients = this.ingredients | Datastore.PG;
+      this.ingredients = this.ingredients | Ingredient.PG;
     }
     if(this.REDIS) {
-      this.ingredients = this.ingredients | Datastore.REDIS;
+      this.ingredients = this.ingredients | Ingredient.REDIS;
     }
     if(this.S3) {
-      this.ingredients = this.ingredients | Datastore.S3;
+      this.ingredients = this.ingredients | Ingredient.S3;
     }
     if(this.SQLSERVER) {
-      this.ingredients = this.ingredients | Datastore.SQLSERVER;
+      this.ingredients = this.ingredients | Ingredient.SQLSERVER;
     }
     if(this.WEBAUTH) {
-      this.ingredients = this.ingredients | Datastore.WEBAUTH;
+      this.ingredients = this.ingredients | Ingredient.WEBAUTH;
     }
     if(this.DOCKER) {
-      this.ingredients = this.ingredients | Datastore.DOCKER;
+      this.ingredients = this.ingredients | Ingredient.DOCKER;
     }
     if(typeof this.ingredients === 'undefined') {
-      this.ingredients = Datastore.None;
+      this.ingredients = Ingredient.None;
     }
     this.ingredientsEvent.emit(this.ingredients);
   }

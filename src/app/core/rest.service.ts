@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs'
 import { environment } from 'src/environments/environment';
 import { IDough } from '../classes/dough.interface';
+import { env } from 'yargs';
 
 @Injectable({providedIn: 'root'})
 export class RestService {
@@ -27,5 +28,12 @@ export class RestService {
         const url = `${environment.APIHOST}${endpoint}`;
 
         return this.http.get(url, {responseType: 'text'});
+    }
+
+    getVersions(packageName: string): Observable<string[]> {
+        const endpoint = `${environment.VERSIONS}?package=${packageName}`;
+        const url = `${environment.APIHOST}${endpoint}`;
+
+        return this.http.get<string[]>(url);
     }
 }
