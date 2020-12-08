@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.middleware';
+import { logUrl, logType, logHeaders, logBody } from '../middlewares/api-logging.middleware';
 import MySqlController from '../controllers/mysql.controller';
 
 const router = Router();

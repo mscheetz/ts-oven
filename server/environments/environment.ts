@@ -1,9 +1,24 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Environment interface for .env variables
+ * 
+ * @summary Environment
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            PORT: number;
+            PORT: string;
+            LOGLEVEL: string;
             ENVIRONMENT: string;
             TOKEN_SECRET: string;
+            BTC_XPUB: string;
+            ETH: string;
+            XMR: string;
             MONGOHOST: string;
             MONGODB: string;
             MONGOUSER: string;
@@ -17,8 +32,8 @@ declare global {
             PGHOST: string;
             PGDATABASE: string;
             PGPASSWORD: string;
-            PGPORT: number;
-            REDISPORT: number;
+            PGPORT: string;
+            REDISPORT: string;
             REDISHOST: string;
             REDISSECRET: string;
         }

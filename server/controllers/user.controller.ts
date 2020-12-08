@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * User Controller handle requests for modifying user account
+ * 
+ * @summary User controller
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-07
+ */
 import express from 'express';
 import AuthService from '../services/auth.service';
 import EncryptionService from '../services/encryption.service';

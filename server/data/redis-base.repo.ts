@@ -1,19 +1,37 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Redis Base Repository interact redis database
+ * 
+ * @summary Redis Base Repository
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-21
+ */
 import redis from 'redis';
+import dotenv from 'dotenv';
+import { logger } from '../services/logger.service';
 
 class RedisBaseRepo {
     private client: redis.RedisClient;
 
     constructor() {
-        const port: number = +process.env.REDISPORT!;
-        this.client = redis.createClient(port, process.env.REDISHOST);
-        this.client.auth(process.env.REDISSECRET+"");
+        try{
+            dotenv.config();
+            const port: number = +process.env.REDISPORT!;
+            this.client = redis.createClient(port, process.env.REDISHOST);
+            this.client.auth(process.env.REDISSECRET+"");
+        } catch(err) {
+            logger.error(err);
+        }
     }
     
     public getMany = async(keys: string[]): Promise<any> => {       
         return new Promise((res, rej) => {
             this.client.mget(keys, (err, values) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 res(values);
@@ -25,7 +43,7 @@ class RedisBaseRepo {
         return new Promise((res, rej) => {
             this.client.get(key, (err, value) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 res(value);
@@ -37,7 +55,7 @@ class RedisBaseRepo {
         return new Promise((res, rej) => {
             this.client.hgetall(key, (err, value) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 res(value);
@@ -49,7 +67,7 @@ class RedisBaseRepo {
         return new Promise((res, rej) => {
             this.client.lrange(key, 0, -1, (err, values) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 res(values);
@@ -61,7 +79,7 @@ class RedisBaseRepo {
         return new Promise((res, rej) => {
             this.client.keys(pattern, (err, keys) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 res(keys);
@@ -73,7 +91,7 @@ class RedisBaseRepo {
         return new Promise((res, rej) => {
             this.client.set(key, value, (err, response) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 if(expiry) {
@@ -88,7 +106,7 @@ class RedisBaseRepo {
         return new Promise((res, rej) => {
             this.client.hmset(key, value, (err, response) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 if(expiry) {
@@ -103,7 +121,7 @@ class RedisBaseRepo {
         return new Promise((res, rej) => {
             this.client.rpush(key, values, (err, response) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 if(expiry) {
@@ -118,7 +136,7 @@ class RedisBaseRepo {
         return new Promise((res, rej) => {
             this.client.del(key, (err, response) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 res(response);
@@ -130,7 +148,7 @@ class RedisBaseRepo {
         return new Promise((res, rej) => {
             this.client.set(key, value, (err, response) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 res(response);
@@ -142,7 +160,7 @@ class RedisBaseRepo {
         return new Promise((res, rej) => {
             this.client.rename(key, newKey, (err, response) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 res(response);

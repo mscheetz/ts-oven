@@ -1,4 +1,16 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Encrytion Service manages encryption for application
+ * 
+ * @summary Encryption Service
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-21
+ */
 import bcrypt from 'bcrypt';
+import { logger } from './logger.service';
 
 class EncryptionService {
 
@@ -24,7 +36,7 @@ class EncryptionService {
 
             return match;
         } catch(err) {
-            console.log(err);
+            logger.error(err);
 
             return false;
         }

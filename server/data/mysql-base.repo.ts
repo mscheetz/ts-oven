@@ -1,6 +1,18 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * MySql Base Repository interact with MySql baseTable
+ * 
+ * @summary MySql Base Repository
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-21
+ */
 /// <reference path="../interfaces/base.interface.ts"/>
 import mysql from 'mysql';
 import dotenv from 'dotenv';
+import { logger } from '../services/logger.service';
 
 class MySqlBaseRepo {
     private pool: mysql.Pool;
@@ -25,12 +37,12 @@ class MySqlBaseRepo {
         return new Promise((res, rej) => {
             this.pool.getConnection((err, connection) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
-                console.log(`Successfull connection to MySQL DB`);
+                logger.info(`Successfull connection to MySQL DB`);
                 connection.release();
-                return res();
+                return res(true);
             });
         });
     }
@@ -44,11 +56,11 @@ class MySqlBaseRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, (err, results) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 if(results.warningCount === 0) {
-                    console.log(`Table ${this.table} created`);
+                    logger.info(`Table ${this.table} created`);
                 }
                 return res(results);
             });
@@ -63,7 +75,7 @@ class MySqlBaseRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, [ id ], (err, results) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 return res(results);
@@ -78,7 +90,7 @@ class MySqlBaseRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, (err, results) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 return res(results);
@@ -98,7 +110,7 @@ class MySqlBaseRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, data, (err, result) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 return res(result.insertId);
@@ -118,7 +130,7 @@ class MySqlBaseRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, data, (err, result) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 return res(result.affectedRows);
@@ -134,7 +146,7 @@ class MySqlBaseRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, [ id ], (err, result) => {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 return res(result.affectedRows);

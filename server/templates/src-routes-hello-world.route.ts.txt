@@ -1,0 +1,22 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Declare Routes for Hello World Endpoints
+ * 
+ * @summary HelloWorldRouter
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+import { Router } from 'express';{logger-mddlwr-impl}
+import HelloWorldController from '../controllers/hello-world.controller';
+
+const router = Router();
+
+router.delete('/', {route-logging}HelloWorldController.delete);
+router.get('/', {route-logging}HelloWorldController.get);
+router.post('/', {route-logging}HelloWorldController.post);
+router.put('/', {route-logging}HelloWorldController.put);
+
+export default router;

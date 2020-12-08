@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Entry point for NodeJS/Typecript application
+ * 
+ * @summary Index
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-21
+ */
 import express from "express";
 import * as bodyParser from "body-parser";
 import helmet from "helmet";
@@ -5,13 +16,17 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import compression from 'compression';
 import routes from "./routes";
+import { logger } from "./services/logger.service";
 
 const app = express();
 
 dotenv.config();
 
 const port = process.env.PORT || 3000;
+logger.info(`Log level: ${process.env.LOGLEVEL}`);
+logger.info(`Port: ${process.env.PORT}`);
 const distDir = `dist/ts-oven`;
+
 const forceSSL = function() {
   return function (req: express.Request, res: express.Response, next: express.NextFunction) {
     if (req.headers['x-forwarded-proto'] !== 'https') {
@@ -35,11 +50,10 @@ app.use(bodyParser.json());
 app.use("/api", routes);
 
 app.get(`/`, function(req: express.Request, res: express.Response) {
-    console.log(`new request from ${req.ip}`);
-    
-    res.status(200).sendFile(`/`, { root: distDir });
+  logger.verbose(`new request from ${req.ip}`);
+  res.status(200).send('Hello World!');
 })
 
 app.listen(port, () => {
-    console.log(`Server started on port ${port}!`);
+  logger.info(`TS Oven server started on port ${port}!`);
 });

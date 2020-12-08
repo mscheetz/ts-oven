@@ -1,6 +1,17 @@
-import { Pool } from 'pg';
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a PostGres Repository for interacting with a PostGresSql Db
+ * 
+ * @summary PGRepository
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+import { Pool } from 'pg';{logger-impl}
 
-class PGBaseRepo {
+class PGRepo {
     private pool: Pool;
 
     constructor() {
@@ -24,7 +35,7 @@ class PGBaseRepo {
 
             return res.rows;
         } catch(err) {
-            console.log(err);
+            {logger-error}(err);
 
             return null;
         }
@@ -39,7 +50,7 @@ class PGBaseRepo {
 
             return res.rows;
         } catch(err) {
-            console.log(err);
+            {logger-error}(err);
             
             return null;
         }
@@ -59,7 +70,7 @@ class PGBaseRepo {
 
             return res.rowCount;
         } catch(err) {
-            console.log(err);
+            {logger-error}(err);
             
             return null;
         }
@@ -79,7 +90,7 @@ class PGBaseRepo {
 
             return res.rowCount;
         } catch(err) {
-            console.log(err);
+            {logger-error}(err);
             
             return null;
         }
@@ -94,7 +105,7 @@ class PGBaseRepo {
 
             return res.rowCount;
         } catch(err) {
-            console.log(err);
+            {logger-error}(err);
             
             return null;
         }

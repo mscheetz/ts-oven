@@ -1,13 +1,23 @@
-import { Router } from 'express';
-import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.middleware';
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Declare Routes for Mongo Endpoints
+ * 
+ * @summary MongoRouter
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+import { Router } from 'express';{logger-mddlwr-impl}
 import MongoController from '../controllers/mongo.controller';
 
 const router = Router();
 
-router.get('/', [ logUrl, logType, logHeaders, logBody ], MongoController.get);
-router.get('/:id', [ logUrl, logType, logHeaders, logBody ], MongoController.getAll);
-router.post('/', [ logUrl, logType, logHeaders, logBody ], MongoController.add);
-router.put('/', [ logUrl, logType, logHeaders, logBody ], MongoController.update);
-router.delete('/:id', [ logUrl, logType, logHeaders, logBody ], MongoController.delete);
+router.get('/', {route-logging}MongoController.get);
+router.get('/:id', {route-logging}MongoController.getAll);
+router.post('/', {route-logging}MongoController.add);
+router.put('/', {route-logging}MongoController.update);
+router.delete('/:id', {route-logging}MongoController.delete);
 
 export default router;

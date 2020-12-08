@@ -1,0 +1,28 @@
+<div class="copyright">
+    &copy;{{year}} TS-Oven
+    <a title="View us on GitHub" href="https://github.com/mscheetz/ts-oven" target="_blank">
+        <img class="git-icon" src="../assets/GitHub-Mark-Light-32px.png">
+    </a>
+</div>
+<div class="donate">
+    Donate: 
+    <span class="symbol" (click)="getAddress('btc')">BTC</span> | 
+    <span class="symbol" (click)="getAddress('eth')">ETH</span> | 
+    <span class="symbol" (click)="getAddress('xmr')">XMR</span>
+</div>
+<p-dialog 
+    header="{{donateType}}"
+    [responsive]="true"
+    [(visible)]="showQRCode"
+    [modal]="true"
+    [draggable]="false"
+    [baseZIndex]="10000">
+    <div class="align-center">
+        <qr-code
+         [value]="address"
+         [size]="200"
+         (click)="copyAddress()"></qr-code><br>
+        <span class="text-muted text-small">Click QR Code to copy address.</span>
+    </div>
+</p-dialog>
+<p-toast></p-toast>

@@ -1,8 +1,19 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Manage all endpoints
+ * 
+ * @summary Router index
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import { Router, Request, Response } from 'express';
-import login from './login.route';ROUTE-DECLARATIONS
+import hello from './hello-world.route';ROUTE-DECLARATIONS
 
 const routes = Router();
 
-routes.use('/login', login);ROUTE-USES
+routes.use('/hello', hello);ROUTE-USES
 
 export default routes;

@@ -1,5 +1,17 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Authentication Service manages authentication for application
+ * 
+ * @summary Auth Service
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-21
+ */
 import * as jwt from 'jsonwebtoken';
 import uuid from 'uuid';
+import { logger } from './logger.service';
 
 class AuthService {
     private tokenSecret: string;
@@ -15,7 +27,7 @@ class AuthService {
 
             return token;
         } catch(err) {
-            console.error(err);
+            logger.error(err);
             return 'error';
         }
     }
@@ -26,7 +38,7 @@ class AuthService {
         try {
             payload = jwt.verify(token, this.tokenSecret).toString();            
         } catch(err) {
-
+            logger.error(err);
         }
         if(payload === 'guest') {
             validity = true;

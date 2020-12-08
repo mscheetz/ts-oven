@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  server:
+    build: server
+    image: tsoven/server
+    ports:
+      - '4201:4201'
+  client:
+    build: .
+    image: tsoven/client
+    ports:
+      - '4200:4200'

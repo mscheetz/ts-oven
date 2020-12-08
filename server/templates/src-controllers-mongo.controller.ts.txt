@@ -1,5 +1,16 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a Mongo Controller to handle requests interacting with a MongoDb
+ * 
+ * @summary MongoController
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import express from 'express';
-import { Base } from '../data/mongo-base.repo';
+import { Base } from '../data/mongo-base.repo';{logger-impl}
 
 class MongoController {
 
@@ -30,7 +41,7 @@ class MongoController {
     }
     
     static getAll = async(req: express.Request, res: express.Response) => {
-        console.log(`request from: ${req.ip}`);
+        {logger}(`request from: ${req.ip}`);
         
         const datas = await Base.find({});
 

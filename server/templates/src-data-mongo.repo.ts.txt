@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a Mongo Repository for interacting with a MongoDb
+ * 
+ * @summary MongoRepository
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import mongoose from 'mongoose';
 
 interface baseModel extends mongoose.Model<baseDoc>{

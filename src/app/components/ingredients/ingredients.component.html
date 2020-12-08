@@ -1,0 +1,120 @@
+<div class="h3-like">Step 2 - Select Your Ingredients <span class="optional">(optional)</span></div>
+<p-card styleClass="card">
+    <div class="h4-like">
+        Authentication
+        <button *ngIf="showAuth" pButton type="button" title="Hide" icon="pi pi-minus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Auth')"></button>
+        <button *ngIf="!showAuth" pButton type="button" title="Show" icon="pi pi-plus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Auth')"></button>
+    </div>
+    <div *ngIf="showAuth" class="optionGroup">
+        <div class="optionClass">
+            <label>JWT Authentication <i class="pi pi-info-circle" pTooltip="Includes user login endpoint(s) with JWT response"></i>: </label>
+            <p-inputSwitch [(ngModel)]="WEBAUTH"></p-inputSwitch> 
+            <button *ngIf="WEBAUTH && enableVersions" pButton type="button" title="Select Version(s)" icon="pi pi-pencil" class="p-button-small-colored p-button-rounded" (click)="editVersions(2048)"></button>
+        </div>
+        <div class="optionClass inactive">
+            <label><i>OAUTH </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="OAUTH"></p-inputSwitch> 
+        </div>
+    </div>
+    <div class="h4-like">
+        Data Sources
+        <button *ngIf="showData" pButton type="button" title="Hide" icon="pi pi-minus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Data')"></button>
+        <button *ngIf="!showData" pButton type="button" title="Show" icon="pi pi-plus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Data')"></button>
+    </div>
+    <div *ngIf="showData" class="optionGroup">
+        <div class="optionClass">
+            <label>MongoDB <i class="pi pi-info-circle" pTooltip="MongoDB is a No-SQL database solution. Using 'mongodb'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="MONGO"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label>MySQL <i class="pi pi-info-circle" pTooltip="MySQL is a relational database solution. Using 'mysql'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="MYSQL"></p-inputSwitch>
+        </div>
+        <div class="optionClass inactive">
+            <label><i>Neo4j </i> <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="NEO4J"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label>PostgreSQL <i class="pi pi-info-circle" pTooltip="PostgreSQL is a relational database solution. Using 'pg'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="PG"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label>Redis <i class="pi pi-info-circle" pTooltip="Redis is a key/value pair data storage solution. Using 'redis'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="REDIS"></p-inputSwitch>
+        </div>
+        <div class="optionClass">
+            <label>SQL Server <i class="pi pi-info-circle" pTooltip="Sql Server is a relational database storage solution. Using 'mssql'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="SQLSERVER"></p-inputSwitch>
+        </div>
+    </div>
+    <div class="h4-like">
+        Messaging
+        <button *ngIf="showMessage" pButton type="button" title="Hide" icon="pi pi-minus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Message')"></button>
+        <button *ngIf="!showMessage" pButton type="button" title="Show" icon="pi pi-plus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Message')"></button>
+    </div>
+    <div *ngIf="showMessage" class="optionGroup">
+        <div class="optionClass inactive">
+            <label><i>ActiveMQ </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="AMQ"></p-inputSwitch>
+        </div>
+        <div class="optionClass inactive">
+            <label><i>Kafka </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="KAFKA"></p-inputSwitch>
+        </div>
+    </div>
+    <div class="h4-like">
+        Storage
+        <button *ngIf="showStorage" pButton type="button" title="Hide" icon="pi pi-minus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Storage')"></button>
+        <button *ngIf="!showStorage" pButton type="button" title="Show" icon="pi pi-plus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Storage')"></button>
+    </div>
+    <div *ngIf="showStorage" class="optionGroup">
+        <div class="optionClass inactive">
+            <label><i>S3 </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="S3"></p-inputSwitch>
+        </div>
+    </div>
+    <div class="h4-like">
+        Blockchain
+        <button *ngIf="showBlockchain" pButton type="button" title="Hide" icon="pi pi-minus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Blockchain')"></button>
+        <button *ngIf="!showBlockchain" pButton type="button" title="Show" icon="pi pi-plus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Blockchain')"></button>
+    </div>
+    <div *ngIf="showBlockchain" class="optionGroup">
+        <div class="optionClass inactive">
+            <label><i>Bitcoin </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="BTC"></p-inputSwitch> 
+        </div>
+        <div class="optionClass inactive">
+            <label><i>Ethereum </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="ETH"></p-inputSwitch> 
+        </div>
+    </div>
+    <div class="h4-like">
+        Other
+        <button *ngIf="showOther" pButton type="button" title="Hide" icon="pi pi-minus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Other')"></button>
+        <button *ngIf="!showOther" pButton type="button" title="Show" icon="pi pi-plus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Other')"></button>
+    </div>
+    <div *ngIf="showOther" class="optionGroup">
+        <div class="optionClass">
+            <label>Docker <i class="pi pi-info-circle" pTooltip="Dockerize this application"></i>: </label>
+            <p-inputSwitch [(ngModel)]="DOCKER"></p-inputSwitch>
+        </div>
+        <div class="optionClass inactive">
+            <label><i>GraphQL </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="GRAPHQL"></p-inputSwitch> 
+        </div>
+        <div class="optionClass">
+            <label>Logging <i class="pi pi-info-circle" pTooltip="Detailed application logging. Using 'winston'"></i>: </label>
+            <p-inputSwitch [(ngModel)]="LOGGING"></p-inputSwitch>
+        </div>
+    </div>
+</p-card>
+<div class="p-grid button-pad">
+    <div class="p-col-2">
+        <button pButton type="button" label="Previous" class="p-button-bake" icon="pi pi-angle-left" (click)="previousStep()"></button>
+    </div>
+    <div class="p-col-1"></div>
+    <div class="p-col-2">
+        <button pButton type="button" label="Next" class="p-button-bake" iconPos="right" icon="pi pi-angle-right" (click)="nextStep()"></button>
+    </div>
+    <div class="p-col-7"></div>
+</div>

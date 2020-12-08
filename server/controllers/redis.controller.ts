@@ -1,6 +1,18 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Redis Controller handle requests for Redis db
+ * 
+ * @summary Redis controller
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-21
+ */
 /// <reference path="../interfaces/account.interface.ts" />
 import express from 'express';
 import RedisBaseRepo from '../data/redis-base.repo';
+import { logger } from '../services/logger.service';
 
 class RedisController {
     private repo: RedisBaseRepo;
@@ -18,7 +30,7 @@ class RedisController {
             const result = await this.repo.addString(key, value);
             insertStatus = true
         } catch(err) {
-            console.log(err);
+            logger.error(err);
             insertStatus = false;
         }
 
@@ -36,7 +48,7 @@ class RedisController {
             const result = await this.repo.addObject(key, account);
             insertStatus = true
         } catch(err) {
-            console.log(err);
+            logger.error(err);
             insertStatus = false;
         }
 
@@ -60,7 +72,7 @@ class RedisController {
     }
 
     public getKeys = async(req: express.Request, res: express.Response) => {
-        console.log(`request from: ${req.ip}`);
+        logger.info(`request from: ${req.ip}`);
         const datas = await this.repo.getKeys();
 
         if(datas.length > 0) {
@@ -79,7 +91,7 @@ class RedisController {
             const result = await this.repo.update(key, value);
             updateStatus = true
         } catch(err) {
-            console.log(err);
+            logger.error(err);
             updateStatus = false;
         }
 
@@ -96,7 +108,7 @@ class RedisController {
             const result = await this.repo.delete(key);
             deleteStatus = true
         } catch(err) {
-            console.log(err);
+            logger.error(err);
             deleteStatus = false;
         }
 

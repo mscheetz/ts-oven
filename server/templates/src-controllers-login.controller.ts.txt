@@ -1,11 +1,22 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a Login Controller
+ * 
+ * @summary LoginController
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 import express from 'express';
-import AuthService from '../services/auth.service';
+import AuthService from '../services/auth.service';{logger-impl}
 
 class LoginController {
     constructor() { }
 
     static guestLogin = async(req: express.Request, res: express.Response) => {
-        console.log(`incoming from ${req.ip}`);
+        {logger}(`incoming from ${req.ip}`);
         const authSvc = new AuthService();
 
         const jwt = await authSvc.getToken('guest');

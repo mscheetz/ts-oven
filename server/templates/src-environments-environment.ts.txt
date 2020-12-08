@@ -1,8 +1,18 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Environment interface for .env variables
+ * 
+ * @summary Environment
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            PORT: number;
-            TOKEN_SECRET: string;MONGO-CONFIGMYSQL-CONFIGPG-CONFIGREDIS-CONFIGSQLSVR-CONFIG
+            PORT: string;LOGGING-CONFIGTOKEN-CONFIGMONGO-CONFIGMYSQL-CONFIGPG-CONFIGREDIS-CONFIGSQLSVR-CONFIG
         }
     }
 }

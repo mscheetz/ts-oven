@@ -1,0 +1,53 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a Hello World Controller
+ * 
+ * @summary Hello World Controller
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+import express from 'express';
+
+class HelloWorldController {
+    
+    static get = async(req: express.Request, res: express.Response) => {
+        const response = {
+            message: `Hello World`,
+            type: 'GET'
+        };
+        
+        res.json(response);
+    }
+
+    static put = async(req: express.Request, res: express.Response) => {
+        const response = {
+            message: `Hello World`,
+            type: 'PUT'
+        };
+        
+        res.json(response);
+    }
+    
+    static post = async(req: express.Request, res: express.Response) => {
+        const response = {
+            message: `Hello World`,
+            type: 'POST'
+        };
+        
+        res.json(response);
+    }
+    
+    static delete = async(req: express.Request, res: express.Response) => {
+        const response = {
+            message: `Hello World`,
+            type: 'DELETE'
+        };
+        
+        res.json(response);
+    }
+}
+
+export default HelloWorldController;

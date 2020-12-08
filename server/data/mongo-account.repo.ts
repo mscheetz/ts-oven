@@ -1,6 +1,18 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * Mongo Account Repository interact with Accounts collection in Mongo db
+ * 
+ * @summary Mongo Account Repository
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-21
+ */
 /// <reference path="../interfaces/account.interface.ts" />
 import mongodb from 'mongodb';
 import dotenv from 'dotenv';
+import { logger } from '../services/logger.service';
 
 class MongoAccount {
     private mongo: mongodb.Collection;
@@ -27,11 +39,11 @@ class MongoAccount {
             const client = mongodb.MongoClient;
             client.connect(uri, { auth: auth, useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 const db = client.db(process.env.MONGODB);
-                console.log(`Successfull connection to MongoDB`);
+                logger.info(`Successfull connection to MongoDB`);
                 return res(db);
             });
         });
@@ -62,7 +74,7 @@ class MongoAccount {
         return new Promise((res, rej) => {
             this.mongo.insertOne(doc, function(err, result){
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 res(result);
@@ -76,7 +88,7 @@ class MongoAccount {
         return new Promise((res, rej) => {
             this.mongo.updateOne(query, values, function(err, result){
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 res(result);
@@ -88,7 +100,7 @@ class MongoAccount {
         return new Promise((res, rej) => {
             this.mongo.deleteOne({ account_id: id }, function(err, result){
                 if(err) {
-                    console.error(err);
+                    logger.error(err);
                     return rej(err.message);
                 }
                 res(result);

@@ -1,5 +1,17 @@
+/**
+ * Copyright (c) 2020
+ * 
+ * PG Controller handle requests for PostGreSQL db
+ * 
+ * @summary Pg controller
+ * @author Matt Scheetz
+ * 
+ * Created at       : 2020-10-02
+ * Last modified    : 2020-11-21
+ */
 import express from 'express';
 import PGBaseRepo from '../data/pg-base.repo';
+import { logger } from '../services/logger.service';
 
 class PGController {
     private pg: PGBaseRepo = new PGBaseRepo();
@@ -23,7 +35,7 @@ class PGController {
     }
 
     public getAll = async(req: express.Request, res: express.Response) => {
-        console.log(`request from: ${req.ip}`);
+        logger.info(`request from: ${req.ip}`);
         const datas = await this.pg.getAll();
         const status = datas !== null ? 200 : 500;
         
