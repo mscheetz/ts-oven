@@ -1,6 +1,6 @@
 {
   "name": "ts-oven",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "gogo": "concurrently \"npm run start\" \"npm run server:start\"",
     "build": "npm run config -- --environment=prod && ng build --aot --prod --output-hashing=all --build-optimizer=false",
