@@ -42,7 +42,7 @@ class MySqlBaseRepo {
                 }
                 logger.info(`Successfull connection to MySQL DB`);
                 connection.release();
-                return res();
+                return res(true);
             });
         });
     }
