@@ -92,7 +92,7 @@ class OvenController {
         }
 
         if(this.mongo || this.mysql || this.postGres || this.redis || this.sqlServer) {
-            let content = await CoreService.readFile(this.dir + `/templates/src-interfaces-base.interface.ts.txt`);
+            let content = await CoreService.readFile(this.dir + `templates/src-interfaces-base.interface.ts.txt`);
             let baseInterface: IFileContent = {
                 content: content,
                 path: `src/interfaces/base.interface.ts`
@@ -147,7 +147,7 @@ class OvenController {
 
         let tsconfig = await this.createTsConfig();
 
-        let indexTS = await CoreService.readFile(this.dir + `/templates/src-index.ts.txt`);
+        let indexTS = await CoreService.readFile(this.dir + `templates/src-index.ts.txt`);
         indexTS = this.setFileHeaderValues(indexTS);
         
         logger.info(`Creating zip file`);
@@ -186,9 +186,9 @@ class OvenController {
         let files: IFileContent[] = [];
         
         if(this.webAuth) {
-            let authMdl = await CoreService.readFile(this.dir + `/templates/src-middlewares-auth.middleware.ts.txt`);
+            let authMdl = await CoreService.readFile(this.dir + `templates/src-middlewares-auth.middleware.ts.txt`);
             files.push({ path: `src/middlewares/auth.middleware.ts`, content: authMdl });
-            let authSvc = await CoreService.readFile(this.dir + `/templates/src-services-auth.service.ts.txt`);
+            let authSvc = await CoreService.readFile(this.dir + `templates/src-services-auth.service.ts.txt`);
             files.push({ path: `src/services/auth.service.ts`, content: authSvc });
         }
 
@@ -199,7 +199,7 @@ class OvenController {
 
     private createEnv = async(): Promise<string> => {
         logger.info(`Creating .ENV file`);
-        let env = await CoreService.readFile(this.dir + `/templates/.env.txt`);
+        let env = await CoreService.readFile(this.dir + `templates/.env.txt`);
         const tokenConfig = !this.webAuth && !this.oauth ? '' : `
 TOKEN_SECRET=`;
         let loggingConfigs = !this.logging ? '' : `
@@ -251,11 +251,11 @@ SQLSVRPORT=`;
         const files: IFileContent[] = [];
         
         if(this.logging) {
-            let loggingSvc = await CoreService.readFile(this.dir + `/templates/src-services-logger.service.ts.txt`);
+            let loggingSvc = await CoreService.readFile(this.dir + `templates/src-services-logger.service.ts.txt`);
             loggingSvc = this.setFileHeaderValues(loggingSvc);
             files.push({ path: `src/services/logging.service.ts`, content: loggingSvc });
 
-            let loggingMdl = await CoreService.readFile(this.dir + `/templates/src-middlewares-logging.middleware.ts.txt`);            
+            let loggingMdl = await CoreService.readFile(this.dir + `templates/src-middlewares-logging.middleware.ts.txt`);            
             loggingMdl = this.setFileHeaderValues(loggingMdl);        
             files.push({ path: `src/middlewares/logging.middleware.ts`, content: loggingMdl });
         }
@@ -265,7 +265,7 @@ SQLSVRPORT=`;
 
     private createReadme = async(): Promise<string> => {     
         logger.info(`Creating README.md`);    
-        let readme = await CoreService.readFile(this.dir + `/templates/readme.md.txt`);
+        let readme = await CoreService.readFile(this.dir + `templates/readme.md.txt`);
         
         let options = "";
         if(this.amq) {
@@ -342,7 +342,7 @@ SQLSVRPORT=`;
 
     private createPackageJson = async(projectName: string): Promise<string> => { 
         logger.info(`Creating package.json`);       
-        let packageJson = await CoreService.readFile(this.dir + `/templates/package.json.txt`);
+        let packageJson = await CoreService.readFile(this.dir + `templates/package.json.txt`);
 
         let loggingType = !this.logging ? '' : `
     "@types/winston": "^2.4.4",`;
@@ -390,21 +390,21 @@ SQLSVRPORT=`;
 
     private createGitignore = async(): Promise<string> => {     
         logger.info(`Creating .gitignore`);   
-        let gitignore = await CoreService.readFile(this.dir + `/templates/.gitignore.txt`);
+        let gitignore = await CoreService.readFile(this.dir + `templates/.gitignore.txt`);
 
         return gitignore;
     }
 
     private createTsConfig = async(): Promise<string> => {     
         logger.info(`Creating tsconfig.json`);   
-        let gitignore = await CoreService.readFile(this.dir + `/templates/tsconfig.json.txt`);
+        let gitignore = await CoreService.readFile(this.dir + `templates/tsconfig.json.txt`);
 
         return gitignore;
     }
 
     private createEnvironments = async(): Promise<string> => {  
         logger.info(`creating environment files`);      
-        let environment = await CoreService.readFile(this.dir + `/templates/src-environments-environment.ts.txt`);
+        let environment = await CoreService.readFile(this.dir + `templates/src-environments-environment.ts.txt`);
 
         const loggingConfig = !this.logging ? '' : `
             LOGLEVEL: string;`;
@@ -460,7 +460,7 @@ SQLSVRPORT=`;
     private createRoutes = async(): Promise<IFileContent[]> => {
         logger.info(`Creating routes`);
         let routes: IFileContent[] = [];
-        let indexRte = await CoreService.readFile(this.dir + `/templates/src-routes-index.ts.txt`);
+        let indexRte = await CoreService.readFile(this.dir + `templates/src-routes-index.ts.txt`);
         let routeDeclarations: string = '';
         let routeUses: string = '';
         if(this.oauth || this.webAuth) {
@@ -504,30 +504,30 @@ routes.use('/redis', redis);`
                     .replace(/ROUTE-USES/g, routeUses);
 
         routes.push({ path: `src/routes/index.ts`, content: indexRte});
-        let helloWorldRoute = await CoreService.readFile(this.dir + `/templates/src-routes-hello-world.route.ts.txt`);
+        let helloWorldRoute = await CoreService.readFile(this.dir + `templates/src-routes-hello-world.route.ts.txt`);
         routes.push({ path: `src/routes/hello-world.route.ts`, content: helloWorldRoute });
 
-        let loginRte = this.webAuth ? await CoreService.readFile(this.dir + `/templates/src-routes-login.route.ts.txt`) : null;
+        let loginRte = this.webAuth ? await CoreService.readFile(this.dir + `templates/src-routes-login.route.ts.txt`) : null;
         if(loginRte !== null) {
             routes.push({ path: `src/routes/login.route.ts`, content: loginRte });
         }
-        let mongoRte = this.mongo ? await CoreService.readFile(this.dir + `/templates/src-routes-mongo.route.ts.txt`) : null;
+        let mongoRte = this.mongo ? await CoreService.readFile(this.dir + `templates/src-routes-mongo.route.ts.txt`) : null;
         if(mongoRte !== null) {
             routes.push({ path: `src/routes/mongo.route.ts`, content: mongoRte });
         }
-        let mssqlRte = this.sqlServer ? await CoreService.readFile(this.dir + `/templates/src-routes-mssql.route.ts.txt`) : null;
+        let mssqlRte = this.sqlServer ? await CoreService.readFile(this.dir + `templates/src-routes-mssql.route.ts.txt`) : null;
         if(mssqlRte !== null) {
             routes.push({ path: `src/routes/mssql.route.ts`, content: mssqlRte });
         }
-        let mysqlRte = this.mysql ? await CoreService.readFile(this.dir + `/templates/src-routes-mysql.route.ts.txt`) : null;
+        let mysqlRte = this.mysql ? await CoreService.readFile(this.dir + `templates/src-routes-mysql.route.ts.txt`) : null;
         if(mysqlRte !== null) {
             routes.push({ path: `src/routes/mysql.route.ts`, content: mysqlRte });
         }
-        let pgRte = this.postGres ? await CoreService.readFile(this.dir + `/templates/src-routes-pg.route.ts.txt`) : null;
+        let pgRte = this.postGres ? await CoreService.readFile(this.dir + `templates/src-routes-pg.route.ts.txt`) : null;
         if(pgRte !== null) {
             routes.push({ path: `src/routes/pg.route.ts`, content: pgRte });
         }
-        let redisRte = this.postGres ? await CoreService.readFile(this.dir + `/templates/src-routes-redis.route.ts.txt`) : null;
+        let redisRte = this.postGres ? await CoreService.readFile(this.dir + `templates/src-routes-redis.route.ts.txt`) : null;
         if(redisRte !== null) {
             routes.push({ path: `src/routes/redis.route.ts`, content: redisRte });
         }
@@ -541,30 +541,30 @@ routes.use('/redis', redis);`
         logger.info(`Creating controllers`);
         let controllers: IFileContent[] = [];
 
-        let helloWorldCtrl = await CoreService.readFile(this.dir + `/templates/src-controllers-hello-world.controller.ts.txt`);
+        let helloWorldCtrl = await CoreService.readFile(this.dir + `templates/src-controllers-hello-world.controller.ts.txt`);
         controllers.push({ path: `src/controllers/hello-world.controller.ts`, content: helloWorldCtrl });
 
-        let loginCtrl = this.webAuth ? await CoreService.readFile(this.dir + `/templates/src-controllers-login.controller.ts.txt`) : null;
+        let loginCtrl = this.webAuth ? await CoreService.readFile(this.dir + `templates/src-controllers-login.controller.ts.txt`) : null;
         if(loginCtrl !== null) {
             controllers.push({ path: `src/controllers/login.controller.ts`, content: loginCtrl });
         }
-        let mongoCtrl = this.mongo ? await CoreService.readFile(this.dir + `/templates/src-controllers-mongo.controller.ts.txt`) : null;
+        let mongoCtrl = this.mongo ? await CoreService.readFile(this.dir + `templates/src-controllers-mongo.controller.ts.txt`) : null;
         if(mongoCtrl !== null) {
             controllers.push({ path: `src/controllers/mongo.controller.ts`, content: mongoCtrl });
         }
-        let mssqlCtrl = this.sqlServer ? await CoreService.readFile(this.dir + `/templates/src-controllers-mssql.controller.ts.txt`) : null;
+        let mssqlCtrl = this.sqlServer ? await CoreService.readFile(this.dir + `templates/src-controllers-mssql.controller.ts.txt`) : null;
         if(mssqlCtrl !== null) {
             controllers.push({ path: `src/controllers/mssql.controller.ts`, content: mssqlCtrl });
         }
-        let mysqlCtrl = this.mysql ? await CoreService.readFile(this.dir + `/templates/src-controllers-mysql.controller.ts.txt`) : null;
+        let mysqlCtrl = this.mysql ? await CoreService.readFile(this.dir + `templates/src-controllers-mysql.controller.ts.txt`) : null;
         if(mysqlCtrl !== null) {
             controllers.push({ path: `src/controllers/mysql.controller.ts`, content: mysqlCtrl });
         }
-        let pgCtrl = this.postGres ? await CoreService.readFile(this.dir + `/templates/src-controllers-pg.controller.ts.txt`) : null;
+        let pgCtrl = this.postGres ? await CoreService.readFile(this.dir + `templates/src-controllers-pg.controller.ts.txt`) : null;
         if(pgCtrl !== null) {
             controllers.push({ path: `src/controllers/pg.controller.ts`, content: pgCtrl });
         }
-        let redisCtrl = this.redis ? await CoreService.readFile(this.dir + `/templates/src-controllers-redis.controller.ts.txt`) : null;
+        let redisCtrl = this.redis ? await CoreService.readFile(this.dir + `templates/src-controllers-redis.controller.ts.txt`) : null;
         if(redisCtrl !== null) {
             controllers.push({ path: `src/controllers/redis.controller.ts`, content: redisCtrl });
         }
@@ -578,11 +578,11 @@ routes.use('/redis', redis);`
         logger.info(`Creating repositories`);
         let repos: IFileContent[] = [];
 
-        let mongoRepo = this.mongo ? await CoreService.readFile(this.dir + `/templates/src-data-mongo.repo.ts.txt`) : null;
-        let mssqlRepo = this.sqlServer ? await CoreService.readFile(this.dir + `/templates/src-data-mssql.repo.ts.txt`) : null;
-        let mysqlRepo = this.mysql ? await CoreService.readFile(this.dir + `/templates/src-data-mysql.repo.ts.txt`) : null;
-        let pgRepo = this.postGres ? await CoreService.readFile(this.dir + `/templates/src-data-pg.repo.ts.txt`) : null;
-        let redisRepo = this.redis ? await CoreService.readFile(this.dir + `/templates/src-data-redis.repo.ts.txt`) : null;
+        let mongoRepo = this.mongo ? await CoreService.readFile(this.dir + `templates/src-data-mongo.repo.ts.txt`) : null;
+        let mssqlRepo = this.sqlServer ? await CoreService.readFile(this.dir + `templates/src-data-mssql.repo.ts.txt`) : null;
+        let mysqlRepo = this.mysql ? await CoreService.readFile(this.dir + `templates/src-data-mysql.repo.ts.txt`) : null;
+        let pgRepo = this.postGres ? await CoreService.readFile(this.dir + `templates/src-data-pg.repo.ts.txt`) : null;
+        let redisRepo = this.redis ? await CoreService.readFile(this.dir + `templates/src-data-redis.repo.ts.txt`) : null;
 
         if(mongoRepo !== null) {
             repos.push({ path: `src/data/mongo.repo.ts`, content: mongoRepo });
@@ -609,13 +609,13 @@ routes.use('/redis', redis);`
         logger.info(`Creating docker items`);
         let files: IFileContent[] = [];
 
-        let dockerIgnore = await CoreService.readFile(this.dir + `/templates/.dockerignore.txt`);
+        let dockerIgnore = await CoreService.readFile(this.dir + `templates/.dockerignore.txt`);
         files.push({ path: `.dockerignore`, content: dockerIgnore });
 
-        let dockerfile = await CoreService.readFile(this.dir + `/templates/DkrFl.txt`);
+        let dockerfile = await CoreService.readFile(this.dir + `templates/DkrFl.txt`);
         files.push({ path: `Dockerfile`, content: dockerfile });
 
-        let dockerCompose = await CoreService.readFile(this.dir + `/templates/dkr-cmps.yml.txt`);
+        let dockerCompose = await CoreService.readFile(this.dir + `templates/dkr-cmps.yml.txt`);
         dockerCompose = dockerCompose.replace(/{APP-NAME}/g, this.appName);
 
         files.push({ path: `docker-compose.yml`, content: dockerCompose });
