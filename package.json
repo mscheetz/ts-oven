@@ -7,6 +7,7 @@
     "devbuild": "npm run config -- --environment=dev && ng build --output-hashing=all",
     "server:start": "cd ./server && ts-node index.ts",
     "config": "ts-node ./scripts/config.ts",
+    "run:prod": "ng serve --prod",
     "ng": "ng",
     "start": "npm run devbuild && ng serve",
     "test": "ng test",
