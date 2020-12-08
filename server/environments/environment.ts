@@ -12,7 +12,7 @@
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            PORT: number;
+            PORT: string;
             LOGLEVEL: string;
             ENVIRONMENT: string;
             TOKEN_SECRET: string;
@@ -32,8 +32,8 @@ declare global {
             PGHOST: string;
             PGDATABASE: string;
             PGPASSWORD: string;
-            PGPORT: number;
-            REDISPORT: number;
+            PGPORT: string;
+            REDISPORT: string;
             REDISHOST: string;
             REDISSECRET: string;
         }
