@@ -25,7 +25,7 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 logger.info(`Log level: ${process.env.LOGLEVEL}`);
 logger.info(`Port: ${process.env.PORT}`);
-const distDir = `dist/ts-oven`;
+const distDir = `./dist/ts-oven`;
 
 const forceSSL = function() {
   return function (req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -49,10 +49,13 @@ app.use(bodyParser.json());
 
 app.use("/api", routes);
 
-app.get(`/`, function(req: express.Request, res: express.Response) {
-  logger.verbose(`new request from ${req.ip}`);
-  res.status(200).send('Hello World!');
-})
+app.get('*.*', express.static(distDir, {maxAge: '1yr'}));
+
+app.get('/', function (req, res) {
+  res.status(200).sendFile(`/`, {root: distDir});
+});
+
+app.use(express.static('public'));
 
 app.listen(port, () => {
   logger.info(`TS Oven server started on port ${port}!`);

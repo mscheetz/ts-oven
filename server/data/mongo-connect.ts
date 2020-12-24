@@ -10,45 +10,45 @@
  * Last modified    : 2020-11-21
  */
 // from https://medium.com/swlh/using-typescript-with-mongodb-393caf7adfef
-import * as Mongoose from 'mongoose';
-import { logger } from '../services/logger.service';
+// import * as Mongoose from 'mongoose';
+// import { logger } from '../services/logger.service';
 
-let db: Mongoose.Connection;
+// let db: Mongoose.Connection;
 
-const mongoConnect = () => {    
-    const uri = `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPASS}@${process.env.MONGOHOST}/${process.env.MONGODB}?retryWrites=true&w=majority`;
+// const mongoConnect = () => {    
+//     const uri = `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPASS}@${process.env.MONGOHOST}/${process.env.MONGODB}?retryWrites=true&w=majority`;
 
-    if(db) {
-        return;
-    }
+//     if(db) {
+//         return;
+//     }
 
-    Mongoose.connect(uri, { 
-        useNewUrlParser: true,
-        useFindAndModify: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-    });
+//     Mongoose.connect(uri, { 
+//         useNewUrlParser: true,
+//         useFindAndModify: true,
+//         useUnifiedTopology: true,
+//         useCreateIndex: true
+//     });
 
-    db = Mongoose.connection;
+//     db = Mongoose.connection;
 
-    db.once("open", async() => {
-        logger.info("Connected to MongoDB");
-    });
+//     db.once("open", async() => {
+//         logger.info("Connected to MongoDB");
+//     });
 
-    db.on("error", () => {
-        logger.error("Error connecting to MongoDB");
-    });
-}
+//     db.on("error", () => {
+//         logger.error("Error connecting to MongoDB");
+//     });
+// }
 
-const mongoDisconnect = () => {
-    if(!db) {
-        return;
-    }
+// const mongoDisconnect = () => {
+//     if(!db) {
+//         return;
+//     }
 
-    Mongoose.disconnect();
-}
+//     Mongoose.disconnect();
+// }
 
-export { 
-    mongoConnect,
-    mongoDisconnect 
-};
+// export { 
+//     mongoConnect,
+//     mongoDisconnect 
+// };
