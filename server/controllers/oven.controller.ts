@@ -40,6 +40,7 @@ class OvenController {
     private sqlServer: boolean;
     private webAuth: boolean;
     private docker: boolean;
+    private swagger: boolean;
     private npmRepo: NPMRepo;
 
     constructor() {
@@ -162,7 +163,7 @@ class OvenController {
     }
 
     private setOptions(body: IDough) {
-        logger.info(`Setting options`);
+        logger.info(`Setting options for ${body.options}`);
         this.amq = ((body.options & Ingredient.AMQ) === Ingredient.AMQ) ? true : false;
         this.eth = ((body.options & Ingredient.ETH) === Ingredient.ETH) ? true : false;
         this.btc = ((body.options & Ingredient.BTC) === Ingredient.BTC) ? true : false;
@@ -179,6 +180,58 @@ class OvenController {
         this.sqlServer = ((body.options & Ingredient.SQLSERVER) === Ingredient.SQLSERVER) ? true : false;
         this.webAuth = ((body.options & Ingredient.WEBAUTH) === Ingredient.WEBAUTH) ? true : false;
         this.docker = ((body.options & Ingredient.DOCKER) === Ingredient.DOCKER) ? true : false;
+        this.swagger = ((body.options & Ingredient.SWAGGER) === Ingredient.SWAGGER) ? true : false;
+        if(this.amq){
+            logger.info(`AMQ set`);
+        }
+        if(this.eth){
+            logger.info(`ETH set`);
+        }
+        if(this.btc){
+            logger.info(`BTC set`);
+        }
+        if(this.graphql){
+            logger.info(`Graphql set`);
+        }
+        if(this.kafka){
+            logger.info(`Kafka set`);
+        }
+        if(this.logging){
+            logger.info(`Logging set`);
+        }
+        if(this.mongo){
+            logger.info(`Mongo set`);
+        }
+        if(this.mysql){
+            logger.info(`MySql set`);
+        }
+        if(this.neo4j){
+            logger.info(`Neo4j set`);
+        }
+        if(this.oauth){
+            logger.info(`OAuth set`);
+        }
+        if(this.postGres){
+            logger.info(`PostGres set`);
+        }
+        if(this.redis){
+            logger.info(`redis set`);
+        }
+        if(this.s3){
+            logger.info(`s3 set`);
+        }
+        if(this.sqlServer){
+            logger.info(`sql server set`);
+        }
+        if(this.webAuth){
+            logger.info(`web auth set`);
+        }
+        if(this.docker){
+            logger.info(`Docker set`);
+        }
+        if(this.swagger){
+            logger.info(`Swagger set`);
+        }
     }
 
     private createAuth = async(): Promise<IFileContent[]> => { 
@@ -527,7 +580,7 @@ routes.use('/redis', redis);`
         if(pgRte !== null) {
             routes.push({ path: `src/routes/pg.route.ts`, content: pgRte });
         }
-        let redisRte = this.postGres ? await CoreService.readFile(this.dir + `templates/src-routes-redis.route.ts.txt`) : null;
+        let redisRte = this.redis ? await CoreService.readFile(this.dir + `templates/src-routes-redis.route.ts.txt`) : null;
         if(redisRte !== null) {
             routes.push({ path: `src/routes/redis.route.ts`, content: redisRte });
         }
