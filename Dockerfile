@@ -9,25 +9,11 @@ COPY . .
 RUN cat /sys/fs/cgroup/memory/memory.usage_in_bytes | awk '{ byte = $1 /1024/1024; print byte " MB" }'
 
 RUN ls -lrt
-#COPY copy.js ./
-
-#COPY clean.js ./
-
-#COPY ./server ./server
-
-#COPY ./scripts ./scripts
-
-#COPY ./src ./src
-
-#RUN cat package.json
 
 # NPM INSTALL
 RUN npm i typescript -g
 
 RUN npm run install:server
-#RUN npm install
-
-#RUN npm rebuild node-sass
 
 RUN ls -lrt
 
