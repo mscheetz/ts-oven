@@ -1,0 +1,24 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Declare Routes for MySql Endpoints
+ * 
+ * @summary MySqlRouter
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+import { Router } from 'express';{logger-mddlwr-impl}
+import MySqlController from '../controllers/mysql.controller';
+
+const router = Router();
+
+router.get('/', {route-logging}MySqlController.get);
+router.get('/:id', {route-logging}MySqlController.getAll);
+router.post('/', {route-logging}MySqlController.add);
+router.put('/', {route-logging}MySqlController.update);
+router.delete('/:id', {route-logging}MySqlController.delete);
+router.get('/test', {route-logging}MySqlController.test);
+
+export default router;

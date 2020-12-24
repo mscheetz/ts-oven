@@ -113,4 +113,4 @@ class PGRepo {
 
 }
 
-export default PGBaseRepo;
+export default PGRepo;

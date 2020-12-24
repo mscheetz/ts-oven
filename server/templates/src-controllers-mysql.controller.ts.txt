@@ -1,24 +1,32 @@
 /**
  * Copyright (c) {YEAR}
  * 
- * Represents a PG Controller to handle requests interacting with a PostGreSQL Db
+ * Represents a MySql Controller to handle requests interacting with a MySQL Db
  * 
- * @summary PGController
+ * @summary MySqlController
  * @author {AUTHOR}
  * 
  * Created at       : {CREATED}
  * Last modified    : {MODIFIED}
  */
 import express from 'express';
-import PGRepo from '../data/pg.repo';{logger-impl}
+import MySqlRepo from '../data/mysql.repo';{logger-impl}
 
-class PGController {
-    private pg: PGRepo = new PGRepo();
+class MySqlController {
+    private mySql: MySqlRepo = new MySqlRepo();
 
     constructor() {}
 
+    public test = async(req: express.Request, res: express.Response) => {
+        const testStatus = await this.mySql.test();
+        
+        const status = testStatus === true ? 200 : 500;
+
+        res.status(status).json(testStatus);
+    }
+
     public add = async(req: express.Request, res: express.Response) => {
-        const rows = await this.pg.add(req.body);
+        const rows = await this.mySql.add(req.body);
         
         const status = rows !== null ? 201 : 500;
 
@@ -27,7 +35,7 @@ class PGController {
 
     public get = async(req: express.Request, res: express.Response) => {
         const id = req.params.id;
-        const datas = await this.pg.get(id);
+        const datas = await this.mySql.get(id);
         const status = datas !== null ? 200 : 500;
 
         res.status(status).json(datas);
@@ -35,14 +43,14 @@ class PGController {
 
     public getAll = async(req: express.Request, res: express.Response) => {
         {logger}(`request from: ${req.ip}`);
-        const datas = await this.pg.getAll();
+        const datas = await this.mySql.getAll();
         const status = datas !== null ? 200 : 500;
         
         res.status(status).json(datas);
     }
 
     public update = async(req: express.Request, res: express.Response) => {
-        const rows = await this.pg.update(req.body);
+        const rows = await this.mySql.update(req.body);
         
         const status = rows !== null ? 200 : 500;
 
@@ -51,11 +59,11 @@ class PGController {
 
     public delete = async(req: express.Request, res: express.Response) => {
         const id = req.params.id;
-        const rows = await this.pg.delete(id);        
+        const rows = await this.mySql.delete(id);        
         const status = rows !== null ? 200 : 500;
 
         res.status(status).json(rows);
     }
 }
 
-export default PGController;
+export default MySqlController;
