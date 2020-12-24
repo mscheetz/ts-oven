@@ -26,10 +26,14 @@
             <label>MongoDB <i class="pi pi-info-circle" pTooltip="MongoDB is a No-SQL database solution. Using 'mongodb'."></i>: </label>
             <p-inputSwitch [(ngModel)]="MONGO"></p-inputSwitch>
         </div>
-        <div class="optionClass">
-            <label>MySQL <i class="pi pi-info-circle" pTooltip="MySQL is a relational database solution. Using 'mysql'."></i>: </label>
+        <div class="optionClass inactive">
+            <label><i>MySQL </i> <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
             <p-inputSwitch [(ngModel)]="MYSQL"></p-inputSwitch>
         </div>
+        <!-- <div class="optionClass">
+            <label>MySQL <i class="pi pi-info-circle" pTooltip="MySQL is a relational database solution. Using 'mysql'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="MYSQL"></p-inputSwitch>
+        </div> -->
         <div class="optionClass inactive">
             <label><i>Neo4j </i> <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
             <p-inputSwitch [disabled]=true [(ngModel)]="NEO4J"></p-inputSwitch>
@@ -38,14 +42,22 @@
             <label>PostgreSQL <i class="pi pi-info-circle" pTooltip="PostgreSQL is a relational database solution. Using 'pg'."></i>: </label>
             <p-inputSwitch [(ngModel)]="PG"></p-inputSwitch>
         </div>
-        <div class="optionClass">
+        <div class="optionClass inactive">
+            <label><i>Redis </i> <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [(ngModel)]="REDIS"></p-inputSwitch>
+        </div>
+        <div class="optionClass inactive">
+            <label><i>SQL Server </i> <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [(ngModel)]="SQLSERVER"></p-inputSwitch>
+        </div>
+        <!-- <div class="optionClass">
             <label>Redis <i class="pi pi-info-circle" pTooltip="Redis is a key/value pair data storage solution. Using 'redis'."></i>: </label>
             <p-inputSwitch [(ngModel)]="REDIS"></p-inputSwitch>
         </div>
         <div class="optionClass">
             <label>SQL Server <i class="pi pi-info-circle" pTooltip="Sql Server is a relational database storage solution. Using 'mssql'."></i>: </label>
             <p-inputSwitch [(ngModel)]="SQLSERVER"></p-inputSwitch>
-        </div>
+        </div> -->
     </div>
     <div class="h4-like">
         Messaging
@@ -105,6 +117,10 @@
         <div class="optionClass">
             <label>Logging <i class="pi pi-info-circle" pTooltip="Detailed application logging. Using 'winston'"></i>: </label>
             <p-inputSwitch [(ngModel)]="LOGGING"></p-inputSwitch>
+        </div>
+        <div class="optionClass inactive">
+            <label><i>Swagger </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="SWAGGER"></p-inputSwitch> 
         </div>
     </div>
 </p-card>
