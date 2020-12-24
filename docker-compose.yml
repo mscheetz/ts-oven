@@ -1,12 +1,21 @@
 version: '3.8'
 services:
   server:
-    build: server
-    image: tsoven/server
-    ports:
-      - '4201:4201'
-  client:
+    container_name: tsoven
+    restart: always
     build: .
-    image: tsoven/client
+    image: tsoven
+    environment: 
+      - PORT=3000
     ports:
-      - '4200:4200'
+      - '3000:3000'
+  # server:
+  #   build: server
+  #   image: tsoven/server
+  #   ports:
+  #     - '4201:4201'
+  # client:
+  #   build: .
+  #   image: tsoven/client
+  #   ports:
+  #     - '4200:4200'

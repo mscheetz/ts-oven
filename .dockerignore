@@ -2,6 +2,8 @@
 /e2e
 .gitignore
 .git
-/server
+/server/node_modules
 *.md
 /.vscode
+/dist
+/ts-oven
