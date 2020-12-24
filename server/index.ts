@@ -26,6 +26,7 @@ const port = process.env.PORT || 3000;
 logger.info(`Log level: ${process.env.LOGLEVEL}`);
 logger.info(`Port: ${process.env.PORT}`);
 const distDir = `./dist/ts-oven`;
+const publicDir = `./dist/static`;
 
 const forceSSL = function() {
   return function (req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -55,7 +56,7 @@ app.get('/', function (req, res) {
   res.status(200).sendFile(`/`, {root: distDir});
 });
 
-app.use(express.static('public'));
+app.use(express.static(publicDir));
 
 app.listen(port, () => {
   logger.info(`TS Oven server started on port ${port}!`);
