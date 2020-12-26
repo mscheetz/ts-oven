@@ -24,7 +24,7 @@ class MySqlRepo {
         this.pool = mysql.createPool({
             user: process.env.MYSQLUSER,
             host: process.env.MYSQLHOST,
-            database: process.env.MYSQLDB,
+            database: process.env.MYSQLDATABASE,
             password: process.env.MYSQLPASS,
             port: port
         });

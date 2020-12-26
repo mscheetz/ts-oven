@@ -102,6 +102,18 @@ class OvenController {
             baseInterface = this.updateFileHeader(baseInterface);
         
             zip.append(baseInterface.content, { name: baseInterface.path});
+
+            if(this.mongo){
+                let account = await CoreService.readFile(this.dir + `templates/src-interfaces-account.interface.ts.txt`);
+                let accountInterface: IFileContent = {
+                    content: account,
+                    path: `src/interfaces/account.interface.ts`
+                };
+    
+                accountInterface = this.updateFileHeader(accountInterface);
+            
+                zip.append(accountInterface.content, { name: accountInterface.path});
+            }
         }
 
         const environment = await this.createEnvironments();
@@ -262,8 +274,7 @@ LOGLEVEL=silly
 MONGOUSER=
 MONGOHOST=
 MONGOPASS=
-MONGODATABASE=
-MONGOPORT=`;
+MONGODATABASE=`;
         let mysqlConfigs = !this.mysql ? '' : `
 MYSQLUSER=
 MYSQLHOST=
@@ -468,8 +479,7 @@ SQLSVRPORT=`;
             MONGOUSER: string;
             MONGOHOST: string;
             MONGOPASSWORD: string;
-            MONGODATABASE: string;
-            MONGOPORT: number`;
+            MONGODATABASE: string;`;
         const mysqlConfigs = !this.mysql ? '' : `
             MYSQLDB: string;
             MYSQLUSER: string;
@@ -639,6 +649,9 @@ routes.use('/redis', redis);`
 
         if(mongoRepo !== null) {
             repos.push({ path: `src/data/mongo.repo.ts`, content: mongoRepo });
+
+            // let mongoConnect = await CoreService.readFile(this.dir + `src-data-mongo.connect.ts.txt`);
+            // repos.push({ path: `src/data/mongo-connect.ts`, content: mongoConnect});
         }
         if(mssqlRepo !== null) {
             repos.push({ path: `src/data/mssql.repo.ts`, content: mssqlRepo });

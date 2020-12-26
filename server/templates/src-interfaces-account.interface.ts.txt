@@ -1,0 +1,16 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Account interface represents an Account object
+ * 
+ * @summary IAccount
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+interface IAccount {
+    account_id: number;
+    limit: number;
+    products: string[];
+}
