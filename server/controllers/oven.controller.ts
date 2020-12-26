@@ -291,10 +291,8 @@ PGPASS=`;
         let redisConfigs = !this.redis ? '' : `
 REDISHOST=
 REDISPORT=
-REDISDATABASE=
-REDISUSER=
-REDISPASS=`;
-        let sqlServerConfigs = !this.redis ? '' : `
+REDISSECRET=`;
+        let sqlServerConfigs = !this.sqlServer ? '' : `
 SQLSVRHOST=
 SQLSVRPORT=
 SQLSVRDATABASE=
@@ -429,9 +427,9 @@ SQLSVRPASS=`;
     "@types/redis": "^2.8.27",`;
         let redisDep = !this.redis ? '' : `
     "redis": "^3.0.2",`;
-        let sqlServerType = !this.redis ? '' : `
+        let sqlServerType = !this.sqlServer ? '' : `
     "@types/mssql": "^6.0.4",`;
-        let sqlServerDep = !this.redis ? '' : `
+        let sqlServerDep = !this.sqlServer ? '' : `
     "mssql": "^6.2.2",`;
 
         packageJson = packageJson
@@ -476,36 +474,32 @@ SQLSVRPASS=`;
         const tokenConfig = !this.webAuth && !this.oauth ? '' : `
             TOKEN_SECRET: string;`
         const mongoConfigs = !this.mongo ? '' : `
-            MONGODB: string;
-            MONGOUSER: string;
             MONGOHOST: string;
-            MONGOPASSWORD: string;
-            MONGODATABASE: string;`;
+            MONGODATABASE: string;
+            MONGOUSER: string;
+            MONGOPASSWORD: string;`;
         const mysqlConfigs = !this.mysql ? '' : `
-            MYSQLDB: string;
-            MYSQLUSER: string;
             MYSQLHOST: string;
-            MYSQLPASSWORD: string;
+            MYSQLPORT: number;
             MYSQLDATABASE: string;
-            MYSQLPORT: number`;
+            MYSQLUSER: string;
+            MYSQLPASSWORD: string;`;
         const pgConfigs = !this.postGres ? '' : `
-            PGUSER: string;
             PGHOST: string;
+            PGPORT: number;
             PGDATABASE: string;
-            PGPASSWORD: string;
-            PGPORT: number;`;
+            PGUSER: string;
+            PGPASSWORD: string;`;
         const redisConfigs = !this.redis ? '' : `
-            REDISUSER: string;
             REDISHOST: string;
-            REDISDATABASE: string;
-            REDISPASSWORD: string;
-            REDISPORT: number;`;
-        const sqlServerConfigs = !this.redis ? '' : `
-            SQLSVRUSER: string;
+            REDISPORT: number;
+            REDISSECRET: string;`;
+        const sqlServerConfigs = !this.sqlServer ? '' : `
             SQLSVRHOST: string;
+            SQLSVRPORT: number;
             SQLSVRDATABASE: string;
-            SQLSVRPASSWORD: string;
-            SQLSVRPORT: number;`;
+            SQLSVRUSER: string;
+            SQLSVRPASSWORD: string;`;
 
         environment = environment
                     .replace(/TOKEN-CONFIG/g, tokenConfig)

@@ -1,0 +1,25 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a Redis Router for routing incoming Redis requests
+ * 
+ * @summary RedisRoute
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+import { Router } from 'express';{logger-mddlwr-impl}
+import RedisController from '../controllers/redis.controller';
+
+const router = Router();
+const controller: RedisController = new RedisController();
+
+router.get('/', {route-logging}controller.getKeys);
+router.post('/', {route-logging}controller.getMany);
+router.get('/key/:key', {route-logging}controller.get);
+router.post('/key/:key', {route-logging}controller.add);
+router.put('/key/:key', {route-logging}controller.update);
+router.delete('/key/:key', {route-logging}controller.delete);
+
+export default router;

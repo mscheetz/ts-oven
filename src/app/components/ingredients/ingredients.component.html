@@ -38,19 +38,15 @@
             <label>PostgreSQL <i class="pi pi-info-circle" pTooltip="PostgreSQL is a relational database solution. Using '@types/pg' and 'pg'."></i>: </label>
             <p-inputSwitch [(ngModel)]="PG"></p-inputSwitch>
         </div>
-        <div class="optionClass inactive">
-            <label><i>Redis </i> <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
-            <p-inputSwitch [disabled]=true [(ngModel)]="REDIS"></p-inputSwitch>
+        <div class="optionClass active">
+            <label>Redis <i class="pi pi-info-circle" pTooltip="Redis is a key/value pair data storage solution. Using '@types/redis' and 'redis'."></i>: </label>
+            <p-inputSwitch [(ngModel)]="REDIS"></p-inputSwitch>
         </div>
         <div class="optionClass inactive">
             <label><i>SQL Server </i> <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
             <p-inputSwitch [disabled]=true [(ngModel)]="SQLSERVER"></p-inputSwitch>
         </div>
         <!-- <div class="optionClass">
-            <label>Redis <i class="pi pi-info-circle" pTooltip="Redis is a key/value pair data storage solution. Using 'redis'."></i>: </label>
-            <p-inputSwitch [(ngModel)]="REDIS"></p-inputSwitch>
-        </div>
-        <div class="optionClass">
             <label>SQL Server <i class="pi pi-info-circle" pTooltip="Sql Server is a relational database storage solution. Using 'mssql'."></i>: </label>
             <p-inputSwitch [(ngModel)]="SQLSERVER"></p-inputSwitch>
         </div> -->
