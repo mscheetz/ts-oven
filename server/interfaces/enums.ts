@@ -27,5 +27,6 @@ export enum Ingredient {
     OAUTH = 8192,
     BTC = 16384,
     DOCKER = 32768,
-    SWAGGER = 65536
+    SWAGGER = 65536,
+    IPFS = 131072
 }

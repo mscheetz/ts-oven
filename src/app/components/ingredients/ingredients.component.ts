@@ -24,6 +24,7 @@ export class IngredientsComponent implements OnInit {
   LOGGING: boolean = false;
   DOCKER: boolean = false;
   SWAGGER: boolean = false;
+  IPFS: boolean = false;
   showAuth: boolean = false;
   showData: boolean = false;
   showMessage: boolean = false;
@@ -89,6 +90,9 @@ export class IngredientsComponent implements OnInit {
     }
     if((this.options & Ingredient.SWAGGER) === Ingredient.SWAGGER) {
       this.SWAGGER = true;
+    }
+    if((this.options & Ingredient.IPFS) === Ingredient.IPFS) {
+      this.IPFS = true;
     }
   }
 
@@ -164,6 +168,9 @@ export class IngredientsComponent implements OnInit {
     }
     if(this.SWAGGER) {
       this.ingredients = this.ingredients | Ingredient.SWAGGER;
+    }
+    if(this.IPFS) {
+      this.ingredients = this.ingredients | Ingredient.IPFS;
     }
     if(typeof this.ingredients === 'undefined') {
       this.ingredients = Ingredient.None;

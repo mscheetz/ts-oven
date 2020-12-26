@@ -73,6 +73,10 @@
     </div>
     <div *ngIf="showStorage" class="optionGroup">
         <div class="optionClass inactive">
+            <label><i>IPFS </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="IPFS"></p-inputSwitch>
+        </div>
+        <div class="optionClass inactive">
             <label><i>S3 </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
             <p-inputSwitch [disabled]=true [(ngModel)]="S3"></p-inputSwitch>
         </div>

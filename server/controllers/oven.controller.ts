@@ -41,6 +41,7 @@ class OvenController {
     private webAuth: boolean;
     private docker: boolean;
     private swagger: boolean;
+    private ipfs: boolean;
     private npmRepo: NPMRepo;
 
     constructor() {
@@ -194,6 +195,7 @@ class OvenController {
         this.webAuth = ((body.options & Ingredient.WEBAUTH) === Ingredient.WEBAUTH) ? true : false;
         this.docker = ((body.options & Ingredient.DOCKER) === Ingredient.DOCKER) ? true : false;
         this.swagger = ((body.options & Ingredient.SWAGGER) === Ingredient.SWAGGER) ? true : false;
+        this.ipfs = ((body.options & Ingredient.IPFS) === Ingredient.IPFS) ? true : false;
         if(this.amq){
             logger.info(`AMQ set`);
         }
@@ -244,6 +246,9 @@ class OvenController {
         }
         if(this.swagger){
             logger.info(`Swagger set`);
+        }
+        if(this.ipfs){
+            logger.info(`IPFS set`);
         }
     }
 
