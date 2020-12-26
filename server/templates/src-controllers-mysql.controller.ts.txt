@@ -18,7 +18,7 @@ class MySqlController {
     constructor() {}
 
     public test = async(req: express.Request, res: express.Response) => {
-        const testStatus = await this.mySql.test();
+        const testStatus = await this.mySql.testConnection();
         
         const status = testStatus === true ? 200 : 500;
 

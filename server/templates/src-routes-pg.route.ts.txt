@@ -15,8 +15,8 @@ import PGController from '../controllers/pg.controller';
 const router = Router();
 const controller: PGController = new PGController();
 
-router.get('/', {route-logging}controller.get);
-router.get('/:id', {route-logging}controller.getAll);
+router.get('/', {route-logging}controller.getAll);
+router.get('/:id', {route-logging}controller.get);
 router.post('/', {route-logging}controller.add);
 router.put('/', {route-logging}controller.update);
 router.delete('/', {route-logging}controller.delete);
