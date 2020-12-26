@@ -21,12 +21,27 @@ class PGRepo {
             user: process.env.PGUSER,
             host: process.env.PGHOST,
             database: process.env.PGDATABASE,
-            password: process.env.PGPASSWORD,
+            password: process.env.PGPASS,
             port: port,
             ssl: { rejectUnauthorized: false }
         });
+        this.testConnection();
     }
-    
+      
+    public testConnection = async() => {
+        return new Promise((res, rej) => {
+            this.pool.connect((err, connection) => {
+                if(err) {
+                    {logger-error}(err);
+                    return rej(err.message);
+                }
+                {logger}(`Successfull connection to PostGres DB`);
+                connection.release();
+                return res(true);
+            });
+        });
+    }
+
     public get = async(id: string) => {
         const sql = `select id, name
         from public."base"

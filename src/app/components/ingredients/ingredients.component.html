@@ -23,23 +23,19 @@
     </div>
     <div *ngIf="showData" class="optionGroup">
         <div class="optionClass">
-            <label>MongoDB <i class="pi pi-info-circle" pTooltip="MongoDB is a No-SQL database solution. Using 'mongodb'."></i>: </label>
+            <label>MongoDB <i class="pi pi-info-circle" pTooltip="MongoDB is a No-SQL database solution. Using '@types/mongodb' and 'mongodb'."></i>: </label>
             <p-inputSwitch [(ngModel)]="MONGO"></p-inputSwitch>
         </div>
-        <div class="optionClass inactive">
-            <label><i>MySQL </i> <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
-            <p-inputSwitch [disabled]=true [(ngModel)]="MYSQL"></p-inputSwitch>
-        </div>
-        <!-- <div class="optionClass">
-            <label>MySQL <i class="pi pi-info-circle" pTooltip="MySQL is a relational database solution. Using 'mysql'."></i>: </label>
+        <div class="optionClass">
+            <label>MySQL <i class="pi pi-info-circle" pTooltip="MySQL is a relational database solution. Using '@types/mysql' and 'mysql'."></i>: </label>
             <p-inputSwitch [(ngModel)]="MYSQL"></p-inputSwitch>
-        </div> -->
+        </div>
         <div class="optionClass inactive">
             <label><i>Neo4j </i> <i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
             <p-inputSwitch [disabled]=true [(ngModel)]="NEO4J"></p-inputSwitch>
         </div>
         <div class="optionClass">
-            <label>PostgreSQL <i class="pi pi-info-circle" pTooltip="PostgreSQL is a relational database solution. Using 'pg'."></i>: </label>
+            <label>PostgreSQL <i class="pi pi-info-circle" pTooltip="PostgreSQL is a relational database solution. Using '@types/pg' and 'pg'."></i>: </label>
             <p-inputSwitch [(ngModel)]="PG"></p-inputSwitch>
         </div>
         <div class="optionClass inactive">
