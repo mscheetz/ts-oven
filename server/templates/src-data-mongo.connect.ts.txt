@@ -1,0 +1,52 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Mongo Connect handle connection to mongo db
+ * 
+ * @summary Mongo Connect
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+import * as Mongoose from 'mongoose';{logger-impl}
+
+let db: Mongoose.Connection;
+
+const mongoConnect = () => {    
+    const uri = `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPASS}@${process.env.MONGOHOST}/${process.env.MONGODATABASE}?retryWrites=true&w=majority`;
+
+    if(db) {
+        return;
+    }
+
+    Mongoose.connect(uri, { 
+        useNewUrlParser: true,
+        useFindAndModify: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true
+    });
+
+    db = Mongoose.connection;
+
+    db.once("open", async() => {
+        {logger}("Connected to MongoDB");
+    });
+
+    db.on("error", () => {
+        {logger}("Error connecting to MongoDB");
+    });
+}
+
+const mongoDisconnect = () => {
+    if(!db) {
+        return;
+    }
+
+    Mongoose.disconnect();
+}
+
+export { 
+    mongoConnect,
+    mongoDisconnect 
+};

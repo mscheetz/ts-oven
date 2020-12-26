@@ -23,6 +23,7 @@ export class IngredientsComponent implements OnInit {
   WEBAUTH: boolean = false;
   LOGGING: boolean = false;
   DOCKER: boolean = false;
+  SWAGGER: boolean = false;
   showAuth: boolean = false;
   showData: boolean = false;
   showMessage: boolean = false;
@@ -85,6 +86,9 @@ export class IngredientsComponent implements OnInit {
     }
     if((this.options & Ingredient.DOCKER) === Ingredient.DOCKER) {
       this.DOCKER = true;
+    }
+    if((this.options & Ingredient.SWAGGER) === Ingredient.SWAGGER) {
+      this.SWAGGER = true;
     }
   }
 
@@ -157,6 +161,9 @@ export class IngredientsComponent implements OnInit {
     }
     if(this.DOCKER) {
       this.ingredients = this.ingredients | Ingredient.DOCKER;
+    }
+    if(this.SWAGGER) {
+      this.ingredients = this.ingredients | Ingredient.SWAGGER;
     }
     if(typeof this.ingredients === 'undefined') {
       this.ingredients = Ingredient.None;

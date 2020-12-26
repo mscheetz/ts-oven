@@ -40,6 +40,7 @@ class OvenController {
     private sqlServer: boolean;
     private webAuth: boolean;
     private docker: boolean;
+    private swagger: boolean;
     private npmRepo: NPMRepo;
 
     constructor() {
@@ -101,6 +102,18 @@ class OvenController {
             baseInterface = this.updateFileHeader(baseInterface);
         
             zip.append(baseInterface.content, { name: baseInterface.path});
+
+            if(this.mongo){
+                let account = await CoreService.readFile(this.dir + `templates/src-interfaces-account.interface.ts.txt`);
+                let accountInterface: IFileContent = {
+                    content: account,
+                    path: `src/interfaces/account.interface.ts`
+                };
+    
+                accountInterface = this.updateFileHeader(accountInterface);
+            
+                zip.append(accountInterface.content, { name: accountInterface.path});
+            }
         }
 
         const environment = await this.createEnvironments();
@@ -149,6 +162,7 @@ class OvenController {
 
         let indexTS = await CoreService.readFile(this.dir + `templates/src-index.ts.txt`);
         indexTS = this.setFileHeaderValues(indexTS);
+        indexTS = indexTS.replace(`import { logger } from '../services/logging.service`, `import { logger } from './services/logging.service`);
         
         logger.info(`Creating zip file`);
         zip.append(env, { name: `.env` })
@@ -162,7 +176,7 @@ class OvenController {
     }
 
     private setOptions(body: IDough) {
-        logger.info(`Setting options`);
+        logger.info(`Setting options for ${body.options}`);
         this.amq = ((body.options & Ingredient.AMQ) === Ingredient.AMQ) ? true : false;
         this.eth = ((body.options & Ingredient.ETH) === Ingredient.ETH) ? true : false;
         this.btc = ((body.options & Ingredient.BTC) === Ingredient.BTC) ? true : false;
@@ -179,6 +193,58 @@ class OvenController {
         this.sqlServer = ((body.options & Ingredient.SQLSERVER) === Ingredient.SQLSERVER) ? true : false;
         this.webAuth = ((body.options & Ingredient.WEBAUTH) === Ingredient.WEBAUTH) ? true : false;
         this.docker = ((body.options & Ingredient.DOCKER) === Ingredient.DOCKER) ? true : false;
+        this.swagger = ((body.options & Ingredient.SWAGGER) === Ingredient.SWAGGER) ? true : false;
+        if(this.amq){
+            logger.info(`AMQ set`);
+        }
+        if(this.eth){
+            logger.info(`ETH set`);
+        }
+        if(this.btc){
+            logger.info(`BTC set`);
+        }
+        if(this.graphql){
+            logger.info(`Graphql set`);
+        }
+        if(this.kafka){
+            logger.info(`Kafka set`);
+        }
+        if(this.logging){
+            logger.info(`Logging set`);
+        }
+        if(this.mongo){
+            logger.info(`Mongo set`);
+        }
+        if(this.mysql){
+            logger.info(`MySql set`);
+        }
+        if(this.neo4j){
+            logger.info(`Neo4j set`);
+        }
+        if(this.oauth){
+            logger.info(`OAuth set`);
+        }
+        if(this.postGres){
+            logger.info(`PostGres set`);
+        }
+        if(this.redis){
+            logger.info(`redis set`);
+        }
+        if(this.s3){
+            logger.info(`s3 set`);
+        }
+        if(this.sqlServer){
+            logger.info(`sql server set`);
+        }
+        if(this.webAuth){
+            logger.info(`web auth set`);
+        }
+        if(this.docker){
+            logger.info(`Docker set`);
+        }
+        if(this.swagger){
+            logger.info(`Swagger set`);
+        }
     }
 
     private createAuth = async(): Promise<IFileContent[]> => { 
@@ -206,35 +272,32 @@ TOKEN_SECRET=`;
 LOGLEVEL=silly
         `;
         let mongoConfigs = !this.mongo ? '' : `
-MONGOUSER=
 MONGOHOST=
-MONGOPASS=
 MONGODATABASE=
-MONGOPORT=`;
+MONGOUSER=
+MONGOPASS=`;
         let mysqlConfigs = !this.mysql ? '' : `
-MYSQLUSER=
 MYSQLHOST=
-MYSQLPASS=
+MYSQLPORT=
 MYSQLDATABASE=
-MYSQLPORT=`;
+MYSQLUSER=
+MYSQLPASS=`;
         let pgConfigs = !this.postGres ? '' : `
-PGUSER=
 PGHOST=
+PGPORT=
 PGDATABASE=
-PGPASS=
-PGPORT=`;
+PGUSER=
+PGPASS=`;
         let redisConfigs = !this.redis ? '' : `
-REDISUSER=
 REDISHOST=
-REDISDATABASE=
-REDISPASS=
-REDISPORT=`;
-        let sqlServerConfigs = !this.redis ? '' : `
-SQLSVRUSER=
+REDISPORT=
+REDISSECRET=`;
+        let sqlServerConfigs = !this.sqlServer ? '' : `
 SQLSVRHOST=
+SQLSVRPORT=
 SQLSVRDATABASE=
-SQLSVRPASS=
-SQLSVRPORT=`;
+SQLSVRUSER=
+SQLSVRPASS=`;
         env = env
                 .replace(/TOKEN-OPTIONS/g, tokenConfig)
                 .replace(/LOGGING-OPTIONS/g, loggingConfigs)
@@ -353,9 +416,9 @@ SQLSVRPORT=`;
         let mongoDep = !this.mongo ? '' : `
     "mongodb": "^3.6.2",`;
         let mysqlType = !this.mysql ? '' : `
-    "@types/mysql": "^5.7.36",`;
+    "@types/mysql": "^2.15.16",`;
         let mysqlDep = !this.mysql ? '' : `
-    "mysql": "^5.10.5",`;
+    "mysql": "^2.18.1",`;
         let pgType = !this.postGres ? '' : `
     "@types/pg": "^7.14.4",`
         let pgDep = !this.postGres ? '' : `
@@ -364,9 +427,9 @@ SQLSVRPORT=`;
     "@types/redis": "^2.8.27",`;
         let redisDep = !this.redis ? '' : `
     "redis": "^3.0.2",`;
-        let sqlServerType = !this.redis ? '' : `
+        let sqlServerType = !this.sqlServer ? '' : `
     "@types/mssql": "^6.0.4",`;
-        let sqlServerDep = !this.redis ? '' : `
+        let sqlServerDep = !this.sqlServer ? '' : `
     "mssql": "^6.2.2",`;
 
         packageJson = packageJson
@@ -411,37 +474,32 @@ SQLSVRPORT=`;
         const tokenConfig = !this.webAuth && !this.oauth ? '' : `
             TOKEN_SECRET: string;`
         const mongoConfigs = !this.mongo ? '' : `
-            MONGODB: string;
-            MONGOUSER: string;
             MONGOHOST: string;
-            MONGOPASSWORD: string;
             MONGODATABASE: string;
-            MONGOPORT: number`;
+            MONGOUSER: string;
+            MONGOPASSWORD: string;`;
         const mysqlConfigs = !this.mysql ? '' : `
-            MYSQLDB: string;
-            MYSQLUSER: string;
             MYSQLHOST: string;
-            MYSQLPASSWORD: string;
+            MYSQLPORT: number;
             MYSQLDATABASE: string;
-            MYSQLPORT: number`;
+            MYSQLUSER: string;
+            MYSQLPASSWORD: string;`;
         const pgConfigs = !this.postGres ? '' : `
-            PGUSER: string;
             PGHOST: string;
+            PGPORT: number;
             PGDATABASE: string;
-            PGPASSWORD: string;
-            PGPORT: number;`;
+            PGUSER: string;
+            PGPASSWORD: string;`;
         const redisConfigs = !this.redis ? '' : `
-            REDISUSER: string;
             REDISHOST: string;
-            REDISDATABASE: string;
-            REDISPASSWORD: string;
-            REDISPORT: number;`;
-        const sqlServerConfigs = !this.redis ? '' : `
-            SQLSVRUSER: string;
+            REDISPORT: number;
+            REDISSECRET: string;`;
+        const sqlServerConfigs = !this.sqlServer ? '' : `
             SQLSVRHOST: string;
+            SQLSVRPORT: number;
             SQLSVRDATABASE: string;
-            SQLSVRPASSWORD: string;
-            SQLSVRPORT: number;`;
+            SQLSVRUSER: string;
+            SQLSVRPASSWORD: string;`;
 
         environment = environment
                     .replace(/TOKEN-CONFIG/g, tokenConfig)
@@ -465,37 +523,37 @@ SQLSVRPORT=`;
         let routeUses: string = '';
         if(this.oauth || this.webAuth) {
             routeDeclarations += `
-import login from './login.route.ts';`
+import login from './login.route';`
             routeUses += `
 routes.use('/login', login);`
         }
         if(this.mongo) {
             routeDeclarations += `
-import mongo from './mongo.route.ts';`
+import mongo from './mongo.route';`
             routeUses += `
 routes.use('/mongo', mongo);`
         }
         if(this.sqlServer) {
             routeDeclarations += `
-import mssql from './mssql.route.ts';`
+import mssql from './mssql.route';`
 routeUses += `
 routes.use('/mssql', mssql);`
         }
         if(this.mysql) {
             routeDeclarations += `
-import mysql from './mysql.route.ts';`
+import mysql from './mysql.route';`
 routeUses += `
 routes.use('/mysql', mysql);`
         }
         if(this.postGres) {
             routeDeclarations += `
-import pg from './pg.route.ts';`
+import pg from './pg.route';`
 routeUses += `
 routes.use('/pg', pg);`
         }
         if(this.redis) {
             routeDeclarations += `
-import redis from './redis.route.ts';`
+import redis from './redis.route';`
 routeUses += `
 routes.use('/redis', redis);`
         }
@@ -527,7 +585,7 @@ routes.use('/redis', redis);`
         if(pgRte !== null) {
             routes.push({ path: `src/routes/pg.route.ts`, content: pgRte });
         }
-        let redisRte = this.postGres ? await CoreService.readFile(this.dir + `templates/src-routes-redis.route.ts.txt`) : null;
+        let redisRte = this.redis ? await CoreService.readFile(this.dir + `templates/src-routes-redis.route.ts.txt`) : null;
         if(redisRte !== null) {
             routes.push({ path: `src/routes/redis.route.ts`, content: redisRte });
         }
@@ -586,6 +644,9 @@ routes.use('/redis', redis);`
 
         if(mongoRepo !== null) {
             repos.push({ path: `src/data/mongo.repo.ts`, content: mongoRepo });
+
+            // let mongoConnect = await CoreService.readFile(this.dir + `src-data-mongo.connect.ts.txt`);
+            // repos.push({ path: `src/data/mongo-connect.ts`, content: mongoConnect});
         }
         if(mssqlRepo !== null) {
             repos.push({ path: `src/data/mssql.repo.ts`, content: mssqlRepo });
@@ -630,7 +691,7 @@ routes.use('/redis', redis);`
             now = this.getFormattedDateTime();
         }
         const loggerImpl = !this.logging ? '' : `
-import { logger } from '../services/logger.service';`;
+import { logger } from '../services/logging.service';`;
         const logger = !this.logging ? 'console.log' : 'logger.info';
         const loggerError = ~this.logging ? 'console.error' : 'logger.error';
         const loggerMdlwrImpl = !this.logging ? '' : `
@@ -639,7 +700,7 @@ import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.mid
 
         content = content
                     .replace(/{YEAR}/g, new Date().getFullYear().toString())
-                    .replace(/{AUTHOR}/g, "TS-Oven: https://ts-oven.com")
+                    .replace(/{AUTHOR}/g, "TS-Oven: https://ts-oven.herokuapp.com")
                     .replace(/{CREATED}/g, now)
                     .replace(/{MODIFIED}/g, now)
                     .replace(/{logger-impl}/g, loggerImpl)

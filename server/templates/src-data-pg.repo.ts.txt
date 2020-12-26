@@ -9,22 +9,39 @@
  * Created at       : {CREATED}
  * Last modified    : {MODIFIED}
  */
+/// <reference path="../interfaces/base.interface.ts"/>
 import { Pool } from 'pg';{logger-impl}
 
 class PGRepo {
     private pool: Pool;
 
     constructor() {
+        const port: number = +process.env.PGPORT!;
         this.pool = new Pool({
             user: process.env.PGUSER,
             host: process.env.PGHOST,
             database: process.env.PGDATABASE,
-            password: process.env.PGPASSWORD,
-            port: process.env.PGPORT,
+            password: process.env.PGPASS,
+            port: port,
             ssl: { rejectUnauthorized: false }
         });
+        this.testConnection();
     }
-    
+      
+    public testConnection = async() => {
+        return new Promise((res, rej) => {
+            this.pool.connect((err, connection) => {
+                if(err) {
+                    {logger-error}(err);
+                    return rej(err.message);
+                }
+                {logger}(`Successfull connection to PostGres DB`);
+                connection.release();
+                return res(true);
+            });
+        });
+    }
+
     public get = async(id: string) => {
         const sql = `select id, name
         from public."base"
@@ -113,4 +130,4 @@ class PGRepo {
 
 }
 
-export default PGBaseRepo;
+export default PGRepo;

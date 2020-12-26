@@ -1,0 +1,120 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Redis Controller handle requests for Redis Db
+ * 
+ * @summary Redis controller
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+/// <reference path="../interfaces/base.interface.ts"/>
+import express from 'express';
+import RedisRepo from '../data/redis.repo';{logger-impl}
+
+class RedisController {
+    private repo: RedisRepo;
+
+    constructor() { 
+        this.repo = new RedisRepo();
+    }
+
+    public add = async(req: express.Request, res: express.Response) => {
+        const key: string = req.params.key;
+        const value: string = req.body.value;
+        let insertStatus = false;
+
+        try {
+            const result = await this.repo.addString(key, value);
+            insertStatus = true
+        } catch(err) {
+            {logger-error}(err);
+            insertStatus = false;
+        }
+
+        const status = insertStatus ? 201 : 500;
+
+        res.status(status).json(insertStatus);
+    }
+
+    public addObject = async(req: express.Request, res: express.Response) => {
+        const key: string = req.params.key;
+        const base: Base = req.body;
+        let insertStatus = false;
+
+        try {
+            const result = await this.repo.addObject(key, base);
+            insertStatus = true
+        } catch(err) {
+            {logger-error}(err);
+            insertStatus = false;
+        }
+
+        const status = insertStatus ? 201 : 500;
+
+        res.status(status).json(insertStatus);
+    }
+
+    public get = async(req: express.Request, res: express.Response) => {
+        const key = req.params.key;
+        const datas = await this.repo.getString(key);
+
+        res.status(200).json(datas);
+    }
+
+    public getMany = async(req: express.Request, res: express.Response) => {
+        const keys = req.body;
+        const datas = await this.repo.getMany(keys);
+
+        res.status(200).json(datas);
+    }
+
+    public getKeys = async(req: express.Request, res: express.Response) => {
+        {logger}(`request from: ${req.ip}`);
+        const datas = await this.repo.getKeys();
+
+        if(datas.length > 0) {
+            res.status(200).json(datas);
+        } else {
+            res.status(200).json([]);
+        }
+    }
+
+    public update = async(req: express.Request, res: express.Response) => {
+        const key = req.params.key;
+        const value = req.body.value;
+        let updateStatus = false;
+
+        try {
+            const result = await this.repo.update(key, value);
+            updateStatus = true
+        } catch(err) {
+            {logger-error}(err);
+            updateStatus = false;
+        }
+
+        const status = updateStatus ? 201 : 500;
+
+        res.status(status).json(updateStatus);
+    }
+
+    public delete = async(req: express.Request, res: express.Response) => {
+        const key = req.params.key;
+        let deleteStatus = false;
+        
+        try {
+            const result = await this.repo.delete(key);
+            deleteStatus = true
+        } catch(err) {
+            {logger-error}(err);
+            deleteStatus = false;
+        }
+
+        const status = deleteStatus ? 201 : 500;
+
+        res.status(status).json(deleteStatus);
+    }
+}
+
+export default RedisController;

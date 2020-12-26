@@ -10,110 +10,110 @@
  * Last modified    : 2020-11-21
  */
 /// <reference path="../interfaces/base.interface.ts"/>
-import { Pool } from 'pg';
-import { logger } from '../services/logger.service';
+// import { Pool } from 'pg';
+// import { logger } from '../services/logger.service';
 
-class PGBaseRepo {
-    private pool: Pool;
+// class PGBaseRepo {
+//     private pool: Pool;
 
-    constructor() {
-        const port: number = +process.env.PGPORT!;
-        this.pool = new Pool({
-            user: process.env.PGUSER,
-            host: process.env.PGHOST,
-            database: process.env.PGDATABASE,
-            password: process.env.PGPASSWORD,
-            port: port,
-            ssl: { rejectUnauthorized: false }
-        });
-    }
+//     constructor() {
+//         const port: number = +process.env.PGPORT!;
+//         this.pool = new Pool({
+//             user: process.env.PGUSER,
+//             host: process.env.PGHOST,
+//             database: process.env.PGDATABASE,
+//             password: process.env.PGPASSWORD,
+//             port: port,
+//             ssl: { rejectUnauthorized: false }
+//         });
+//     }
     
-    public get = async(id: string) => {
-        const sql = `select id, name
-        from public."baseTable"
-        where id = $1`;
+//     public get = async(id: string) => {
+//         const sql = `select id, name
+//         from public."baseTable"
+//         where id = $1`;
 
-        try {
-            const res = await this.pool.query(sql, [ id ]);
+//         try {
+//             const res = await this.pool.query(sql, [ id ]);
 
-            return res.rows;
-        } catch(err) {
-            logger.info(err);
+//             return res.rows;
+//         } catch(err) {
+//             logger.info(err);
 
-            return null;
-        }
-    }
+//             return null;
+//         }
+//     }
     
-    public getAll = async() => {
-        const sql = `select id, name
-        from public."baseTable"`;
+//     public getAll = async() => {
+//         const sql = `select id, name
+//         from public."baseTable"`;
 
-        try {
-            const res = await this.pool.query(sql);
+//         try {
+//             const res = await this.pool.query(sql);
 
-            return res.rows;
-        } catch(err) {
-            logger.info(err);
+//             return res.rows;
+//         } catch(err) {
+//             logger.info(err);
             
-            return null;
-        }
-    }
+//             return null;
+//         }
+//     }
     
-    public add = async(base: IBase) => {
-        const sql = `insert into public."baseTable" ( id, name )
-        values ( $1, $2 )`;
+//     public add = async(base: IBase) => {
+//         const sql = `insert into public."baseTable" ( id, name )
+//         values ( $1, $2 )`;
 
-        const data = [
-            base.id,
-            base.name
-        ];
+//         const data = [
+//             base.id,
+//             base.name
+//         ];
 
-        try {
-            const res = await this.pool.query(sql, data);
+//         try {
+//             const res = await this.pool.query(sql, data);
 
-            return res.rowCount;
-        } catch(err) {
-            logger.info(err);
+//             return res.rowCount;
+//         } catch(err) {
+//             logger.info(err);
             
-            return null;
-        }
-    }
+//             return null;
+//         }
+//     }
     
-    public update = async(base: IBase) => {
-        const sql = `update public."baseTable" set name = $2
-        where id = $1`;
+//     public update = async(base: IBase) => {
+//         const sql = `update public."baseTable" set name = $2
+//         where id = $1`;
 
-        const data = [
-            base.id,
-            base.name
-        ];
+//         const data = [
+//             base.id,
+//             base.name
+//         ];
 
-        try {
-            const res = await this.pool.query(sql, data);
+//         try {
+//             const res = await this.pool.query(sql, data);
 
-            return res.rowCount;
-        } catch(err) {
-            logger.info(err);
+//             return res.rowCount;
+//         } catch(err) {
+//             logger.info(err);
             
-            return null;
-        }
-    }
+//             return null;
+//         }
+//     }
     
-    public delete = async(id: string) => {
-        const sql = `delete from public."baseTable"
-        where id = $1`;
+//     public delete = async(id: string) => {
+//         const sql = `delete from public."baseTable"
+//         where id = $1`;
 
-        try {
-            const res = await this.pool.query(sql, [ id ]);
+//         try {
+//             const res = await this.pool.query(sql, [ id ]);
 
-            return res.rowCount;
-        } catch(err) {
-            logger.info(err);
+//             return res.rowCount;
+//         } catch(err) {
+//             logger.info(err);
             
-            return null;
-        }
-    }
+//             return null;
+//         }
+//     }
 
-}
+// }
 
-export default PGBaseRepo;
+// export default PGBaseRepo;

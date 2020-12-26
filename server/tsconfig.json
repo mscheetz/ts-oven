@@ -27,7 +27,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "./dist",
+    "outDir": "../dist",
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -43,6 +43,6 @@
       "dom"
     ]
   },
-  "exclude": ["node_modules", "**/*.test.ts"],
+  "exclude": ["**/*.test.ts"],
   "include": ["./**/*"]
 }

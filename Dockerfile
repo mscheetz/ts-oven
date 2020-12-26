@@ -1,63 +1,52 @@
-# BUILDER
-FROM node as builder
+FROM node:12.18
 
-WORKDIR /app
+RUN ls
 
-COPY package*.json /app/
+WORKDIR /usr/src/app
 
-COPY .env /app
+COPY . .
 
-# INSTALL
-RUN npm ci
+RUN cat /sys/fs/cgroup/memory/memory.usage_in_bytes | awk '{ byte = $1 /1024/1024; print byte " MB" }'
 
-# INSTALL ANGULAR
-RUN npm i -g @angular/cli@10.1.3
+RUN ls -lrt
 
-COPY . /app
+# NPM INSTALL
+RUN npm i typescript -g
 
-# COMPILE
-RUN npm run build
+RUN npm run install:server
 
-RUN ls /app/dist/ts-oven
+RUN ls -lrt
 
-# REMOVE DEV DEPENDENCIES
-RUN npm prune --production
+# BUILD SERVER AND ANGULAR APP
+#RUN npm run build:server:ui:prod
+RUN npm run clean:dist
 
-# RUNTIME
-FROM nginx as runtime
+RUN ls -lrt
 
-WORKDIR /app
+RUN pwd
 
-ENV NODE_ENV=production
+#RUN cat /sys/fs/cgroup/memory/memory.usage_in_bytes | awk '{ byte = $1 /1024/1024; print byte " MB" }'
 
-# COPY FILES FROM BUILDER
-# COPY --from=builder /app/dist /app/dist
-# COPY --from=builder /app/node_modules /app/node_modules
-# COPY --from=builder /app/.env /app/.env
-# COPY --from=builder /app/package.json /app/package.json
-COPY --from=builder /app/dist/ts-oven /usr/share/nginx/html
+RUN npm run server:build:v2
 
-RUN ls /usr/share/nginx/html
+RUN npm run copy-nm:server
 
-RUN cat /usr/share/nginx/html/index.html
+RUN npm install
 
-# EXPOSE 4200
+RUN npm run install:angularcli
 
-#CMD ["npm", "run", "run:prod"]
+RUN npm run ui:build:prod
 
-# FROM node
+RUN rm -rf node_modules/
 
-# WORKDIR /app
+RUN rm -rf server/
 
-# ENV PATH /app/node_modules/.bin:$PATH
+RUN rm -rf src/
 
-# COPY package*.json /app/
-# COPY .env /app
+#COPY /dist /app/
+#COPY ./dist .
+RUN ls -lrt
 
-# RUN npm ci
+EXPOSE 3000
 
-# RUN npm i -g @angular/cli@10.1.3
-
-# COPY . /app
-
-# CMD ng serve --host 0.0.0.0
+CMD ["node", "./dist/index.js"]

@@ -1,24 +1,25 @@
 /**
  * Copyright (c) {YEAR}
  * 
- * Declare Routes for Mongo Endpoints
+ * Declare Routes for MySql Endpoints
  * 
- * @summary MongoRouter
+ * @summary MySqlRouter
  * @author {AUTHOR}
  * 
  * Created at       : {CREATED}
  * Last modified    : {MODIFIED}
  */
 import { Router } from 'express';{logger-mddlwr-impl}
-import MongoController from '../controllers/mongo.controller';
+import MySqlController from '../controllers/mysql.controller';
 
 const router = Router();
-const controller: MongoController = new MongoController();
+const controller = new MySqlController();
 
 router.get('/', {route-logging}controller.getAll);
 router.get('/:id', {route-logging}controller.get);
 router.post('/', {route-logging}controller.add);
 router.put('/', {route-logging}controller.update);
 router.delete('/:id', {route-logging}controller.delete);
+router.get('/test', {route-logging}controller.test);
 
 export default router;
