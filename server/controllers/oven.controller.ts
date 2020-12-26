@@ -406,9 +406,9 @@ SQLSVRPORT=`;
         let mongoDep = !this.mongo ? '' : `
     "mongodb": "^3.6.2",`;
         let mysqlType = !this.mysql ? '' : `
-    "@types/mysql": "^5.7.36",`;
+    "@types/mysql": "^2.15.16",`;
         let mysqlDep = !this.mysql ? '' : `
-    "mysql": "^5.10.5",`;
+    "mysql": "^2.18.1",`;
         let pgType = !this.postGres ? '' : `
     "@types/pg": "^7.14.4",`
         let pgDep = !this.postGres ? '' : `
@@ -518,37 +518,37 @@ SQLSVRPORT=`;
         let routeUses: string = '';
         if(this.oauth || this.webAuth) {
             routeDeclarations += `
-import login from './login.route.ts';`
+import login from './login.route';`
             routeUses += `
 routes.use('/login', login);`
         }
         if(this.mongo) {
             routeDeclarations += `
-import mongo from './mongo.route.ts';`
+import mongo from './mongo.route';`
             routeUses += `
 routes.use('/mongo', mongo);`
         }
         if(this.sqlServer) {
             routeDeclarations += `
-import mssql from './mssql.route.ts';`
+import mssql from './mssql.route';`
 routeUses += `
 routes.use('/mssql', mssql);`
         }
         if(this.mysql) {
             routeDeclarations += `
-import mysql from './mysql.route.ts';`
+import mysql from './mysql.route';`
 routeUses += `
 routes.use('/mysql', mysql);`
         }
         if(this.postGres) {
             routeDeclarations += `
-import pg from './pg.route.ts';`
+import pg from './pg.route';`
 routeUses += `
 routes.use('/pg', pg);`
         }
         if(this.redis) {
             routeDeclarations += `
-import redis from './redis.route.ts';`
+import redis from './redis.route';`
 routeUses += `
 routes.use('/redis', redis);`
         }
