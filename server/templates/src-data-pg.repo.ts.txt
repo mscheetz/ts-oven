@@ -9,6 +9,7 @@
  * Created at       : {CREATED}
  * Last modified    : {MODIFIED}
  */
+/// <reference path="../interfaces/base.interface.ts"/>
 import { Pool } from 'pg';{logger-impl}
 
 class PGRepo {

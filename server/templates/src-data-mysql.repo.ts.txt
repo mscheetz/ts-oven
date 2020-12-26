@@ -9,6 +9,7 @@
  * Created at       : {CREATED}
  * Last modified    : {MODIFIED}
  */
+/// <reference path="../interfaces/base.interface.ts"/>
 import mysql from 'mysql';
 import dotenv from 'dotenv';{logger-impl}
 
@@ -18,7 +19,7 @@ class MySqlRepo {
 
     constructor() {
         dotenv.config();
-        this.table = "base"
+        this.table = "baseTable"
         const port: number = +process.env.MYSQLPORT!;
         this.pool = mysql.createPool({
             user: process.env.MYSQLUSER,
@@ -35,10 +36,10 @@ class MySqlRepo {
         return new Promise((res, rej) => {
             this.pool.getConnection((err, connection) => {
                 if(err) {
-                    logger.error(err);
+                    {logger-error}(err);
                     return rej(err.message);
                 }
-                logger.info(`Successfull connection to MySQL DB`);
+                {logger}(`Successfull connection to MySQL DB`);
                 connection.release();
                 return res(true);
             });
@@ -52,11 +53,11 @@ class MySqlRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, (err, results) => {
                 if(err) {
-                    logger.error(err);
+                    {logger-error}(err);
                     return rej(err.message);
                 }
                 if(results.warningCount === 0) {
-                    logger.info(`Table ${this.table} created`);
+                    {logger}(`Table ${this.table} created`);
                 }
                 return res(results);
             });
@@ -69,7 +70,7 @@ class MySqlRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, [ id ], (err, results) => {
                 if(err) {
-                    logger.error(err);
+                    {logger-error}(err);
                     return rej(err.message);
                 }
                 return res(results);
@@ -83,7 +84,7 @@ class MySqlRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, (err, results) => {
                 if(err) {
-                    logger.error(err);
+                    {logger-error}(err);
                     return rej(err.message);
                 }
                 return res(results);
@@ -91,7 +92,7 @@ class MySqlRepo {
         });
     }
  
-    public add = async(base: IBase) => {
+    public add = async(base: Base) => {
         const sql = `insert into ${this.table} ( id, name )
         values ( ?, ? )`;
         const data = [
@@ -102,7 +103,7 @@ class MySqlRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, data, (err, result) => {
                 if(err) {
-                    logger.error(err);
+                    {logger-error}(err);
                     return rej(err.message);
                 }
                 return res(result.insertId);
@@ -110,7 +111,7 @@ class MySqlRepo {
         });
     }
  
-    public update = async(base: IBase) => {
+    public update = async(base: Base) => {
         const sql = `update ${this.table} set name = ?
         where id = ?`;
         const data = [
@@ -120,7 +121,7 @@ class MySqlRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, data, (err, result) => {
                 if(err) {
-                    logger.error(err);
+                    {logger-error}(err);
                     return rej(err.message);
                 }
                 return res(result.affectedRows);
@@ -134,7 +135,7 @@ class MySqlRepo {
         return new Promise((res, rej) => {
             this.pool.query(sql, [ id ], (err, result) => {
                 if(err) {
-                    logger.error(err);
+                    {logger-error}(err);
                     return rej(err.message);
                 }
                 return res(result.affectedRows);

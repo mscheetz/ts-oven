@@ -14,8 +14,8 @@ import MongoController from '../controllers/mongo.controller';
 
 const router = Router();
 
-router.get('/', {route-logging}MongoController.get);
-router.get('/:id', {route-logging}MongoController.getAll);
+router.get('/', {route-logging}MongoController.getAll);
+router.get('/:id', {route-logging}MongoController.get);
 router.post('/', {route-logging}MongoController.add);
 router.put('/', {route-logging}MongoController.update);
 router.delete('/:id', {route-logging}MongoController.delete);
