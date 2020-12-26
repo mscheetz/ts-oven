@@ -11,7 +11,7 @@
  */
 /// <reference path="../interfaces/account.interface.ts" />
 import mongodb from 'mongodb';
-import dotenv from 'dotenv';{logger-mddlwr-impl}
+import dotenv from 'dotenv';{logger-impl}
 
 class MongoRepo {
     private mongo: mongodb.Collection;

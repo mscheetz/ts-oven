@@ -162,6 +162,7 @@ class OvenController {
 
         let indexTS = await CoreService.readFile(this.dir + `templates/src-index.ts.txt`);
         indexTS = this.setFileHeaderValues(indexTS);
+        indexTS = indexTS.replace(`import { logger } from '../services/logging.service`, `import { logger } from './services/logging.service`);
         
         logger.info(`Creating zip file`);
         zip.append(env, { name: `.env` })
@@ -696,7 +697,7 @@ routes.use('/redis', redis);`
             now = this.getFormattedDateTime();
         }
         const loggerImpl = !this.logging ? '' : `
-import { logger } from '../services/logger.service';`;
+import { logger } from '../services/logging.service';`;
         const logger = !this.logging ? 'console.log' : 'logger.info';
         const loggerError = ~this.logging ? 'console.error' : 'logger.error';
         const loggerMdlwrImpl = !this.logging ? '' : `
@@ -705,7 +706,7 @@ import { logUrl, logType, logHeaders, logBody } from '../middlewares/logging.mid
 
         content = content
                     .replace(/{YEAR}/g, new Date().getFullYear().toString())
-                    .replace(/{AUTHOR}/g, "TS-Oven: https://ts-oven.com")
+                    .replace(/{AUTHOR}/g, "TS-Oven: https://ts-oven.herokuapp.com")
                     .replace(/{CREATED}/g, now)
                     .replace(/{MODIFIED}/g, now)
                     .replace(/{logger-impl}/g, loggerImpl)
