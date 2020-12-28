@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import address from './address.route';
 import base from './base.route';
+import kafka from './kafka.route';
 import login from './login.route';
 // import mongo from './mongo.route';
 // import mysql from './mysql.route';
@@ -13,6 +14,7 @@ const routes = Router();
 
 routes.use('/', base);
 routes.use('/v0/address', address);
+routes.use('/v0/kafka', kafka);
 routes.use('/v0/login', login);
 // routes.use('/v0/mongo', mongo);
 // routes.use('/v0/mysql', mysql);

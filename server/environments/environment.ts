@@ -36,6 +36,11 @@ declare global {
             REDISPORT: string;
             REDISHOST: string;
             REDISSECRET: string;
+            KAFKAHOST: string;
+            KAFKAUSER: string;
+            KAFKAPASSWORD: string;
+            KAFKATOPICPRE: string;
+            KAFKATOPICNAMES: string;
         }
     }
 }
