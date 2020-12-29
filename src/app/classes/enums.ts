@@ -1,6 +1,6 @@
 export enum Ingredient {
     None = 0,
-    AMQ = 1,
+    RABBITMQ = 1,
     ETH = 2,
     GRAPHQL = 4,
     KAFKA = 8,

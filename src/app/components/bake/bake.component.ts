@@ -22,7 +22,7 @@ export class BakeComponent implements OnInit {
   }
 
   checkOptions() {
-    if((this.dough.options & Ingredient.AMQ) === Ingredient.AMQ) {
+    if((this.dough.options & Ingredient.RABBITMQ) === Ingredient.RABBITMQ) {
       this.credsRequired = true;
     } else if((this.dough.options & Ingredient.KAFKA) === Ingredient.KAFKA) {
       this.credsRequired = true;

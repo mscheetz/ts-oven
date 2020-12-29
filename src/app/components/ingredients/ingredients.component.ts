@@ -7,7 +7,7 @@ import { Ingredient } from '../../classes/enums';
   styleUrls: ['./ingredients.component.sass', '../oven/oven.component.sass']
 })
 export class IngredientsComponent implements OnInit {
-  AMQ: boolean = false;
+  RABBITMQ: boolean = false;
   BTC: boolean = false;
   ETH: boolean = false;
   GRAPHQL: boolean = false;
@@ -40,8 +40,8 @@ export class IngredientsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if((this.options & Ingredient.AMQ) === Ingredient.AMQ) {
-      this.AMQ = true;
+    if((this.options & Ingredient.RABBITMQ) === Ingredient.RABBITMQ) {
+      this.RABBITMQ = true;
     }
     if((this.options & Ingredient.BTC) === Ingredient.BTC) {
       this.BTC = true;
@@ -118,8 +118,8 @@ export class IngredientsComponent implements OnInit {
   }
 
   nextStep() {    
-    if(this.AMQ) {
-      this.ingredients = this.ingredients | Ingredient.AMQ;
+    if(this.RABBITMQ) {
+      this.ingredients = this.ingredients | Ingredient.RABBITMQ;
     }
     if(this.BTC) {
       this.ingredients = this.ingredients | Ingredient.BTC;
