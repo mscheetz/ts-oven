@@ -24,7 +24,7 @@ import NPMRepo from '../data/npm.repo';
 class OvenController {
     private dir: string;
     private appName: string;
-    private amq: boolean;
+    private rabbitmq: boolean;
     private btc: boolean;
     private eth: boolean;
     private graphql: boolean;
@@ -178,7 +178,7 @@ class OvenController {
 
     private setOptions(body: IDough) {
         logger.info(`Setting options for ${body.options}`);
-        this.amq = ((body.options & Ingredient.AMQ) === Ingredient.AMQ) ? true : false;
+        this.rabbitmq = ((body.options & Ingredient.RABBITMQ) === Ingredient.RABBITMQ) ? true : false;
         this.eth = ((body.options & Ingredient.ETH) === Ingredient.ETH) ? true : false;
         this.btc = ((body.options & Ingredient.BTC) === Ingredient.BTC) ? true : false;
         this.graphql = ((body.options & Ingredient.GRAPHQL) === Ingredient.GRAPHQL) ? true : false;
@@ -196,8 +196,8 @@ class OvenController {
         this.docker = ((body.options & Ingredient.DOCKER) === Ingredient.DOCKER) ? true : false;
         this.swagger = ((body.options & Ingredient.SWAGGER) === Ingredient.SWAGGER) ? true : false;
         this.ipfs = ((body.options & Ingredient.IPFS) === Ingredient.IPFS) ? true : false;
-        if(this.amq){
-            logger.info(`AMQ set`);
+        if(this.rabbitmq){
+            logger.info(`RABBITMQ set`);
         }
         if(this.eth){
             logger.info(`ETH set`);
@@ -303,6 +303,14 @@ SQLSVRPORT=
 SQLSVRDATABASE=
 SQLSVRUSER=
 SQLSVRPASS=`;
+        let rabbitConfigs = !this.rabbitmq ? '' : `
+MQHOST=
+MQPORT=
+MQUSER=
+MQPASSWORD=
+MQVHOST=
+MQEXPIRY=
+MQQUEUES=`;
         env = env
                 .replace(/TOKEN-OPTIONS/g, tokenConfig)
                 .replace(/LOGGING-OPTIONS/g, loggingConfigs)
@@ -310,7 +318,8 @@ SQLSVRPASS=`;
                 .replace(/MYSQL-OPTIONS/g, mysqlConfigs)
                 .replace(/PG-OPTIONS/g, pgConfigs)
                 .replace(/REDIS-OPTIONS/g, redisConfigs)
-                .replace(/SQLSVR-OPTIONS/g, sqlServerConfigs);
+                .replace(/SQLSVR-OPTIONS/g, sqlServerConfigs)
+                .replace(/RABBITMQ-OPTIONS/g, rabbitConfigs);
         return env;
     }
 
@@ -336,9 +345,9 @@ SQLSVRPASS=`;
         let readme = await CoreService.readFile(this.dir + `templates/readme.md.txt`);
         
         let options = "";
-        if(this.amq) {
+        if(this.rabbitmq) {
             options += `
-            * Active MQ  `;
+            * Rabbit MQ  `;
         }
         if(this.btc) {
             options += `
@@ -436,6 +445,10 @@ SQLSVRPASS=`;
     "@types/mssql": "^6.0.4",`;
         let sqlServerDep = !this.sqlServer ? '' : `
     "mssql": "^6.2.2",`;
+        let amqpDep = !this.rabbitmq ? '' : `        
+    "amqplib": "^0.6.0",`;
+        let amqpType = !this.rabbitmq ? '' : `        
+    "@types/amqplib": "^0.5.17",`;
 
         packageJson = packageJson
                         .replace(/Project-Name/g, projectName)
@@ -451,7 +464,9 @@ SQLSVRPASS=`;
                         .replace(/PG-TYPE/g, pgType)
                         .replace(/PG-DEP/g, pgDep)
                         .replace(/REDIS-TYPE/g, redisType)
-                        .replace(/REDIS-DEP/g, redisDep);
+                        .replace(/REDIS-DEP/g, redisDep)
+                        .replace(/AMQPLIB-DEP/g, amqpDep)
+                        .replace(/AMQPLIB-TYPE/g, amqpType);
 
         return packageJson;
     }
@@ -477,7 +492,7 @@ SQLSVRPASS=`;
         const loggingConfig = !this.logging ? '' : `
             LOGLEVEL: string;`;
         const tokenConfig = !this.webAuth && !this.oauth ? '' : `
-            TOKEN_SECRET: string;`
+            TOKEN_SECRET: string;`;
         const mongoConfigs = !this.mongo ? '' : `
             MONGOHOST: string;
             MONGODATABASE: string;
@@ -505,6 +520,14 @@ SQLSVRPASS=`;
             SQLSVRDATABASE: string;
             SQLSVRUSER: string;
             SQLSVRPASSWORD: string;`;
+        const rabbitMqConfigs = !this.sqlServer ? '' : `
+            MQHOST: string;
+            MQPORT: string;
+            MQUSER: number;
+            MQPASSWORD: string;
+            MQVHOST: string;
+            MQEXPIRY: string;
+            MQQUEUES: string;`;
 
         environment = environment
                     .replace(/TOKEN-CONFIG/g, tokenConfig)
@@ -513,7 +536,8 @@ SQLSVRPASS=`;
                     .replace(/MYSQL-CONFIG/g, mysqlConfigs)
                     .replace(/PG-CONFIG/g, pgConfigs)
                     .replace(/REDIS-CONFIG/g, redisConfigs)
-                    .replace(/SQLSVR-CONFIG/g, sqlServerConfigs);
+                    .replace(/SQLSVR-CONFIG/g, sqlServerConfigs)
+                    .replace(/MQ-CONFIG/g, rabbitMqConfigs);
 
         environment = this.setFileHeaderValues(environment);
 
@@ -562,6 +586,12 @@ import redis from './redis.route';`
 routeUses += `
 routes.use('/redis', redis);`
         }
+        if(this.rabbitmq) {
+            routeDeclarations += `
+import mq from './mq.route';`
+routeUses += `
+routes.use('/mq', mq);`
+        }
         indexRte = indexRte
                     .replace(/ROUTE-DECLARATIONS/g, routeDeclarations)
                     .replace(/ROUTE-USES/g, routeUses);
@@ -593,6 +623,10 @@ routes.use('/redis', redis);`
         let redisRte = this.redis ? await CoreService.readFile(this.dir + `templates/src-routes-redis.route.ts.txt`) : null;
         if(redisRte !== null) {
             routes.push({ path: `src/routes/redis.route.ts`, content: redisRte });
+        }
+        let mqRte = this.rabbitmq ? await CoreService.readFile(this.dir + `templates/src-routes-mq.route.ts.txt`) : null;
+        if(mqRte !== null) {
+            routes.push({ path: `src/routes/mq.route.ts`, content: mqRte });
         }
 
         routes = this.updateFileHeaders(routes);
@@ -631,6 +665,10 @@ routes.use('/redis', redis);`
         if(redisCtrl !== null) {
             controllers.push({ path: `src/controllers/redis.controller.ts`, content: redisCtrl });
         }
+        let rabbitMqCtrl = this.rabbitmq ? await CoreService.readFile(this.dir + `templates/src-controllers-mq.controller.ts.txt`) : null;
+        if(rabbitMqCtrl !== null) {
+            controllers.push({ path: `src/controllers/mq.controller.ts`, content: rabbitMqCtrl });
+        }
 
         controllers = this.updateFileHeaders(controllers);
 
@@ -646,6 +684,7 @@ routes.use('/redis', redis);`
         let mysqlRepo = this.mysql ? await CoreService.readFile(this.dir + `templates/src-data-mysql.repo.ts.txt`) : null;
         let pgRepo = this.postGres ? await CoreService.readFile(this.dir + `templates/src-data-pg.repo.ts.txt`) : null;
         let redisRepo = this.redis ? await CoreService.readFile(this.dir + `templates/src-data-redis.repo.ts.txt`) : null;
+        let rabbitMqRepo = this.rabbitmq ? await CoreService.readFile(this.dir + `templates/src-data-mq-broker.ts.txt`) : null;
 
         if(mongoRepo !== null) {
             repos.push({ path: `src/data/mongo.repo.ts`, content: mongoRepo });
@@ -664,6 +703,9 @@ routes.use('/redis', redis);`
         }
         if(redisRepo !== null) {
             repos.push({ path: `src/data/redis.repo.ts`, content: redisRepo });
+        }
+        if(rabbitMqRepo !== null) {
+            repos.push({ path: `src/data/mq-broker.ts`, content: rabbitMqRepo });
         }
 
         repos = this.updateFileHeaders(repos);

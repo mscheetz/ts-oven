@@ -1,0 +1,21 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Manage all endpoints
+ * 
+ * @summary Router index
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+import { Router } from 'express';
+import MqController from '../controllers/mq.controller';
+
+const router = Router();
+const controller: MqController = new MqController();
+
+router.post('/1', controller.postQueue1);
+router.post('/2', controller.postQueue2);
+
+export default router;

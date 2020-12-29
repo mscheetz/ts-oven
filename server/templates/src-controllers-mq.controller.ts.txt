@@ -1,0 +1,62 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a Rabbit MQ Controller to handle requests interacting with a Rabbit MQ
+ * 
+ * @summary MQController
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+import MqBroker from '../data/mq-broker';
+import dotenv from 'dotenv';
+import express from 'express';{logger-impl}
+
+class MqController {
+    private queues: string[];
+
+    constructor() {
+        dotenv.config();
+        this.queues = process.env.MQQUEUES.split(',');
+        this.subscribeToQueues();
+    }
+
+    public postQueue1 = async(req: express.Request, res: express.Response) => {        
+        const broker = await MqBroker.getInstance();
+        const message = req.body.message;
+
+        const response = await broker.send(this.queues[0], message);
+        {logger}(`Sent message to '${this.queues[0]}'`);
+
+        res.json(response);
+    }
+
+    public postQueue2 = async(req: express.Request, res: express.Response) => {        
+        const broker = await MqBroker.getInstance();
+        const message = req.body.message;
+
+        const response = await broker.send(this.queues[1], message);
+        {logger}(`Sent message to '${this.queues[1]}'`);
+
+        res.json(response);
+    }
+
+    private subscribeToQueues = async() => {
+        {logger}(`Subscribing to ${this.queues.length} queue(s).`);
+        for(let i = 0; i < this.queues.length; i++) {
+            await this.readQueue(this.queues[i]);
+        }
+    }
+
+    private readQueue = async(queueName) => {
+        const broker = await MqBroker.getInstance();
+        {logger}(`Subscribed to queue: '${queueName}'`);
+
+        await broker.subscribe(queueName, (message) => {
+            {logger}(`Message '${message.content}' received from queue '${queueName}'`);
+        });
+    }
+}
+
+export default MqController;
