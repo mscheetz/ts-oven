@@ -1,6 +1,6 @@
 {
   "name": "ts-oven",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "engines": {
     "node": "12.18.x"
   },
@@ -11,7 +11,7 @@
     "server:start": "cd ./server && ts-node index.ts",
     "config": "ts-node ./scripts/config.ts",
     "ng": "ng",
-    "start": "node index.js",
+    "start": "ng server",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -24,6 +24,7 @@
     "build:server2": "cd ./server && tsc --build tsconfig.json",
     
     "run:server": "node ./dist/index.js",
+    "run:server:dev": "ts-node ./server/index.ts",
     
     "copy-nm:server": "node copy.js",
     

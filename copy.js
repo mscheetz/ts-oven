@@ -55,6 +55,12 @@ copyFolder('./static', './dist');
 
 console.log(`Successfully copied static`);
 
+console.log(`Copying .env`);
+
+copySync('.env', './dist');
+
+console.log(`Successfully copied .env`);
+
 console.log(`Copying package.json`);
 
 copySync('package.json', './dist');

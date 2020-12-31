@@ -1,0 +1,92 @@
+/**
+ * Copyright (c) {YEAR}
+ * 
+ * Represents a Rabbit MQ Broker to handle requests interacting with a Rabbit MQ service
+ * 
+ * @summary MqBroker
+ * @author {AUTHOR}
+ * 
+ * Created at       : {CREATED}
+ * Last modified    : {MODIFIED}
+ */
+import amqp from 'amqplib';
+import dotenv from 'dotenv';{logger-impl}
+
+let instance;
+
+class MqBroker {
+    private connection: amqp.Connection;
+    private channel: amqp.Channel;
+    static getInstance: () => Promise<MqBroker>;
+
+    constructor() {
+        dotenv.config();
+    }
+
+    public init = async() => {
+        this.connection = await amqp.connect(this.getUrl());
+        {logger}('Successful connection to MQ');
+        this.channel = await this.connection.createChannel();        
+        {logger}('Successful MQ channel creation');
+        return this;
+    }
+
+    public send = async(queue: string, message: string) => {
+        console.info(`Sending message to ${queue}`);
+        if(!this.connection) {
+            await this.init();
+        }
+        try{
+            await this.channel.assertQueue(queue, { durable: true, arguments: { 'x-expires': +process.env.MQEXPIRY } });
+        } catch(err) {
+            {logger}(`Error asserting queue ${queue}`, err);
+        }
+
+        const buffer = Buffer.from(JSON.stringify(message));
+        
+        try {
+            this.channel.sendToQueue(queue, buffer);
+        } catch(err) {
+            {logger}(`Error sending to queue ${queue}`, err);
+        }
+    }
+    
+    public subscribe = async(queue, callback) => {
+        if(!this.connection) {
+            await this.init();
+        }
+        try{
+            await this.channel.assertQueue(queue, { durable: true, arguments: { 'x-expires': +process.env.MQEXPIRY } });
+        } catch(err) {
+            {logger-error}(`Error asserting queue ${queue}`, err);
+        }
+
+        try {
+            this.channel.consume(queue, callback, { noAck: true });
+        } catch(err) {
+            console.error(`Error reading from queue '${queue}'`, err);
+        }
+    }
+
+    private getUrl(){
+        const host = process.env.MQPORT !== '' 
+                ? `${process.env.MQHOST}:${process.env.MQPORT}`
+                : process.env.MQHOST;
+        const url = `amqps://${process.env.MQUSER}:${process.env.MQPASSWORD}@${host}/${process.env.MQVHOST}`;
+        
+        return url;
+    }
+}
+
+/**
+ * @returns {Promise<MqBroker>}
+ */
+MqBroker.getInstance = async() => {
+    if(!instance) {
+        const broker = new MqBroker();
+        instance = broker.init();
+    }
+    return instance;
+}
+
+export default MqBroker;

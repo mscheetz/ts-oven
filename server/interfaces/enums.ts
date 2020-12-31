@@ -11,7 +11,7 @@
  */
 export enum Ingredient {
     None = 0,
-    AMQ = 1,
+    RABBITMQ = 1,
     ETH = 2,
     GRAPHQL = 4,
     KAFKA = 8,
@@ -27,5 +27,16 @@ export enum Ingredient {
     OAUTH = 8192,
     BTC = 16384,
     DOCKER = 32768,
-    SWAGGER = 65536
+    SWAGGER = 65536,
+    IPFS = 131072,
+}
+
+export enum License {
+    NONE,
+    APACHE,
+    BSL,
+    GNU2,
+    GNU3,
+    ISC,
+    MIT
 }

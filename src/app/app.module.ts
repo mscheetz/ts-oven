@@ -23,7 +23,6 @@ import { NameComponent } from './components/name/name.component';
 import { IngredientsComponent } from './components/ingredients/ingredients.component';
 import { BakeComponent } from './components/bake/bake.component';
 import { RunComponent } from './components/run/run.component';
-import { OldOvenComponent } from './components/old-oven/old-oven.component';
 import { StartComponent } from './components/start/start.component';
 
 @NgModule({
@@ -35,7 +34,6 @@ import { StartComponent } from './components/start/start.component';
     IngredientsComponent,
     BakeComponent,
     RunComponent,
-    OldOvenComponent,
     StartComponent
   ],
   imports: [

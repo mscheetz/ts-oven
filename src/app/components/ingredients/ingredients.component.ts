@@ -7,7 +7,7 @@ import { Ingredient } from '../../classes/enums';
   styleUrls: ['./ingredients.component.sass', '../oven/oven.component.sass']
 })
 export class IngredientsComponent implements OnInit {
-  AMQ: boolean = false;
+  RABBITMQ: boolean = false;
   BTC: boolean = false;
   ETH: boolean = false;
   GRAPHQL: boolean = false;
@@ -24,6 +24,7 @@ export class IngredientsComponent implements OnInit {
   LOGGING: boolean = false;
   DOCKER: boolean = false;
   SWAGGER: boolean = false;
+  IPFS: boolean = false;
   showAuth: boolean = false;
   showData: boolean = false;
   showMessage: boolean = false;
@@ -39,8 +40,8 @@ export class IngredientsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if((this.options & Ingredient.AMQ) === Ingredient.AMQ) {
-      this.AMQ = true;
+    if((this.options & Ingredient.RABBITMQ) === Ingredient.RABBITMQ) {
+      this.RABBITMQ = true;
     }
     if((this.options & Ingredient.BTC) === Ingredient.BTC) {
       this.BTC = true;
@@ -90,6 +91,9 @@ export class IngredientsComponent implements OnInit {
     if((this.options & Ingredient.SWAGGER) === Ingredient.SWAGGER) {
       this.SWAGGER = true;
     }
+    if((this.options & Ingredient.IPFS) === Ingredient.IPFS) {
+      this.IPFS = true;
+    }
   }
 
   toggleOptions(section: string) {
@@ -114,8 +118,8 @@ export class IngredientsComponent implements OnInit {
   }
 
   nextStep() {    
-    if(this.AMQ) {
-      this.ingredients = this.ingredients | Ingredient.AMQ;
+    if(this.RABBITMQ) {
+      this.ingredients = this.ingredients | Ingredient.RABBITMQ;
     }
     if(this.BTC) {
       this.ingredients = this.ingredients | Ingredient.BTC;
@@ -164,6 +168,9 @@ export class IngredientsComponent implements OnInit {
     }
     if(this.SWAGGER) {
       this.ingredients = this.ingredients | Ingredient.SWAGGER;
+    }
+    if(this.IPFS) {
+      this.ingredients = this.ingredients | Ingredient.IPFS;
     }
     if(typeof this.ingredients === 'undefined') {
       this.ingredients = Ingredient.None;

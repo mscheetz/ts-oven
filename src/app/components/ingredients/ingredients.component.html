@@ -57,9 +57,9 @@
         <button *ngIf="!showMessage" pButton type="button" title="Show" icon="pi pi-plus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Message')"></button>
     </div>
     <div *ngIf="showMessage" class="optionGroup">
-        <div class="optionClass inactive">
-            <label><i>ActiveMQ </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
-            <p-inputSwitch [disabled]=true [(ngModel)]="AMQ"></p-inputSwitch>
+        <div class="optionClass active">
+            <label><i>RabbitMQ </i><i class="pi pi-info-circle" pTooltip="Message broker service. Using '@types/amqplib' and 'amqplib'"></i>: </label>
+            <p-inputSwitch [(ngModel)]="RABBITMQ"></p-inputSwitch>
         </div>
         <div class="optionClass inactive">
             <label><i>Kafka </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
@@ -72,6 +72,10 @@
         <button *ngIf="!showStorage" pButton type="button" title="Show" icon="pi pi-plus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('Storage')"></button>
     </div>
     <div *ngIf="showStorage" class="optionGroup">
+        <div class="optionClass inactive">
+            <label><i>IPFS </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
+            <p-inputSwitch [disabled]=true [(ngModel)]="IPFS"></p-inputSwitch>
+        </div>
         <div class="optionClass inactive">
             <label><i>S3 </i><i class="pi pi-info-circle" pTooltip="Coming soon"></i>: </label>
             <p-inputSwitch [disabled]=true [(ngModel)]="S3"></p-inputSwitch>
