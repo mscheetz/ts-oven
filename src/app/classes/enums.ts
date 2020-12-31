@@ -19,3 +19,13 @@ export enum Ingredient {
     SWAGGER = 65536,
     IPFS = 131072
 }
+
+export enum License {
+    NONE,
+    APACHE,
+    BSL,
+    GNU2,
+    GNU3,
+    ISC,
+    MIT
+}

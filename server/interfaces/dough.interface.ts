@@ -10,10 +10,11 @@
  * Last modified    : 2020-11-07
  */
 /// <reference path="npm-package.interface.ts" />
-import { Ingredient } from "./enums";
+import { Ingredient, License } from "./enums";
 
 export interface IDough {
     name: string;
     options: Ingredient;
     packages: INpmPackage[];
+    license: License;
 }
