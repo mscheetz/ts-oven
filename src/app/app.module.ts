@@ -13,6 +13,7 @@ import { QRCodeModule } from 'angular2-qrcode';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
@@ -44,6 +45,7 @@ import { StartComponent } from './components/start/start.component';
     ButtonModule,
     CardModule,
     DialogModule,
+    DropdownModule,
     HttpClientModule,
     InputSwitchModule,
     InputTextModule,
