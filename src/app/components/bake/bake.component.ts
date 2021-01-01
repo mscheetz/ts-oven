@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { Ingredient } from 'src/app/classes/enums';
+import { IDough } from 'src/app/classes/dough.interface';
+import { Ingredient, License } from 'src/app/classes/enums';
 import { RestService } from 'src/app/core/rest.service';
 
 @Component({
@@ -9,16 +10,18 @@ import { RestService } from 'src/app/core/rest.service';
   styleUrls: ['./bake.component.sass', '../oven/oven.component.sass']
 })
 export class BakeComponent implements OnInit {
-  @Input() dough;
+  @Input() dough: IDough;
   @Output() previousStepEvent = new EventEmitter<any>();
   baked: boolean = false;
   showReset: boolean = false;
+  showLicense: boolean = false;
   credsRequired: boolean = false;
   @Output() resetEvent = new EventEmitter<any>();
 
   constructor(private restSvc: RestService, private msgSvc: MessageService) { }
 
   ngOnInit(): void {
+    this.showLicense = false;
   }
 
   checkOptions() {
@@ -59,6 +62,9 @@ export class BakeComponent implements OnInit {
       
       this.baked = true;
       this.showReset = true;
+      if(this.dough.license === License.ISC || this.dough.license === License.MIT) {
+        this.showLicense = true;
+      }
     }, err => {
       console.log(err);
     })

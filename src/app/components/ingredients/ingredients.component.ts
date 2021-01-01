@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Ingredient } from '../../classes/enums';
+import { ILicense } from 'src/app/classes/license.interface';
+import { Ingredient, License } from '../../classes/enums';
 
 @Component({
   selector: 'app-ingredients',
@@ -31,10 +32,15 @@ export class IngredientsComponent implements OnInit {
   showStorage: boolean = false;
   showBlockchain: boolean = false;
   showOther: boolean = false;
+  showLicense: boolean = false;
   enableVersions: boolean = false;
   ingredients: Ingredient;
+  licenses: ILicense[] = [];
+  selectedLicense: ILicense;
   @Input() options: Ingredient;
+  @Input() license: License;
   @Output() ingredientsEvent = new EventEmitter<Ingredient>();
+  @Output() licenseEvent = new EventEmitter<License>();
   @Output() previousStepEvent = new EventEmitter<any>();
 
   constructor() { }
@@ -94,6 +100,16 @@ export class IngredientsComponent implements OnInit {
     if((this.options & Ingredient.IPFS) === Ingredient.IPFS) {
       this.IPFS = true;
     }
+    this.licenses = [
+      { name: 'None', code: License.NONE },
+      { name: 'Apache License 2.0', code: License.APACHE },
+      { name: 'Boost Software License 1.0', code: License.BSL },
+      { name: 'GNU GPLv2', code: License.GNU2 },
+      { name: 'GNU GPLv3', code: License.GNU3 },
+      { name: 'ISC', code: License.ISC },
+      { name: 'MIT', code: License.MIT }
+    ]
+    this.selectedLicense = this.licenses.filter(l => l.code === this.license)[0];
   }
 
   toggleOptions(section: string) {
@@ -109,7 +125,9 @@ export class IngredientsComponent implements OnInit {
       this.showBlockchain = !this.showBlockchain;
     } else if (section === "Other") {
       this.showOther = !this.showOther;
-    } 
+    } else if (section === 'License') {
+      this.showLicense = !this.showLicense;
+    }
   }
 
   editVersions(option: number) {
@@ -176,9 +194,14 @@ export class IngredientsComponent implements OnInit {
       this.ingredients = Ingredient.None;
     }
     this.ingredientsEvent.emit(this.ingredients);
+    this.licenseEvent.emit(this.license);
   }
 
   previousStep() {
     this.previousStepEvent.emit(true);
+  }
+
+  onLicenseChange() {
+    this.license = this.selectedLicense.code;
   }
 }

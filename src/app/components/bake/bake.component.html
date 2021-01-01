@@ -17,6 +17,9 @@
             <span *ngIf="!DOCKER">$ npm run start:dev</span>
             <span *ngIf="DOCKER">$ docker-compose up --build</span>
         </div>
+        <p *ngIf="showLicense">
+            In the included `LICENSE` file, Replace [fullname] with your name.
+        </p>
         <p>Make sure you have NodeJS or download the latest LTS version <a href="https://nodejs.org/en/" target="_blank">here</a>.</p>
     </div>
 </div>

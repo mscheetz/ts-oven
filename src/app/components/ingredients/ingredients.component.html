@@ -119,6 +119,16 @@
             <p-inputSwitch [disabled]=true [(ngModel)]="SWAGGER"></p-inputSwitch> 
         </div>
     </div>
+    <div class="h4-like">
+        License
+        <button *ngIf="showLicense" pButton type="button" title="Hide" icon="pi pi-minus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('License')"></button>
+        <button *ngIf="!showLicense" pButton type="button" title="Show" icon="pi pi-plus" class="p-button-small p-button-rounded p-button-text" (click)="toggleOptions('License')"></button>
+    </div>
+    <div *ngIf="showLicense" class="optionGroup">
+        <p>Add a License to your project.</p>
+        <p-dropdown [options]="licenses" [(ngModel)]="selectedLicense" optionLabel="name" (onChange)="onLicenseChange()"></p-dropdown>
+        <p>Find out more information about licenses and which one is right for you at <a href="https://choosealicense.com" target="_blank">Choose A License</a>.</p>
+    </div>
 </p-card>
 <div class="p-grid button-pad">
     <div class="p-col-2">
