@@ -17,7 +17,7 @@ import Archiver from 'archiver';
 import path from 'path';
 import CoreService from '../services/core.service';
 import { logger } from '../services/logger.service';
-import { Ingredient } from '../interfaces/enums';
+import { Ingredient, License } from '../interfaces/enums';
 import { IDough } from '../interfaces/dough.interface';
 import NPMRepo from '../data/npm.repo';
 
@@ -151,6 +151,12 @@ class OvenController {
             });
         }
 
+        let license = await this.createLicense(body.license);
+
+        if(license !== null) {
+            zip.append(license.content, { name: license.path });
+        }
+        
         let env = await this.createEnv();
         
         let gitignore = await this.createGitignore();
@@ -731,6 +737,35 @@ routes.use('/mq', mq);`
         files = this.updateFileHeaders(files);
 
         return files;
+    }
+
+    private createLicense = async(license: License): Promise<IFileContent> => {
+        if(license === License.NONE) {
+            return null;
+        }
+        let content = "";
+        if(license === License.APACHE) {
+            content = await CoreService.readFile(this.dir + `templates/apache-license.txt`);
+        } else if(license === License.BSL) {
+            content = await CoreService.readFile(this.dir + `templates/bsl-license.txt`);
+        } else if(license === License.GNU2) {
+            content = await CoreService.readFile(this.dir + `templates/gnu-gplv2-license.txt`);
+        } else if(license === License.GNU3) {
+            content = await CoreService.readFile(this.dir + `templates/gnu-gplv3-license.txt`);
+        } else if(license === License.ISC) {
+            content = await CoreService.readFile(this.dir + `templates/isc-license.txt`);
+        } else if(license === License.MIT) {
+            content = await CoreService.readFile(this.dir + `templates/mit-license.txt`);
+        }
+
+        content = content.replace(/{YEAR}/g, new Date().getFullYear().toString());
+
+        const file: IFileContent = {
+            path: `LICENSE`,
+            content: content
+        };
+
+        return file;
     }
 
     private setFileHeaderValues(content: string, now?: string) {
